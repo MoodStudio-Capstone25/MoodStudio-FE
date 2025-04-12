@@ -1,19 +1,14 @@
 import React from "react";
-import { Platform, Text, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
+import Layout from "../layouts/Layout";
 
 const LoginScreen = () => {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
-        <StatusBar barStyle={"default"} />
-
-        <View>
-          <Text>LoginScreen</Text>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <Layout>
+      <View>
+        <Text>LoginScreen</Text>
+      </View>
+    </Layout>
   );
 };
 
