@@ -2,14 +2,14 @@ import { Text, View } from "react-native";
 import React from "react";
 import Layout from "../layouts/Layout";
 
-const MainScreen = () => {
+const ListScreen = () => {
   return (
     <Layout>
       <View>
-        <Text>MainScreen</Text>
+        <Text>ListScreen</Text>
       </View>
     </Layout>
   );
 };
 
-export default MainScreen;
+export default ListScreen;

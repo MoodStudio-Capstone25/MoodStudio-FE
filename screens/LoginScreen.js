@@ -1,20 +1,16 @@
-import React from 'react'
-import { Platform, Text, View } from 'react-native'
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { Button, Text, View } from "react-native";
+import Layout from "../layouts/Layout";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
-        <StatusBar barStyle={"default"} />
+    <Layout>
+      <View>
+        <Text>LoginScreen</Text>
+        <Button title="카카오톡으로 로그인하기" onPress={() => navigation.navigate("Main")} />
+      </View>
+    </Layout>
+  );
+};
 
-        <View>
-          <Text>LoginScreen</Text>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
-  )
-}
-
-export default LoginScreen
+export default LoginScreen;
