@@ -1,17 +1,17 @@
 import React from "react";
-import { StyleSheet, Dimensions, View, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const ScreenCarousel = () => {
+const ScreenCarousel = ({ height }) => {
   return (
     <LinearGradient
       colors={["#FFF4FC", "#FBF6FF", "#FFFFFF"]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
-      style={styles.container}
+      style={[styles.container, { height: height }]}
     >
       <View style={styles.shadow}>
-        <Image source={require("../../assets/dummy/main-page.png")} style={styles.image} />
+        <Image source={require("../../assets/images/login/main-page.png")} style={styles.image} />
       </View>
     </LinearGradient>
   );
@@ -20,15 +20,11 @@ const ScreenCarousel = () => {
 export default ScreenCarousel;
 
 // style
-const { height } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.6,
+    overflow: "hidden",
     justifyContent: "flex-end",
     alignItems: "center",
-
-    overflow: "hidden",
   },
   shadow: {
     width: 221,
