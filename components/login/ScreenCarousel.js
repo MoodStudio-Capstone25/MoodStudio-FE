@@ -1,13 +1,19 @@
 import { StyleSheet, Dimensions, View, Image } from "react-native";
 import React from "react";
+import LinearGradient from "react-native-linear-gradient";
 
 const ScreenCarousel = () => {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#FFF4FC", "#FBF6FF", "#FFFFFF"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={styles.container}
+    >
       <View style={styles.shadow}>
         <Image source={require("../../assets/dummy/main-page.png")} style={styles.image} />
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
