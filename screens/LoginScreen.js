@@ -1,13 +1,15 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
+import { View } from "react-native";
 import Layout from "../layouts/Layout";
+import ScreenCarousel from "../components/login/ScreenCarousel";
+import LoginSection from "../components/login/LoginSection";
 
 const LoginScreen = ({ navigation }) => {
   return (
     <Layout>
       <View>
-        <Text>LoginScreen</Text>
-        <Button title="카카오톡으로 로그인하기" onPress={() => navigation.navigate("Main")} />
+        <ScreenCarousel />
+        <LoginSection navigation={navigation} />
       </View>
     </Layout>
   );
