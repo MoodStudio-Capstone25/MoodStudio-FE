@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions, View, Image } from "react-native";
 import React from "react";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ScreenCarousel = () => {
   return (
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     // npx expo install react-native-linear-gradient
     // background: linear-gradient(180deg, #FFF4FC 0%, #FBF6FF 50%, #FFF 100%);
-    backgroundColor: "#FFF4FC",
+    // backgroundColor: "#FFF4FC",
     height: height * 0.6,
     justifyContent: "flex-end",
     alignItems: "center",
