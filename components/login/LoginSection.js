@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Typography } from "../../styles/Fonts";
 
 const LoginSection = ({ navigation, height }) => {
   return (
@@ -9,7 +10,10 @@ const LoginSection = ({ navigation, height }) => {
         <Text style={styles.h2}>다양한 취미를 캐비넷에 모아보세요</Text>
       </View>
 
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate("Main")}>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => navigation.navigate("Main")}
+      >
         {/* <Image source={require("../../assets/icons/login-kakaotalk.svg")} style={styles.image} /> */}
         <Text style={styles.h2}>카카오톡으로 로그인하기</Text>
       </TouchableOpacity>
@@ -31,6 +35,7 @@ const styles = StyleSheet.create({
   overlineTextContainer: {
     justifyContent: "center",
     alignItems: "center",
+    gap: 5,
   },
   buttonStyle: {
     marginTop: 36,
@@ -51,13 +56,13 @@ const styles = StyleSheet.create({
   },
   // 텍스트 임시(수정예정)
   h1: {
+    fontFamily: Typography.Tenada,
     fontSize: 36,
-    fontWeight: "bold",
     color: "#333",
   },
   h2: {
+    fontFamily: Typography.NanumSquareNeo.extraBold,
     fontSize: 14,
-    fontWeight: "bold",
     color: "#333",
   },
 });
