@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MSs",
-    "slug": "MSs",
+    "name": "MoodStudio",
+    "slug": "MoodStudio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,13 +21,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.seunghyeonkang.MoodStudio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "05d00d51-228f-4ec1-8a4f-56e2542a85dd"
+      }
+    },
+    "owner": "seunghyeonkang"
   }
 }
