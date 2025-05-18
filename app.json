@@ -30,11 +30,11 @@
     "plugins": [
       "expo-font"
     ],
+    "owner": "seunghyeonkang",
     "extra": {
       "eas": {
         "projectId": "05d00d51-228f-4ec1-8a4f-56e2542a85dd"
       }
-    },
-    "owner": "seunghyeonkang"
+    }
   }
 }
