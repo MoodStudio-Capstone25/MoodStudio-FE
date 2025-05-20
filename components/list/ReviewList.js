@@ -11,7 +11,7 @@ const ReviewCard = () => {
 
 const ReviewList = () => {
   return (
-    <View>
+    <View style={styles.listContainer}>
       <ReviewCard />
       <ReviewCard />
       <ReviewCard />
@@ -21,4 +21,10 @@ const ReviewList = () => {
 
 export default ReviewList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listContainer: {
+    padding: 24,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+});
