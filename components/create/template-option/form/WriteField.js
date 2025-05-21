@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput, useWindowDimensions } from 'react-na
 import React from 'react'
 import { Fonts } from '../../../../styles/Fonts'
 import StarRating from './StarRating';
+import BookSearch from './BookSearch';
 
 const WriteField = ({
     frontContent,
@@ -10,6 +11,7 @@ const WriteField = ({
     contentHeight,
     subContent,
     isStarRating = false,
+    isSearch = false,
     value,
     onChangeText }) => {
 
@@ -53,6 +55,8 @@ const WriteField = ({
             <View>
                 {isStarRating ? (
                     <StarRating />
+                ) : isSearch ? (
+                    <BookSearch contentHeight={contentHeight} subContent={subContent} value={value} onChangeText={onChangeText} />
                 ) : (
                     <TextInput
                         style={[Fonts.body2, styles.writebox]}

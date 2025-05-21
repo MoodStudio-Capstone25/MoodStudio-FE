@@ -33,6 +33,7 @@ const CultureTemplate = ({ config, draft, setDraft }) => {
                 nextContent='을 검색해봐요!'
                 subContent='제목 (예: 타이타닉)'
                 contentHeight={height * 0.07}
+                isSearch={true}
                 value={draft.title}
                 onChangeText={(text) => setDraft(prev => ({ ...prev, title: text }))}
             />

@@ -22,15 +22,18 @@ const ContentTemplate = ({ config, draft, setDraft }) => {
                 nextContent='을 붙여볼까요?'
                 subContent='기록 제목 (예: 올해 최고의 책)'
                 contentHeight={height * 0.07}
-                value={draft.title}
-                onChangeText={(text) => setDraft(prev => ({ ...prev, title: text }))}
+                value={draft.content_title}
+                onChangeText={(text) => setDraft(prev => ({ ...prev, content_title: text }))}
             />
 
             <WriteField
-                sectionName='책 제목'
+                sectionName='제목'
                 nextContent='을 검색해봐요!'
                 subContent='제목 (예: 타이타닉)'
                 contentHeight={height * 0.07}
+                isSearch={true}
+                value={draft.title}
+                onChangeText={(text) => setDraft(prev => ({ ...prev, title: text }))}
             />
 
             <WriteField
