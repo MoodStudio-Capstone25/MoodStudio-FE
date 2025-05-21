@@ -1,14 +1,16 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import React, { useState } from "react";
 import Layout from "../layouts/Layout";
 import CategoryCard from "../components/create/CategoryCard";
 import CustomHeader from "../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
+import { Fonts } from "../styles/Fonts";
 
 
 const CreateScreen = () => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const { height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const categories = [
     { id: "book", label: "책" },
@@ -57,15 +59,13 @@ const CreateScreen = () => {
       borderRadius: 60,
       borderColor: selectedCategory ? 'black' : 'gray',
       borderWidth: 1.5,
-      marginBottom: 20,
+      marginTop: SCREEN_HEIGHT * 0.04,
       alignSelf: 'center'
     },
     buttontitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
       color: selectedCategory ? '#FFFFFF' : 'gray',
       alignSelf: 'center',
-      paddingTop: 11 
+      paddingTop: 14
     }
   })
 
@@ -107,7 +107,7 @@ const CreateScreen = () => {
           disabled={!selectedCategory}
         >
 
-          <Text style={styles.buttontitle}>선택 완료</Text>
+          <Text style={[Fonts.subtitle1, styles.buttontitle]}>선택 완료</Text>
         </TouchableOpacity>
       </View>
 
