@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import AuthStack from "./navigation/AuthStack";
 import MainStack from "./navigation/MainStack";
@@ -37,7 +38,7 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+    <SafeAreaProvider onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
           <Stack.Screen
@@ -57,6 +58,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </View>
+    </SafeAreaProvider>
   );
 }
