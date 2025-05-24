@@ -7,15 +7,12 @@ const ReviewCard = ({ reviewTitle, reviewContents, reviewImage = null }) => {
     <View style={styles.cardContainer}>
       <View style={styles.cardTextWrapper}>
         {reviewTitle && (
-          <Text style={[styles.cardTitle, Fonts.subtitle2]} numberOfLines={1}>
+          <Text style={[Fonts.subtitle2, styles.cardTitle]} numberOfLines={1}>
             {reviewTitle}
           </Text>
         )}
         {reviewContents && (
-          <Text
-            style={[styles.cardContents, Fonts.body3]}
-            numberOfLines={reviewTitle ? 2 : 3}
-          >
+          <Text style={[styles.cardContents, Fonts.body3]} numberOfLines={reviewTitle ? 2 : 3}>
             {reviewContents}
           </Text>
         )}
