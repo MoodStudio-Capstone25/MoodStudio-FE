@@ -78,7 +78,7 @@ export default CategoryChipList;
 
 const styles = StyleSheet.create({
   listContainer: {
-    marginTop: 16,
+    marginTop: 12,
     marginHorizontal: 24, //
 
     display: "flex",
