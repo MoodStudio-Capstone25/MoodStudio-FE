@@ -78,12 +78,10 @@ export default function MainStack() {
       }}
     >
       <Tab.Screen
-        name="Main"
+        name="MainTab"
         component={MainScreen}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <CustomTabIcon name="cube" focused={focused} />
-          ),
+          tabBarIcon: ({ focused }) => <CustomTabIcon name="cube" focused={focused} />,
           headerShown: false,
         }}
       />
@@ -101,12 +99,10 @@ export default function MainStack() {
         })}
       />
       <Tab.Screen
-        name="List"
+        name="ListTab"
         component={ListScreen}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <CustomTabIcon name="list" focused={focused} />
-          ),
+          tabBarIcon: ({ focused }) => <CustomTabIcon name="list" focused={focused} />,
           headerShown: false,
         }}
       />
