@@ -5,6 +5,7 @@ import Layout from "../layouts/Layout";
 import MainHeader from "../components/common/topbar/MainHeader";
 import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
+import SortSelector from "../components/list/SortSelector";
 
 const ListScreen = () => {
   return (
@@ -13,6 +14,8 @@ const ListScreen = () => {
       <MainHeader />
       {/* 카테고리 칩 */}
       <CategoryChipList />
+      {/* 정렬 */}
+      <SortSelector />
       {/* 감상 글 리스트 */}
       <ReviewList />
     </Layout>

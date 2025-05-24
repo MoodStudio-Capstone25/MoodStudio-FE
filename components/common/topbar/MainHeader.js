@@ -33,7 +33,7 @@ export default MainHeader;
 const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 16,
-    marginHorizontal: 24,
+    paddingHorizontal: 24,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
