@@ -4,7 +4,8 @@ import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
 import { Bounds, useBounds } from "@react-three/drei/native";
 import Layout from "../layouts/Layout";
-import { HeaderIcons } from "../components/main";
+import IconButton from "../components/main/IconButton";
+import HeaderIcons from "../components/main/HeaderIcons";
 
 function CabinetModel() {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));

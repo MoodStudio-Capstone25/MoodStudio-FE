@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MainScreen from "../screens/MainScreen";
 import ListScreen from "../screens/ListScreen";
 import CreateScreen from "../screens/CreateScreen";
+import EditScreen from "../screens/EditScreen";
 
 // const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,7 +70,7 @@ export default function MainStack() {
           borderWidth: 1.5,
           borderColor: "#000000",
           paddingBottom: insets.bottom,
-          zIndex: 1000,
+          zIndex: 100,
           elevation: 5,
         },
         tabBarLabelStyle: {
