@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import MainScreen from "../screens/MainScreen";
 import ListScreen from "../screens/ListScreen";
@@ -18,7 +19,7 @@ const CustomTabIcon = ({ name, focused }) => {
         height: 40,
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: 7,
+        // paddingTop: 7,
       }}
     >
       {focused && (
@@ -29,7 +30,7 @@ const CustomTabIcon = ({ name, focused }) => {
             height: 42,
             borderRadius: 50,
             backgroundColor: "#FF9187",
-            marginTop: 4,
+            // marginTop: 4,
             marginBottom: 2,
             borderWidth: 1.5,
             borderColor: "#000000",
@@ -45,6 +46,7 @@ const CustomTabIcon = ({ name, focused }) => {
 const EmptyScreen = () => <View />;
 
 export default function MainStack() {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       screenOptions={{
@@ -56,19 +58,19 @@ export default function MainStack() {
         alignItems: "center",
         tabBarStyle: {
           backgroundColor: "#C881FF",
-          height: 62,
+          height: 62 + insets.bottom,
           width: 329,
+          alignSelf: "center",
           borderTopWidth: 1.5,
           borderTopColor: "#000000",
           borderRadius: 30,
-          position: "absolute",
-          left: "50%",
-          marginLeft: -329 / 2,
-          bottom: 30,
+          // position: "absolute",
+          bottom: 30 + insets.bottom,
           borderWidth: 1.5,
           borderColor: "#000000",
-          paddingBottom: 8,
-          elevation: 0,
+          paddingBottom: insets.bottom,
+          zIndex: 1000,
+          elevation: 5,
         },
         tabBarLabelStyle: {
           height: 10,
@@ -79,7 +81,9 @@ export default function MainStack() {
         name="Main"
         component={MainScreen}
         options={{
-          tabBarIcon: ({ focused }) => <CustomTabIcon name="cube" focused={focused} />,
+          tabBarIcon: ({ focused }) => (
+            <CustomTabIcon name="cube" focused={focused} />
+          ),
           headerShown: false,
         }}
       />
@@ -100,7 +104,9 @@ export default function MainStack() {
         name="List"
         component={ListScreen}
         options={{
-          tabBarIcon: ({ focused }) => <CustomTabIcon name="list" focused={focused} />,
+          tabBarIcon: ({ focused }) => (
+            <CustomTabIcon name="list" focused={focused} />
+          ),
           headerShown: false,
         }}
       />
