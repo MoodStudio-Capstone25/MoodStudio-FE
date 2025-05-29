@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Fonts } from '../../styles/Fonts';
 
 const CategoryButton = ({item, isSelected, onPress}) => {
     const getButtonStyle = (isSelected) => ({
@@ -16,7 +17,7 @@ const CategoryButton = ({item, isSelected, onPress}) => {
     return (
         <View style={{paddingLeft: 12}}>
             <TouchableOpacity onPress={onPress} style={getButtonStyle(isSelected)} >
-                <Text style={{ fontWeight: 'bold', paddingHorizontal: 14}}>{item.label}</Text>
+                <Text style={[{paddingHorizontal: 14},Fonts.body2]}>{item.label}</Text>
             </TouchableOpacity>
         </View>
     )

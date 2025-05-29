@@ -1,4 +1,3 @@
-// components/create/templateOption/ImagePicker.js
 import React, { useState } from 'react'
 import {
   View,
@@ -52,14 +51,18 @@ const ImagePicker = () => {
       [
         { text: '취소', style: 'cancel' },
         { text: '카메라', onPress: takePhoto },
-        { text: '앨범',  onPress: pickImage },
+        { text: '앨범', onPress: pickImage },
       ],
       { cancelable: true }
     )
   }
 
+  const removeImage = (index) => {
+    setUris(prev => prev.filter((_, i) => i !== index));
+  }
+
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity style={styles.button} onPress={handlePress}>
         <Ionicons name="add-outline" style={styles.icon} />
       </TouchableOpacity>
@@ -70,17 +73,22 @@ const ImagePicker = () => {
         showsHorizontalScrollIndicator={false}
       >
         {uris.map((uri, idx) => (
-          <Image
-            key={idx}
-            source={{ uri }}
-            style={styles.button}
-          />
+          <View key={idx} style={styles.imageWrapper}>
+            <Image source={{ uri }} style={styles.image} />
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={() => removeImage(idx)}
+            >
+              <Ionicons name="close-circle" size={20} color="#333" />
+            </TouchableOpacity>
+          </View>
         ))}
       </ScrollView>
     </View>
   )
 }
 
+//styles
 const styles = StyleSheet.create({
   button: {
     width: 96,
@@ -88,7 +96,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#333333',
     borderRadius: 20,
-    marginLeft: 10,
+    marginLeft: 12,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
@@ -98,14 +106,23 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   previewContainer: {
-    //paddingLeft: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  preview: {
+  imageWrapper: {
+    position: 'relative',
+    marginLeft: 10,
+  },
+  image: {
     width: 96,
     height: 96,
     borderRadius: 20,
-    marginRight: 10,
-    resizeMode: 'cover',
+  },
+  removeButton: {
+    position: 'absolute',
+    right: -1,
+    backgroundColor: '#fff',
+    borderRadius: 12,
   },
 })
 
