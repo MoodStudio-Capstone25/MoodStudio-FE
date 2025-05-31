@@ -11,7 +11,7 @@ const LoginSection = ({ navigation, height }) => {
         <Text style={Fonts.subtitle2}>다양한 취미를 캐비넷에 모아보세요</Text>
       </View>
 
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate("Main")}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.replace("MainTabs")}>
         <KakaotalkIcon width={24} height={24} />
         <Text style={[Fonts.subtitle2, { marginLeft: 12 }]}>카카오톡으로 로그인하기</Text>
       </TouchableOpacity>
