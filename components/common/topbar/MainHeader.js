@@ -19,11 +19,11 @@ const SearchBar = ({ onPress }) => {
   );
 };
 
-const MainHeader = () => {
+const MainHeader = ({ navigation }) => {
   return (
     <View style={styles.headerContainer}>
       <IconButton IconComponent={SettingsIcon} />
-      <SearchBar />
+      <SearchBar onPress={() => navigation.navigate("Search")} />
     </View>
   );
 };
