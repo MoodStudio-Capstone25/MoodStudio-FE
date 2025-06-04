@@ -4,14 +4,10 @@ enableScreens();
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import AuthStack from "./navigation/AuthStack";
-import MainStack from "./navigation/MainStack";
-import DetailStack from "./navigation/DetailStack";
+import RootStack from "./navigation/RootStack";
 
 const Stack = createStackNavigator();
 
@@ -40,23 +36,7 @@ export default function App() {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth">
-          <Stack.Screen
-            name="Auth"
-            component={AuthStack}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Main"
-            component={MainStack}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Detail"
-            component={DetailStack}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
+        <RootStack />
       </NavigationContainer>
     </SafeAreaProvider>
   );

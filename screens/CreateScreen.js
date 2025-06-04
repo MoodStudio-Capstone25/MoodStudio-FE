@@ -1,14 +1,22 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import Layout from "../layouts/Layout";
 import CategoryCard from "../components/create/CategoryCard";
 import CustomHeader from "../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
-
+import { Fonts } from "../styles/Fonts";
 
 const CreateScreen = () => {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const { height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const categories = [
     { id: "book", label: "책" },
@@ -33,45 +41,37 @@ const CreateScreen = () => {
     { id: "etc", label: "기타 카테고리" },
   ];
 
-
-  const contentRows = [
-    categories.slice(0, 3),
-    categories.slice(3, 6),
-    categories.slice(6, 8)
-  ];
+  const contentRows = [categories.slice(0, 3), categories.slice(3, 6), categories.slice(6, 8)];
 
   const cultureRows = [
     categories.slice(8, 10),
     categories.slice(10, 12),
     categories.slice(12, 15),
-    categories.slice(15, 17)
+    categories.slice(15, 17),
   ];
 
   const otherRows = [categories.slice(17, 18)];
 
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: selectedCategory ? '#C881FF' : '#D9D9D9',
+      backgroundColor: selectedCategory ? "#C881FF" : "#D9D9D9",
       width: 343,
       height: 52,
       borderRadius: 60,
-      borderColor: selectedCategory ? 'black' : 'gray',
+      borderColor: selectedCategory ? "black" : "gray",
       borderWidth: 1.5,
-      marginBottom: 20,
-      alignSelf: 'center'
+      marginTop: SCREEN_HEIGHT * 0.04,
+      alignSelf: "center",
     },
     buttontitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: selectedCategory ? '#FFFFFF' : 'gray',
-      alignSelf: 'center',
-      paddingTop: 11 
-    }
-  })
+      color: selectedCategory ? "#FFFFFF" : "gray",
+      alignSelf: "center",
+      paddingTop: 14,
+    },
+  });
 
   return (
     <Layout>
-
       <CustomHeader title="카테고리 설정" />
 
       <View style={{ height: 16 }} />
@@ -98,19 +98,21 @@ const CreateScreen = () => {
       />
 
       <View style={{ paddingTop: 18 }}>
-        <TouchableOpacity style={styles.button}
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             if (selectedCategory) {
-              navigation.navigate("Detail", { screen: "Write" , params: { selectedCategoryId: selectedCategory}});
+              navigation.navigate("CreateStack", {
+                screen: "Write",
+                params: { selectedCategoryId: selectedCategory },
+              });
             }
           }}
           disabled={!selectedCategory}
         >
-
-          <Text style={styles.buttontitle}>선택 완료</Text>
+          <Text style={[Fonts.subtitle1, styles.buttontitle]}>선택 완료</Text>
         </TouchableOpacity>
       </View>
-
     </Layout>
   );
 };
