@@ -1,22 +1,36 @@
-import React, { Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
 import { Bounds, useBounds } from "@react-three/drei/native";
 import Layout from "../layouts/Layout";
-import IconButton from "../components/main/IconButton";
-import HeaderIcons from "../components/main/HeaderIcons";
+import EditHeader from "../components/edit/EditHeader";
+import EditControlPanel from "../components/edit/EditControlPanel";
+import EditControlTabs from "../components/edit/EditControlTabs";
 
 function CabinetModel() {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const MainScreen = ({ navigation }) => {
+const EditScreen = ({ navigation }) => {
+  const handleCancel = () => navigation.goBack();
+  const handleDone = () => {
+    console.log("Save");
+  };
+  const handleAdd = () => {
+    console.log("Add 3D");
+  };
+  const [activeTab, setActiveTab] = useState("size");
+
   return (
     <Layout>
-      <HeaderIcons navigation={navigation} />
       <View style={styles.container}>
+        <EditHeader
+          onCancel={handleCancel}
+          onDone={handleDone}
+          onAdd={handleAdd}
+        />
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}
           style={{ backgroundColor: "white" }}
@@ -34,6 +48,8 @@ const MainScreen = ({ navigation }) => {
             maxDistance={15}
           />
         </Canvas>
+        <EditControlTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <EditControlPanel activeTab={activeTab} />
       </View>
     </Layout>
   );
@@ -45,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainScreen;
+export default EditScreen;

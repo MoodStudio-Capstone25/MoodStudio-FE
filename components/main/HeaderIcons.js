@@ -5,6 +5,7 @@ import SettingsIcon from "../../assets/images/mainpage/settings.svg";
 import ShareIcon from "../../assets/images/mainpage/share.svg";
 import ProfileIcon from "../../assets/images/mainpage/profile.svg";
 import CreateIcon from "../../assets/images/mainpage/create.svg";
+import EditScreen from "../../screens/EditScreen";
 
 const HeaderIcons = ({ navigation }) => {
   return (
@@ -24,7 +25,7 @@ const HeaderIcons = ({ navigation }) => {
       />
       <IconButton
         IconComponent={CreateIcon}
-        onPress={() => console.log("Edit")}
+        onPress={() => navigation.navigate("Edit3D")}
       />
     </View>
   );
