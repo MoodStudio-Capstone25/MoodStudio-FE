@@ -16,50 +16,23 @@ const WriteField = ({
     onChangeText }) => {
 
     const { width } = useWindowDimensions();
-    //styles
-    const styles = StyleSheet.create({
-        textbox: {
-            flexDirection: 'row',
-            width: width * 0.93,
-            borderTopWidth: 1,
-            borderBottomWidth: 1,
-            paddingHorizontal: 2,
-            paddingVertical: 6,
-            alignSelf: 'center'
-        },
-        texthightlight: {
-            fontSize: 13,
-            color: '#D97B73'
-        },
-        textbasic: {
-            fontSize: 14
-        },
-        writebox: {
-            height: contentHeight,
-            width: width * 0.93,
-            paddingTop: 10,
-            textAlignVertical: 'top',
-            alignSelf: 'center',
-
-        }
-    })
 
     return (
         <View>
 
-            <View style={styles.textbox}>
+            <View style={[styles.textbox, { width: width * 0.93 }]}>
                 <Text style={[Fonts.body2, { fontSize: 13 }]}>{frontContent}
                     <Text style={[Fonts.body2, styles.texthightlight]}>{sectionName}</Text>
                     {nextContent}</Text>
             </View>
             <View>
                 {isStarRating ? (
-                    <StarRating />
+                    <StarRating value={value} onChange={onChangeText}/>
                 ) : isSearch ? (
                     <BookSearch contentHeight={contentHeight} subContent={subContent} value={value} onChangeText={onChangeText} />
                 ) : (
                     <TextInput
-                        style={[Fonts.body2, styles.writebox]}
+                        style={[Fonts.body2, styles.writebox, { height: contentHeight, width: width * 0.93, }]}
                         placeholder={subContent}
                         placeholderTextColor='#AEAEAE'
                         multiline={true}
@@ -72,5 +45,29 @@ const WriteField = ({
     )
 }
 
+//styles
+const styles = StyleSheet.create({
+    textbox: {
+        flexDirection: 'row',
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        paddingHorizontal: 2,
+        paddingVertical: 6,
+        alignSelf: 'center'
+    },
+    texthightlight: {
+        fontSize: 13,
+        color: '#D97B73'
+    },
+    textbasic: {
+        fontSize: 14
+    },
+    writebox: {
+        paddingTop: 10,
+        textAlignVertical: 'top',
+        alignSelf: 'center',
+
+    }
+})
 
 export default WriteField

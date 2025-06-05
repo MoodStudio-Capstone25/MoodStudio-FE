@@ -4,22 +4,6 @@ import CategoryButton from './CategoryButton';
 import { Fonts } from '../../styles/Fonts';
 
 const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelectedCategory }) => {
-    const styles = StyleSheet.create({
-        categoryTitleStyle: {
-            position: 'absolute',
-            top: 26,
-            left: 22
-        }
-        ,
-        categoryHightlight: {
-            width: CategoryTitle.length * 13+16,
-            height: 19,
-            top: 32,
-            left: 16,
-            backgroundColor: '#FFE5E2',
-            position: 'absolute'
-        },
-    })
 
     const renderCategoryRow = (rowItems) => (
         <View style={{ flexDirection: 'row', marginBottom: 12 }}>
@@ -39,7 +23,7 @@ const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelected
     return (
         <View style={{ marginTop: -10 }}>
             <View style={{ paddingTop: 36 }}>
-                <View style={styles.categoryHightlight} />
+                <View style={[styles.categoryHightlight, { width: CategoryTitle.length * 13+16 }]} />
                 <Text style={[styles.categoryTitleStyle,Fonts.subtitle1]}>{CategoryTitle}</Text>
             </View>
 
@@ -52,5 +36,22 @@ const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelected
         </View>
     )
 }
+
+//styles
+const styles = StyleSheet.create({
+        categoryTitleStyle: {
+            position: 'absolute',
+            top: 26,
+            left: 22
+        }
+        ,
+        categoryHightlight: {
+            height: 19,
+            top: 32,
+            left: 16,
+            backgroundColor: '#FFE5E2',
+            position: 'absolute'
+        },
+    })
 
 export default CategoryCard
