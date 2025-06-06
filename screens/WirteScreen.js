@@ -6,7 +6,6 @@ import BasicTemplate from "../components/create/template-option/BasicTemplate";
 import ContentTemplate from "../components/create/template-option/ContentTemplate";
 import CultureTemplate from "../components/create/template-option/CultureTemplate";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 import BottomSheet from "../components/create/BottomSheet";
 import AlertModal from "../components/common/AlertModal";
 import { Fonts } from "../styles/Fonts";
@@ -41,12 +40,12 @@ const WriteScreen = () => {
           creatorLabel: "감독/작가",
           peroidLabel: "감상 기간",
         };
-        case "music":
-          return {
-            creatorLabel: "가수",
-            peroidLabel: "감상 기간",
-            setenceLabel: "감명 깊은 가사"
-          };
+      case "music":
+        return {
+          creatorLabel: "가수",
+          peroidLabel: "감상 기간",
+          setenceLabel: "감명 깊은 가사"
+        };
       case "documentary":
       case "audio":
         return {
@@ -154,19 +153,17 @@ const WriteScreen = () => {
     }
   };
 
-  const calculatedLeftHit = selectedTemplate.label.length * 18;
+  //const calculatedLeftHit = selectedTemplate.label.length * 18;
 
   return (
     <Layout>
       <View>
-        <CustomHeader title={selectedTemplate.label} onBackPress={handleBackPress} />
-        <TouchableOpacity
-          style={styles.downButton}
-          onPress={openSheet}
-          hitSlop={{ top: 10, bottom: 10, left: calculatedLeftHit, right: 10 }}
-        >
-          <Ionicons name="chevron-down-outline" style={{ fontSize: 24 }} />
-        </TouchableOpacity>
+        <CustomHeader
+          title={selectedTemplate.label}
+          onBackPress={handleBackPress}
+          showDropDown={true}
+          onPressDropDown={openSheet}
+        />
 
         <TouchableOpacity style={[styles.finishButton, Fonts.body3]}>
           <Text>작성완료</Text>
@@ -233,7 +230,7 @@ const styles = StyleSheet.create({
     top: 17,
     right: 120,
     zIndex: 10,
-  },
+},
 });
 
 export default WriteScreen;
