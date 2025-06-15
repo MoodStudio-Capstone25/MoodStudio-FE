@@ -1,18 +1,30 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Layout from "../layouts/Layout";
 import CustomHeader from "../components/CustomHeader";
-import { Fonts } from "../styles/Fonts";
 import CustomButton from "../components/common/CustomButton";
+import ThreeDList from "../components/create/3d-shape/ThreeDList";
+import SectionTitle from "../components/create/common/SectionTitle";
 
 const Create3DShapeScreen = () => {
   return (
     <Layout>
       <CustomHeader title="3D 요소 모양 설정" />
-      <Text>3D 요소 선택지</Text>
+
+      <View style={styles.threeDLayout}>
+        <SectionTitle titleText="캐비넷에 배치할 3D 요소를 선택하세요" highlightColor="#F2E1FF" />
+        <ThreeDList />
+      </View>
+
       <CustomButton buttonText="다음" buttonLayoutProps={{ marginTop: 32 }} />
     </Layout>
   );
 };
 
 export default Create3DShapeScreen;
+
+const styles = StyleSheet.create({
+  threeDLayout: {
+    marginHorizontal: 16,
+  },
+});
