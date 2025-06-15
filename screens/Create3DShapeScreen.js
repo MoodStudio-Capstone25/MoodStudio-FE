@@ -1,13 +1,16 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import Layout from "../layouts/Layout";
+import CustomHeader from "../components/CustomHeader";
+import { Fonts } from "../styles/Fonts";
+import CustomButton from "../components/common/CustomButton";
 
 const Create3DShapeScreen = () => {
   return (
     <Layout>
-      <Text>탑바</Text>
+      <CustomHeader title="3D 요소 모양 설정" />
       <Text>3D 요소 선택지</Text>
-      <Text>다음 버튼</Text>
+      <CustomButton buttonText="다음" buttonLayoutProps={{ marginTop: 32 }} />
     </Layout>
   );
 };
