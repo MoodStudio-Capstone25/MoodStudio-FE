@@ -7,6 +7,7 @@ import Layout from "../layouts/Layout";
 import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
+import AlertModal from "../components/common/AlertModal";
 
 function CabinetModel() {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -14,7 +15,7 @@ function CabinetModel() {
 }
 
 const Edit3DScreen = ({ navigation }) => {
-  const handleCancel = () => navigation.goBack();
+  const handleCancel = () => setModalVisible(true);
   const handleDone = () => {
     console.log("Save");
   };
@@ -22,9 +23,22 @@ const Edit3DScreen = ({ navigation }) => {
     navigation.navigate("MainStack", { screen: "Create3D" });
   };
   const [activeTab, setActiveTab] = useState("size");
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <Layout>
+      <AlertModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        message="편집을 취소하시겠습니까?"
+        confirmMsg="확인"
+        onConfirm={() => {
+          setModalVisible(false);
+          navigation.goBack();
+        }}
+        onCancel={() => setModalVisible(false)}
+      />
+
       <View style={styles.container}>
         <EditHeader
           onCancel={handleCancel}
