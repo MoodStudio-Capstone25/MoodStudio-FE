@@ -1,5 +1,5 @@
 import {
-  Button,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -52,69 +52,72 @@ const CreateScreen = () => {
 
   const otherRows = [categories.slice(17, 18)];
 
-  const styles = StyleSheet.create({
-    button: {
-      backgroundColor: selectedCategory ? "#C881FF" : "#D9D9D9",
-      width: 343,
-      height: 52,
-      borderRadius: 60,
-      borderColor: selectedCategory ? "black" : "gray",
-      borderWidth: 1.5,
-      marginTop: SCREEN_HEIGHT * 0.04,
-      alignSelf: "center",
-    },
-    buttontitle: {
-      color: selectedCategory ? "#FFFFFF" : "gray",
-      alignSelf: "center",
-      paddingTop: 14,
-    },
-  });
-
   return (
     <Layout>
       <CustomHeader title="카테고리 설정" />
 
-      <View style={{ height: 16 }} />
+      <ScrollView>
+        <CategoryCard
+          CategoryTitle="콘텐츠 카테고리"
+          categories={contentRows}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
-      <CategoryCard
-        CategoryTitle="콘텐츠 카테고리"
-        categories={contentRows}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+        <CategoryCard
+          CategoryTitle="문화 카테고리"
+          categories={cultureRows}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
-      <CategoryCard
-        CategoryTitle="문화 카테고리"
-        categories={cultureRows}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+        <CategoryCard
+          CategoryTitle="적절한 카테고리가 없나요?"
+          categories={otherRows}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
-      <CategoryCard
-        CategoryTitle="적절한 카테고리가 없나요?"
-        categories={otherRows}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
-
-      <View style={{ paddingTop: 18 }}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (selectedCategory) {
-              navigation.navigate("CreateStack", {
-                screen: "Write",
-                params: { selectedCategoryId: selectedCategory },
-              });
-            }
-          }}
-          disabled={!selectedCategory}
-        >
-          <Text style={[Fonts.subtitle1, styles.buttontitle]}>선택 완료</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={{ paddingTop: 18 }}>
+          <TouchableOpacity
+            style={[styles.button, {
+              backgroundColor: selectedCategory ? "#C881FF" : "#D9D9D9",
+              borderColor: selectedCategory ? "black" : "gray",
+              marginBottom: SCREEN_HEIGHT * 0.04,
+            }]}
+            onPress={() => {
+              if (selectedCategory) {
+                navigation.navigate("CreateStack", {
+                  screen: "Write",
+                  params: { selectedCategoryId: selectedCategory },
+                });
+              }
+            }}
+            disabled={!selectedCategory}
+          >
+            <Text style={[Fonts.subtitle1, styles.buttontitle, {
+              color: selectedCategory ? "#FFFFFF" : "gray",
+            }]}>선택 완료</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </Layout>
   );
 };
+
+//styels
+const styles = StyleSheet.create({
+  button: {
+    width: 343,
+    height: 52,
+    borderRadius: 60,
+    borderWidth: 1.5,
+    alignSelf: "center",
+  },
+  buttontitle: {
+    alignSelf: "center",
+    paddingTop: 14,
+  },
+});
 
 export default CreateScreen;

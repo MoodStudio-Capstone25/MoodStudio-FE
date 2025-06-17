@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 
-const StarRating = ({ maxStars = 5, size = 25, onChange }) => {
-  const [rating, setRating] = useState(0)
+const StarRating = ({ maxStars = 5, size = 25, value = 0, onChange }) => {
 
   const handlePress = (index) => {
     const newRating = index + 1
-    const updatedRating = rating === newRating ? 0 : newRating
-    setRating(updatedRating)
+    const updatedRating = value === newRating ? 0 : newRating
     if (onChange) onChange(updatedRating)
   }
 
@@ -17,9 +15,9 @@ const StarRating = ({ maxStars = 5, size = 25, onChange }) => {
       {Array.from({ length: maxStars }).map((_, i) => (
         <TouchableOpacity key={i} onPress={() => handlePress(i)}>
           <FontAwesome
-            name={i < rating ? 'star' : 'star-o'}
+            name={i < value ? 'star' : 'star-o'}
             size={size}
-            color={i < rating ? '#FFD700' : '#ccc'}
+            color={i < value ? '#FFD700' : '#ccc'}
             style={styles.star}
           />
         </TouchableOpacity>

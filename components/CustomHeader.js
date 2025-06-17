@@ -3,8 +3,9 @@ import React from 'react'
 import Ionic from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from '../styles/Fonts';
+import BackIcon from '../assets/icons/back.svg';
 
-const CustomHeader = ({ title, onBackPress }) => {
+const CustomHeader = ({ title, onBackPress, showDropDown = false, onPressDropDown }) => {
     const navigation = useNavigation();
 
     const handleBack = () => {
@@ -16,11 +17,19 @@ const CustomHeader = ({ title, onBackPress }) => {
     };
 
     return (
-        <View style={styles.headerStyle} >
+        <View style={styles.headerStyle}>
             <TouchableOpacity onPress={handleBack} style={styles.backButtonStyle}>
-                <Ionic name="arrow-back" style={styles.arrowButtonStyle} />
+                <BackIcon />
             </TouchableOpacity>
-            <Text style={[styles.headerTitleStyle,Fonts.h2]}>{title}</Text>
+
+            <View style={styles.titleContainer}>
+                <Text style={[styles.headerTitleStyle, Fonts.h2]}>{title}</Text>
+                {showDropDown && (
+                    <TouchableOpacity onPress={onPressDropDown}  hitSlop={{ top: 10, bottom: 10, left: 120, right: 10 }} style={styles.iconWrapper}>
+                        <Ionic name="chevron-down-outline" size={24} color="#333" />
+                    </TouchableOpacity>
+                )}
+            </View>
         </View>
     );
 }
@@ -42,9 +51,17 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: '#E7C9FF'
     },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'absolute',
+    },
     headerTitleStyle: {
-        position: "absolute"
-    }
+        textAlign: 'center',
+    },
+    iconWrapper: {
+        //marginLe,  // 제목과 아이콘 사이 간격 조절
+    },
 })
 
 export default CustomHeader
