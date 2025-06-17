@@ -6,6 +6,7 @@ import { ListHeader } from "../components/common/topbar/Header";
 import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
+import { listDummy } from "../mock/listDummy";
 
 const ListScreen = () => {
   return (
@@ -17,7 +18,7 @@ const ListScreen = () => {
       {/* 정렬 */}
       <SortSelector />
       {/* 감상 글 리스트 */}
-      <ReviewList />
+      <ReviewList listDummy={listDummy} />
     </Layout>
   );
 };
