@@ -13,7 +13,7 @@ function CabinetModel() {
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const EditScreen = ({ navigation }) => {
+const Edit3DScreen = ({ navigation }) => {
   const handleCancel = () => navigation.goBack();
   const handleDone = () => {
     console.log("Save");
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditScreen;
+export default Edit3DScreen;
