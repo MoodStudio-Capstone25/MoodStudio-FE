@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { Fonts } from "../../styles/Fonts";
 
@@ -12,7 +18,9 @@ const CategoryChip = ({
     <TouchableOpacity
       style={[
         styles.chipContainer,
-        isSelected ? { backgroundColor: "#E7C9FF" } : { backgroundColor: "#FFF" },
+        isSelected
+          ? { backgroundColor: "#E7C9FF" }
+          : { backgroundColor: "#FFF" },
       ]}
       onPress={() => {
         if (index === 0) {
@@ -51,16 +59,23 @@ const CategoryChip = ({
 const CategoryChipList = () => {
   const [selectedCategory, setSelectedCategory] = useState([1, 2]);
   const [categoryList, setCategoryList] = useState([
-    { category: "전체", count: 24 },
+    { category: "전체", count: 26 },
     { category: "영화", count: 16 },
     { category: "책", count: 8 },
     { category: "드라마", count: 6 },
     { category: "뮤지컬", count: 2 },
+    { category: "만화", count: 2 },
   ]);
   // 변수값 초기 세팅 수정 예정(api 연결할 때)
 
   return (
-    <View style={styles.listContainer}>
+    <ScrollView
+      style={styles.listContainer}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{ overflow: "visible" }}
+      overScrollMode="never"
+    >
       {categoryList.map((categoryInfo, index) => (
         <CategoryChip
           key={index}
@@ -70,7 +85,7 @@ const CategoryChipList = () => {
           setSelectedCategory={setSelectedCategory}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -79,11 +94,10 @@ export default CategoryChipList;
 const styles = StyleSheet.create({
   listContainer: {
     marginTop: 12,
-    paddingHorizontal: 24, //
+    marginHorizontal: 24,
+    height: 40,
 
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    overflow: "visible", // 안드로이드
   },
   chipContainer: {
     paddingHorizontal: 12,
