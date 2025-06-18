@@ -30,11 +30,11 @@ const EditControlPanel = ({ activeTab }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#E7C9FF",
-    borderRadius: 30,
+    borderRadius: 24,
     borderColor: "#000000",
-    borderWidth: 1,
+    borderWidth: 1.5,
     marginHorizontal: 16, // 좌우 여백
-    marginBottom: 24, // 하단 여백
+    marginBottom: 16, // 하단 여백
     marginTop: 0,
     padding: 15, // 내부 여백
     height: 240,

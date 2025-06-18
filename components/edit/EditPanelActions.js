@@ -15,7 +15,7 @@ const EditPanelActions = ({ onUndo, onRedo, onReset }) => {
       </TouchableOpacity>
       <View style={styles.spacer} />
       <TouchableOpacity style={styles.resetButton} onPress={onReset}>
-        <ReturnIcon width={20} height={20} />
+        <ReturnIcon width={18} height={18} />
         <Text style={styles.resetText}>원상복귀</Text>
       </TouchableOpacity>
     </View>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   resetText: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#000000",
     fontWeight: "500",
     marginLeft: 6,

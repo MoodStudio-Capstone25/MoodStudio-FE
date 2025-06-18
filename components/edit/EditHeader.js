@@ -12,11 +12,13 @@ const EditHeader = ({ onCancel, onDone, onAdd }) => {
           <Text style={styles.textButton}>수정 완료</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.addButtonWrapper}>
-        <TouchableOpacity style={styles.addButton} onPress={onAdd}>
-          <Text style={styles.addButtonText}>3D 요소 추가하기</Text>
-        </TouchableOpacity>
-      </View>
+      {onAdd && (
+        <View style={styles.addButtonWrapper}>
+          <TouchableOpacity style={styles.addButton} onPress={onAdd}>
+            <Text style={styles.addButtonText}>3D 요소 추가하기</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
