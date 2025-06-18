@@ -7,30 +7,27 @@ import Layout from "../layouts/Layout";
 import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
+import { defaultTabs } from "../components/edit/EditControlTabs";
 
 function CabinetModel() {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const EditScreen = ({ navigation }) => {
-  const handleCancel = () => navigation.goBack();
+const Create3DScreen = ({ navigation }) => {
+  const handleCancel = () => {
+    console.log("Cancel(Create3D)");
+  };
   const handleDone = () => {
-    console.log("Save");
+    console.log("Save(Create3D)");
   };
-  const handleAdd = () => {
-    console.log("Add 3D");
-  };
-  const [activeTab, setActiveTab] = useState("size");
+  const filteredTabs = defaultTabs.filter((tab) => tab.id !== "delete");
+  const [activeTab, setActiveTab] = useState(filteredTabs[0].id);
 
   return (
     <Layout>
       <View style={styles.container}>
-        <EditHeader
-          onCancel={handleCancel}
-          onDone={handleDone}
-          onAdd={handleAdd}
-        />
+        <EditHeader onCancel={handleCancel} onDone={handleDone} />
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}
           style={{ backgroundColor: "white" }}
@@ -48,7 +45,11 @@ const EditScreen = ({ navigation }) => {
             maxDistance={15}
           />
         </Canvas>
-        <EditControlTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <EditControlTabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          tabs={filteredTabs} // 필터링된 탭 전달
+        />
         <EditControlPanel activeTab={activeTab} />
       </View>
     </Layout>
@@ -61,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditScreen;
+export default Create3DScreen;

@@ -28,8 +28,8 @@ const AngleControlPanel = () => {
             maximumValue={180}
             value={objectSize}
             onValueChange={setObjectSize}
-            minimumTrackTintColor="#333"
-            maximumTrackTintColor="#DDD"
+            minimumTrackTintColor="#fff"
+            maximumTrackTintColor="#fff"
             thumbTintColor="#fff"
           />
           <TouchableOpacity
@@ -57,8 +57,8 @@ const AngleControlPanel = () => {
             maximumValue={360}
             value={sceneSize}
             onValueChange={setSceneSize}
-            minimumTrackTintColor="#333"
-            maximumTrackTintColor="#DDD"
+            minimumTrackTintColor="#fff"
+            maximumTrackTintColor="#fff"
             thumbTintColor="#fff"
           />
           <TouchableOpacity
