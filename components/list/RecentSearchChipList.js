@@ -11,13 +11,10 @@ const DeleteIconButton = ({ onPress }) => {
   );
 };
 
-const RecentSearchChip = ({ recentSearchText, onDelete }) => {
+const RecentSearchChip = ({ recentSearchText, onDelete, onPress }) => {
   return (
-    <TouchableOpacity style={styles.chipContainer}>
-      <Text
-        numberOfLines={1}
-        style={[Fonts.body3, { maxWidth: 192, color: "#585858" }]}
-      >
+    <TouchableOpacity style={styles.chipContainer} onPress={onPress}>
+      <Text numberOfLines={1} style={[Fonts.body3, { maxWidth: 192, color: "#585858" }]}>
         {recentSearchText}
       </Text>
       <DeleteIconButton onPress={onDelete} />
@@ -25,13 +22,13 @@ const RecentSearchChip = ({ recentSearchText, onDelete }) => {
   );
 };
 
-const RecentSearchChipList = () => {
+const RecentSearchChipList = ({ setInputText, setSearchQuery }) => {
   const [recentSearchTextList, setRecentSearchTextList] = useState([
     "뭐 검색하려고 했지",
-    "최고의",
-    "짱",
-    "이처럼 사소한",
-    "클레어 키건",
+    "내용입",
+    "우리의 삶을",
+    "예측할 수 없는",
+    "사실적",
     "글이 너무 길면 말 줄임표 처리하기 글이 너무 길면 말 줄임표 처리하기",
   ]);
   // 변수값 초기 세팅 수정 예정(api 연결할 때)
@@ -40,9 +37,7 @@ const RecentSearchChipList = () => {
     <View style={styles.recentSearchContainer}>
       <Text style={[Fonts.body3, { color: "#888888" }]}>최근 검색어</Text>
       {recentSearchTextList.length === 0 ? (
-        <Text style={[Fonts.body2, styles.noRecentSearchText]}>
-          최근 검색 내역이 없습니다.
-        </Text>
+        <Text style={[Fonts.body2, styles.noRecentSearchText]}>최근 검색 내역이 없습니다.</Text>
       ) : (
         <View style={styles.listContainer}>
           {recentSearchTextList.map((text, index) => (
@@ -50,9 +45,11 @@ const RecentSearchChipList = () => {
               key={index}
               recentSearchText={text}
               onDelete={() => {
-                setRecentSearchTextList((prev) =>
-                  prev.filter((_, i) => i !== index)
-                );
+                setRecentSearchTextList((prev) => prev.filter((_, i) => i !== index));
+              }}
+              onPress={() => {
+                setSearchQuery(text);
+                setInputText(text);
               }}
             />
           ))}
