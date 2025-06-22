@@ -7,10 +7,7 @@ const ReviewCard = ({ reviewTitle, reviewContents, reviewImage = null }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigation.navigate("DetailStack")}
-    >
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("DetailStack")}>
       <View style={styles.textWrapper}>
         {reviewTitle && (
           <Text style={[Fonts.subtitle2, styles.title]} numberOfLines={1}>
@@ -18,21 +15,15 @@ const ReviewCard = ({ reviewTitle, reviewContents, reviewImage = null }) => {
           </Text>
         )}
         {reviewContents && (
-          <Text
-            style={[styles.contents, Fonts.body3]}
-            numberOfLines={reviewTitle ? 2 : 3}
-          >
+          <Text style={[styles.contents, Fonts.body3]} numberOfLines={reviewTitle ? 2 : 3}>
             {reviewContents}
           </Text>
         )}
       </View>
 
-      {reviewImage && (
+      {typeof reviewImage === "string" && reviewImage.trim() !== "" && (
         <View style={[styles.imageWrapper, styles.image]}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/login/main-page.png")}
-          />
+          <Image style={styles.image} source={{ uri: reviewImage }} />
         </View>
       )}
     </TouchableOpacity>

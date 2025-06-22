@@ -1,10 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { Fonts } from "../../styles/Fonts";
 
@@ -18,9 +12,7 @@ const CategoryChip = ({
     <TouchableOpacity
       style={[
         styles.chipContainer,
-        isSelected
-          ? { backgroundColor: "#E7C9FF" }
-          : { backgroundColor: "#FFF" },
+        isSelected ? { backgroundColor: "#E7C9FF" } : { backgroundColor: "#FFF" },
       ]}
       onPress={() => {
         if (index === 0) {
@@ -93,9 +85,11 @@ export default CategoryChipList;
 
 const styles = StyleSheet.create({
   listContainer: {
+    zIndex: 9,
+
     marginTop: 12,
     marginHorizontal: 24,
-    height: 40,
+    height: 42,
 
     overflow: "visible", // 안드로이드
   },
