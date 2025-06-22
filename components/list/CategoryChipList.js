@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 
     marginTop: 12,
     marginHorizontal: 24,
-    height: 40,
+    height: 42,
 
     overflow: "visible", // 안드로이드
   },
