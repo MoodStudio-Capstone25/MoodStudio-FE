@@ -9,6 +9,10 @@ import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
 
 const ListScreen = () => {
+  // 수정날짜/만든날짜 기능 추가 필요
+  const [sortBy, setSortBy] = useState("modifiedAt");
+  const [sortDirection, setSortDirection] = useState("desc");
+  // descending: 내림차순, ascending: 오름차순
   const sortBarHeight = useRef(new Animated.Value(30)).current;
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -41,9 +45,15 @@ const ListScreen = () => {
       {/* 카테고리 칩 */}
       <CategoryChipList />
       {/* 정렬 */}
-      <SortSelector sortBarHeight={sortBarHeight} />
+      <SortSelector
+        sortBarHeight={sortBarHeight}
+        sortDirection={sortDirection}
+        setSortDirection={setSortDirection}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
       {/* 감상 글 리스트 */}
-      <ReviewList listDummy={listDummy} handleScroll={handleScroll} />
+      <ReviewList listDummy={listDummy} handleScroll={handleScroll} sortDirection={sortDirection} />
     </Layout>
   );
 };
