@@ -5,14 +5,31 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import EditPanelActions from "./EditPanelActions";
 
 const elements = [
-  { id: "book", label: "책" },
-  { id: "audio", label: "오디오" },
-  { id: "music", label: "음악" },
-  { id: "game", label: "게임" },
+  {
+    id: "book",
+    label: "책",
+    icon: require("../../assets/images/edit/book.png"),
+  },
+  {
+    id: "audio",
+    label: "오디오",
+    icon: require("../../assets/images/edit/audio.png"),
+  },
+  {
+    id: "music",
+    label: "음악",
+    icon: require("../../assets/images/edit/music.png"),
+  },
+  {
+    id: "game",
+    label: "게임",
+    icon: require("../../assets/images/edit/game.png"),
+  },
 ];
 
 const ElementChangePanel = () => {
@@ -31,7 +48,11 @@ const ElementChangePanel = () => {
             onPress={() => {}}
           >
             <View style={styles.iconContainer}>
-              <Text style={styles.icon}></Text>
+              <Image
+                source={element.icon}
+                style={styles.iconImage}
+                resizeMode="contain"
+              />
             </View>
             <Text style={styles.elementLabel}>{element.label}</Text>
           </TouchableOpacity>
@@ -66,9 +87,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 8,
+    overflow: "hidden",
   },
-  icon: {
-    fontSize: 30,
+  iconImage: {
+    width: 64,
+    height: 64,
   },
   elementLabel: {
     fontSize: 15,

@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-const tabs = [
+export const defaultTabs = [
   { id: "size", label: "크기 조절" },
   { id: "angle", label: "각도 조절" },
   { id: "color", label: "색" },
@@ -15,7 +15,7 @@ const tabs = [
   { id: "delete", label: "3D 요소 삭제" },
 ];
 
-const EditControlTabs = ({ activeTab, onTabChange }) => {
+const EditControlTabs = ({ activeTab, onTabChange, tabs = defaultTabs }) => {
   return (
     <ScrollView
       horizontal
@@ -44,17 +44,17 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     paddingHorizontal: 16,
-    gap: 8,
+    gap: 10,
   },
   tab: {
     height: 33,
     backgroundColor: "#ffffff",
-    borderRadius: 20,
-    paddingHorizontal: 16,
+    borderRadius: 14,
+    paddingHorizontal: 12,
     paddingVertical: 0,
     borderWidth: 1,
     borderColor: "#000000",
-    marginRight: 8,
+    marginRight: 0,
     justifyContent: "center",
     alignItems: "center",
   },

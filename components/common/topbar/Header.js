@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import SettingsIcon from "../../../assets/icons/topbar-settings.svg";
@@ -13,10 +7,7 @@ import BackIcon from "../../../assets/icons/topbar-back.svg";
 
 const IconButton = ({ IconComponent, onPress, iconStyles }) => {
   return (
-    <TouchableOpacity
-      style={[styles.iconButton, { ...iconStyles }]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[styles.iconButton, { ...iconStyles }]} onPress={onPress}>
       <IconComponent width={24} height={24} />
     </TouchableOpacity>
   );
@@ -42,7 +33,9 @@ const SearchBarInput = ({ onPress, inputText, setInputText }) => {
         value={inputText}
         onChangeText={setInputText}
       />
-      <SearchIcon width={24} height={24} onPress={onPress} />
+      <TouchableOpacity onPress={onPress}>
+        <SearchIcon width={24} height={24} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -53,27 +46,21 @@ const ListHeader = () => {
 
   return (
     <View style={styles.headerContainer}>
-      <IconButton
-        IconComponent={SettingsIcon}
-        iconStyles={{ backgroundColor: "#E7C9FF" }}
-      />
+      <IconButton IconComponent={SettingsIcon} iconStyles={{ backgroundColor: "#E7C9FF" }} />
       <SearchBarButton onPress={() => navigation.navigate("Search")} />
     </View>
   );
 };
 
 // 검색 화면 - 상단바
-const SearchHeader = ({ inputText, setInputText }) => {
+const SearchHeader = ({ inputText, setInputText, setSearchQuery }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.headerContainer}>
-      <IconButton
-        IconComponent={BackIcon}
-        onPress={() => navigation.goBack()}
-      />
+      <IconButton IconComponent={BackIcon} onPress={() => navigation.goBack()} />
       <SearchBarInput
-        onPress={() => navigation.navigate("Search")}
+        onPress={() => setSearchQuery(inputText)}
         inputText={inputText}
         setInputText={setInputText}
       />

@@ -5,11 +5,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Image,
 } from "react-native";
 import EditPanelActions from "./EditPanelActions";
 import Slider from "@react-native-community/slider";
 
-// 슬라이더를 세로로 만들기 위해 transform 사용
 const VerticalSlider = ({ value, onChange, min, max }) => (
   <View style={styles.sliderWrapper}>
     <Slider
@@ -21,10 +21,8 @@ const VerticalSlider = ({ value, onChange, min, max }) => (
       minimumTrackTintColor="#fff"
       maximumTrackTintColor="#fff"
       thumbTintColor="#fff"
-      // 슬라이더를 270도 회전(세로)
       thumbStyle={styles.thumb}
       trackStyle={styles.track}
-      // transform은 바깥 View에 적용
     />
   </View>
 );
@@ -34,7 +32,6 @@ const SizeControlPanel = () => {
   const [leftright, setLeftright] = useState(50);
   const [frontback, setFrontback] = useState(50);
 
-  // 버튼 핸들러
   const handlePlus = (setter, value, max) => setter(Math.min(value + 1, max));
   const handleMinus = (setter, value, min) => setter(Math.max(value - 1, min));
 
@@ -42,9 +39,7 @@ const SizeControlPanel = () => {
     <View style={styles.container}>
       <EditPanelActions />
       <View style={styles.row}>
-        {/* 세로 슬라이더 3개 */}
         <View style={styles.slidersSection}>
-          {/* 상하 */}
           <View style={styles.sliderCol}>
             <Text style={styles.sliderLabel}>상하</Text>
             <TouchableOpacity
@@ -64,10 +59,8 @@ const SizeControlPanel = () => {
                   minimumTrackTintColor="#fff"
                   maximumTrackTintColor="#fff"
                   thumbTintColor="#fff"
-                  // 세로 슬라이더 구현: transform 적용
                   thumbStyle={styles.thumb}
                   trackStyle={styles.track}
-                  // RN 공식 슬라이더는 transform을 View에 적용해야 함
                 />
                 <View style={styles.sliderOverlay} pointerEvents="none" />
               </View>
@@ -79,7 +72,6 @@ const SizeControlPanel = () => {
               <Text style={styles.plusMinusText}>-</Text>
             </TouchableOpacity>
           </View>
-          {/* 좌우 */}
           <View style={styles.sliderCol}>
             <Text style={styles.sliderLabel}>좌우</Text>
             <TouchableOpacity
@@ -112,7 +104,6 @@ const SizeControlPanel = () => {
               <Text style={styles.plusMinusText}>-</Text>
             </TouchableOpacity>
           </View>
-          {/* 앞뒤 */}
           <View style={styles.sliderCol}>
             <Text style={styles.sliderLabel}>앞뒤</Text>
             <TouchableOpacity
@@ -147,7 +138,12 @@ const SizeControlPanel = () => {
           </View>
         </View>
 
-        <View style={styles.previewBox} />
+        <View style={styles.previewBox}>
+          <Image
+            source={require("../../assets/images/edit/music.png")}
+            style={styles.headsetImage}
+          />
+        </View>
       </View>
     </View>
   );
@@ -224,16 +220,20 @@ const styles = StyleSheet.create({
   },
   sliderOverlay: {
     ...StyleSheet.absoluteFillObject,
-    // 투명 오버레이로 슬라이더 클릭 영역 보정
   },
   previewBox: {
     width: 150,
     height: 160,
     backgroundColor: "transparent",
     borderRadius: 10,
-
     marginLeft: 0,
     alignSelf: "flex-start",
+    overflow: "hidden",
+  },
+  headsetImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
 });
 

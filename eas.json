@@ -12,7 +12,11 @@
         "EXPO_USE_LEGACY_INSTALL": "true"
       }
     },
-    "preview": {},
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "production": {}
   }
 }

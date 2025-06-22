@@ -5,7 +5,7 @@ import SettingsIcon from "../../assets/images/mainpage/settings.svg";
 import ShareIcon from "../../assets/images/mainpage/share.svg";
 import ProfileIcon from "../../assets/images/mainpage/profile.svg";
 import CreateIcon from "../../assets/images/mainpage/create.svg";
-import EditScreen from "../../screens/EditScreen";
+import Edit3DScreen from "../../screens/Edit3DScreen";
 
 const HeaderIcons = ({ navigation }) => {
   return (
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 10,
     paddingBottom: 5,
   },
