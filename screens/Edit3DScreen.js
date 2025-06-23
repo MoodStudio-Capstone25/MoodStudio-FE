@@ -10,7 +10,7 @@ import EditControlTabs from "../components/edit/EditControlTabs";
 import AlertModal from "../components/common/AlertModal";
 
 function CabinetModel() {
-  const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
+  const { scene } = useGLTF(require("../assets/objects/cabinet2.glb"));
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
