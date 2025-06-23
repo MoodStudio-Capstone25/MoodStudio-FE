@@ -1,28 +1,64 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import Swiper from 'react-native-swiper';
+import ImageViewing from 'react-native-image-viewing';
 
-// 이미지
+const { width } = Dimensions.get('window');
+
 const ImageContent = () => {
-    return (
-        <View>
-            <TouchableOpacity>
-                <Image
-                    source={require("../../assets/images/login/main-page.png")}
-                    style={styles.image}
-                    resizeMode="cover"
-                />
-            </TouchableOpacity>
-        </View>
-    )
-}
+  const images = [
+    require('../../assets/images/login/main-page.png'),
+    require('../../assets/images/login/main-page.png'),
+    require('../../assets/images/login/main-page.png'),
+  ];
 
-const styles = StyleSheet.create({
-    image: {
-        width: "100%",
-        height: 180,
-        borderRadius: 12,
-        marginBottom: 12,
-    },
-})
+  const [visible, setVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-export default ImageContent
+  return (
+    <View>
+      <Swiper
+        style={{ height: 210 }}
+        loop
+        dotColor="#FFFFFF"
+        dotStyle={{ borderWidth: 1 }}
+        activeDotColor="#000000"
+      >
+        {images.map((img, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => {
+              setCurrentIndex(index);
+              setVisible(true);
+            }}
+          >
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={img}
+                style={{
+                  width: width - 40,
+                  height: 210,
+                  borderRadius: 32,
+                  borderWidth: 1,
+                  borderColor: '#333',
+                }}
+                resizeMode="cover"
+              />
+            </View>
+          </TouchableOpacity>
+        ))}
+      </Swiper>
+
+      <ImageViewing
+        images={images.map((img) =>
+          typeof img === 'number' ? img : { uri: img }
+        )}
+        imageIndex={currentIndex}
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+      />
+    </View>
+  );
+};
+
+export default ImageContent;

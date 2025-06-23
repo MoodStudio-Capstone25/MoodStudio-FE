@@ -28,7 +28,7 @@ const DetailContentCard = () => {
       <Text style={[styles.date, Fonts.body2]}>2025.02.12 ~ 2025.02.14</Text>
 
       {/* 별점 rating */}
-      <SaveStarRating value={4}/>
+      <SaveStarRating value={4} />
 
       <ContentCard contents={"그 나날을, 수십 년을, 평생을 단 한 번도 세상에 맞설 용기를 내보지 않고도 거울 앞에서 자기 모습을 마주할 수 있나?"} />
       <ContentCard contents={"1980년대 아일랜드, 석탄과 목재를 판매하는 상인 빌 펄롱의 이야기이다. 평범한 삶을 살고 있었지만, 수녀원에서 비밀리에 감금되어 강제 노동을 하는 소녀들을 발견하게 된다. 마을 사람들은 이 사실을 알고도 외면하고 있었지만, 펄롱은 내적 갈등 끝에 소녀를 구하기로 결심한다."} />
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
+    marginTop: 10,
     marginBottom: 20,
     alignItems: 'center',
   },
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     marginRight: 1,
-    marginTop: 4,
+    marginTop: 2,
   },
   tagPurple: {
     backgroundColor: "#E7C9FF",
