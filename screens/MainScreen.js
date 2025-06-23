@@ -8,7 +8,7 @@ import IconButton from "../components/main/IconButton";
 import HeaderIcons from "../components/main/HeaderIcons";
 
 function CabinetModel() {
-  const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
+  const { scene } = useGLTF(require("../assets/objects/cabinet2.glb"));
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
