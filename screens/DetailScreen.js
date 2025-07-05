@@ -3,8 +3,7 @@ import React from "react";
 import Layout from "../layouts/Layout";
 import CustomHeader from "../components/CustomHeader";
 import { Fonts } from "../styles/Fonts";
-import DetailContentCard from "../components/detail/content-template/DetailContentCard";
-import DetailBasicCard from "../components/detail/content-template/DetailBasicCard";
+import DetailContentCard from "../components/detail/DetailContentCard";
 
 const DetailScreen = () => {
   return (
