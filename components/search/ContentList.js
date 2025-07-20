@@ -29,7 +29,7 @@ const ContentList = ({ listDummy, handleScroll = null, sortDirection, searchQuer
   return (
     <ScrollView style={styles.container} onScroll={handleScroll} scrollEventThrottle={16}>
       {reviewDataList.map((reviewData) => (
-        <ContentsCard key={reviewData.id} {...reviewData} />
+        <ContentCard key={reviewData.id} {...reviewData} />
       ))}
     </ScrollView>
   );

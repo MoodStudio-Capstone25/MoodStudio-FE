@@ -3,29 +3,24 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from "../../styles/Fonts";
 
-const ContentCard = ({ reviewTitle, reviewContents, reviewImage = null }) => {
+const ContentCard = ({ contentImage = null, contentTitle, creator, releaseYear }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("DetailStack")}>
-      <View style={styles.textWrapper}>
-        {reviewTitle && (
-          <Text style={[Fonts.subtitle2, styles.title]} numberOfLines={1}>
-            {reviewTitle}
-          </Text>
-        )}
-        {reviewContents && (
-          <Text style={[styles.contents, Fonts.body3]} numberOfLines={reviewTitle ? 2 : 3}>
-            {reviewContents}
-          </Text>
-        )}
-      </View>
-
-      {typeof reviewImage === "string" && reviewImage.trim() !== "" && (
+    <TouchableOpacity style={styles.container}>
+      {typeof contentImage === "string" && contentImage.trim() !== "" && (
         <View style={[styles.imageWrapper, styles.image]}>
-          <Image style={styles.image} source={{ uri: reviewImage }} />
+          <Image style={styles.image} source={{ uri: contentImage }} />
         </View>
       )}
+
+      <View style={styles.textWrapper}>
+        {contentTitle && <Text style={[Fonts.subtitle2, styles.title]}>{contentTitle}</Text>}
+        <View style={styles.infoTextWrapper}>
+          {creator && <Text style={[Fonts.body3, styles.creator]}>{creator}</Text>}
+          {releaseYear && <Text style={[Fonts.overline2, styles.releaseYear]}>{releaseYear}</Text>}
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -36,18 +31,26 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 12,
     padding: 16,
-
     display: "flex",
     flexDirection: "row",
     alignSelf: "stretch",
-
     alignItems: "center",
-
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#000",
     backgroundColor: "#FFF",
   },
+
+  imageWrapper: {
+    marginRight: 12,
+    overflow: "hidden",
+  },
+  image: {
+    width: 49,
+    height: 68,
+    borderRadius: 4,
+  },
+
   textWrapper: {
     display: "flex",
     flexGrow: 1,
@@ -58,16 +61,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     textAlign: "justify",
   },
-  contents: {
-    textAlign: "justify",
+  infoTextWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
-  imageWrapper: {
-    marginLeft: 12,
-    overflow: "hidden",
-  },
-  image: {
-    width: 56,
-    height: 56,
-    borderRadius: 8,
+  releaseYear: {
+    marginLeft: 6,
+    color: "#878787",
   },
 });

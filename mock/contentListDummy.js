@@ -1,4 +1,4 @@
-export const contentsListDummy = [
+export const contentListDummy = [
   // 이미지 데이터 형식 수정 예정
   {
     id: 0,
@@ -9,7 +9,7 @@ export const contentsListDummy = [
   },
   {
     id: 1,
-    contentImage: "null",
+    contentImage: "https://picsum.photos/id/11/80/80",
     contentTitle: "제목",
     creator: "작가",
     releaseYear: "2023",
