@@ -26,6 +26,7 @@ export const Fonts = {
     fontFamily: Typography.NanumSquareNeo.extraBold,
     fontSize: 14,
     color: "#333",
+    lineHeight: 20,
   },
   body1: {
     fontFamily: Typography.NanumSquareNeo.bold,
