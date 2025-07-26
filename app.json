@@ -11,9 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.seunghyeonkang.MoodStudio",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +36,9 @@
       [
         "expo-asset",
         {
-          "assets": ["./assets/fonts/Tenada.ttf"]
+          "assets": [
+            "./assets/fonts/Tenada.ttf"
+          ]
         }
       ]
     ],
