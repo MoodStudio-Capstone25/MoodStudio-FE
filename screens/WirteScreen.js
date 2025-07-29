@@ -131,6 +131,8 @@ const WriteScreen = () => {
 
   const openSheet = () => setSheetVisible(true);
   const closeSheet = () => setSheetVisible(false);
+  const [images, setImages] = useState([]);
+
 
   //템플릿 변경 로직
   const onSelectTemplate = (item) => {
@@ -208,12 +210,12 @@ const WriteScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {selectedTemplate.template === "basic" && <BasicTemplate draft={draft} setDraft={setDraft} />}
+      {selectedTemplate.template === "basic" && <BasicTemplate draft={draft} setDraft={setDraft} images={images} setImages={setImages} />}
       {selectedTemplate.template === "content" && (
-        <ContentTemplate config={categoryConfig} draft={draft} setDraft={setDraft} />
+        <ContentTemplate config={categoryConfig} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
       )}
       {selectedTemplate.template === "culture" && (
-        <CultureTemplate config={categoryConfig} draft={draft} setDraft={setDraft} />
+        <CultureTemplate config={categoryConfig} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
       )}
 
       <BottomSheet
@@ -265,12 +267,6 @@ const styles = StyleSheet.create({
     right: 16,
     padding: 6,
     backgroundColor: "transparent",
-    zIndex: 10,
-  },
-  downButton: {
-    position: "absolute",
-    top: 17,
-    right: 120,
     zIndex: 10,
   },
 });
