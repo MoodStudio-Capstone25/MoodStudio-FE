@@ -10,8 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import * as ExpoImagePicker from 'expo-image-picker'
 
-const ImagePicker = () => {
-  const [uris, setUris] = useState([])
+const ImagePicker = ({ images = [], setImages = () => { } }) => {
 
   const pickImage = async () => {
     const { status } = await ExpoImagePicker.requestMediaLibraryPermissionsAsync()
@@ -25,7 +24,7 @@ const ImagePicker = () => {
       allowsEditing: false,
     })
     if (!result.canceled && result.assets.length > 0) {
-      setUris(prev => [...prev, result.assets[0].uri])
+      setImages(prev => [...prev, result.assets[0].uri]);
     }
   }
 
@@ -40,7 +39,7 @@ const ImagePicker = () => {
       quality: 1,
     })
     if (!result.canceled && result.assets.length > 0) {
-      setUris(prev => [...prev, result.assets[0].uri])
+      setImages(prev => [...prev, result.assets[0].uri])
     }
   }
 
@@ -58,8 +57,8 @@ const ImagePicker = () => {
   }
 
   const removeImage = (index) => {
-    setUris(prev => prev.filter((_, i) => i !== index));
-  }
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <View style={{ flexDirection: 'row' }}>
@@ -72,7 +71,7 @@ const ImagePicker = () => {
         contentContainerStyle={styles.previewContainer}
         showsHorizontalScrollIndicator={false}
       >
-        {uris.map((uri, idx) => (
+        {images.map((uri, idx) => (
           <View key={idx} style={styles.imageWrapper}>
             <Image source={{ uri }} style={styles.image} />
             <TouchableOpacity
@@ -83,6 +82,7 @@ const ImagePicker = () => {
             </TouchableOpacity>
           </View>
         ))}
+
       </ScrollView>
     </View>
   )
