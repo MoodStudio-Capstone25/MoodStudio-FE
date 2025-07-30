@@ -2,22 +2,22 @@ import { ScrollView, useWindowDimensions, View } from 'react-native'
 import WriteField from './form/WriteField'
 import ImagePicker from './form/ImagePicker'
 
-const CultureTemplate = ({ config, draft, setDraft }) => {
+const CultureTemplate = ({ config, draft, setDraft, images = [], setImages = () => { } }) => {
 
     const { height } = useWindowDimensions();
-    const  {
-    creatorLabel = '출연진',
-    setenceLabel = '감명 깊은 장면',
-    castLabel = '출연진',
-    peroidLabel = '방문일',
-  } = config
+    const {
+        creatorLabel = '출연진',
+        setenceLabel = '감명 깊은 장면',
+        castLabel = '출연진',
+        peroidLabel = '방문일',
+    } = config
 
     return (
         <ScrollView>
-            <ImagePicker />
+            <ImagePicker images={images} setImages={setImages} />
 
             <View style={{ height: 20 }} />
-            
+
             <WriteField
                 frontContent='이 콘텐츠 기록에 어떤 '
                 sectionName='제목'

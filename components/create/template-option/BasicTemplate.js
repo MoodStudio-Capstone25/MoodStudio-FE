@@ -2,12 +2,12 @@ import { useWindowDimensions, View } from 'react-native'
 import WriteField from './form/WriteField'
 import ImagePicker from './form/ImagePicker'
 
-const BasicTemplate = ({ draft, setDraft }) => {
+const BasicTemplate = ({ draft, setDraft, images = [], setImages = () => { } }) => {
     const { height } = useWindowDimensions();
 
     return (
         <View>
-            <ImagePicker />
+            <ImagePicker images={images} setImages={setImages} />
 
             <View style={{ height: 20 }} />
 

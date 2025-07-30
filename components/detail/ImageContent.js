@@ -5,12 +5,8 @@ import ImageViewing from 'react-native-image-viewing';
 
 const { width } = Dimensions.get('window');
 
-const ImageContent = () => {
-  const images = [
-    require('../../assets/images/login/main-page.png'),
-    require('../../assets/images/login/main-page.png'),
-    require('../../assets/images/login/main-page.png'),
-  ];
+const ImageContent = (props) => {
+  const images = props.imgUrls ?? [];
 
   const [visible, setVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -34,11 +30,11 @@ const ImageContent = () => {
           >
             <View style={{ alignItems: 'center' }}>
               <Image
-                source={img}
+                source={{ uri: img }}
                 style={{
                   width: width - 40,
                   height: 210,
-                  borderRadius: 32,
+                  borderRadius: 16,
                   borderWidth: 1,
                   borderColor: '#333',
                 }}
@@ -50,9 +46,7 @@ const ImageContent = () => {
       </Swiper>
 
       <ImageViewing
-        images={images.map((img) =>
-          typeof img === 'number' ? img : { uri: img }
-        )}
+        images={images.map((img) => ({ uri: img }))}
         imageIndex={currentIndex}
         visible={visible}
         onRequestClose={() => setVisible(false)}

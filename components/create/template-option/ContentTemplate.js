@@ -2,8 +2,9 @@ import { ScrollView, useWindowDimensions, View } from 'react-native'
 import WriteField from './form/WriteField'
 import ImagePicker from './form/ImagePicker'
 
-const ContentTemplate = ({ config, draft, setDraft }) => {
+const ContentTemplate = ({ config, draft, setDraft, images = [], setImages = () => { } }) => {
     const { height } = useWindowDimensions();
+
     const {
         creatorLabel = '출연진',
         setenceLabel = '감명 깊은 장면',
@@ -12,7 +13,7 @@ const ContentTemplate = ({ config, draft, setDraft }) => {
 
     return (
         <ScrollView>
-            <ImagePicker />
+            <ImagePicker images={images} setImages={setImages} />
 
             <View style={{ height: 20 }} />
 
