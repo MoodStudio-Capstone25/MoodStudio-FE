@@ -16,7 +16,7 @@ function CabinetModel() {
 
 const Create3DScreen = ({ navigation }) => {
   const handleCancel = () => {
-    console.log("Cancel(Create3D)");
+    navigation.goBack();
   };
   const handleDone = () => {
     console.log("Save(Create3D)");
