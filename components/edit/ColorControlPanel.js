@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import EditPanelActions from "./EditPanelActions";
 
 const objectColors = [
@@ -10,8 +16,8 @@ const objectColors = [
   "#E2FFFA",
   "#E2E3FF",
   "#FDE2FF",
+  "#ecb7f0ff",
 ];
-
 const cabinetColors = [
   "#FFE2E2",
   "#FFEEE2",
@@ -20,6 +26,7 @@ const cabinetColors = [
   "#E2FFFA",
   "#E2E3FF",
   "#FDE2FF",
+  "#ecb7f0ff",
 ];
 
 const ColorControlPanel = () => {
@@ -33,9 +40,14 @@ const ColorControlPanel = () => {
   return (
     <View style={styles.container}>
       <EditPanelActions />
+
       <View style={styles.colorSection}>
         <Text style={styles.sectionTitle}>3D 요소 색</Text>
-        <View style={styles.colorGrid}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.colorScroll}
+        >
           {objectColors.map((color, index) => (
             <TouchableOpacity
               key={index}
@@ -45,14 +57,19 @@ const ColorControlPanel = () => {
                 selectedObjectColor === color && styles.selectedColor,
               ]}
               onPress={() => setSelectedObjectColor(color)}
+              activeOpacity={0.7}
             />
           ))}
-        </View>
+        </ScrollView>
       </View>
 
       <View style={styles.colorSection}>
         <Text style={styles.sectionTitle}>캐비넷 색</Text>
-        <View style={styles.colorGrid}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.colorScroll}
+        >
           {cabinetColors.map((color, index) => (
             <TouchableOpacity
               key={index}
@@ -62,9 +79,10 @@ const ColorControlPanel = () => {
                 selectedCabinetColor === color && styles.selectedColor,
               ]}
               onPress={() => setCabinetCabinetColor(color)}
+              activeOpacity={0.7}
             />
           ))}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -83,17 +101,15 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontWeight: "500",
   },
-  colorGrid: {
+  colorScroll: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 12,
+    alignItems: "center",
   },
   colorCircle: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    // borderWidth: 1,
-    // borderColor: "#000000",
+    marginRight: 12,
   },
   selectedColor: {
     borderColor: "#ffffff",
