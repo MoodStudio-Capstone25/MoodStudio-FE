@@ -12,7 +12,7 @@ const HeaderIcons = ({ navigation }) => {
     <View style={styles.container}>
       <IconButton
         IconComponent={SettingsIcon}
-        onPress={() => console.log("Settings")}
+        onPress={() => navigation.navigate("SettingsStack")}
       />
       <View style={styles.spacer} />
       <IconButton
