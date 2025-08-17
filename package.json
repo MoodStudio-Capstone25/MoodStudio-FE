@@ -26,6 +26,7 @@
     "expo-gl": "~14.0.2",
     "expo-image-picker": "~15.1.0",
     "expo-linear-gradient": "~13.0.2",
+    "expo-secure-store": "^14.2.3",
     "expo-splash-screen": "~0.27.7",
     "expo-status-bar": "~1.12.1",
     "expo-three": "^7.0.0",
