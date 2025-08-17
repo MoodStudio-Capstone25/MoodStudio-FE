@@ -1,15 +1,46 @@
 import React, { useEffect } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Alert, Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import * as AuthSession from "expo-auth-session";
+import { KAKAO_REST_API_KEY, BACKEND_API_URL } from "@env";
 import { Fonts } from "../../styles/Fonts";
 import KakaotalkIcon from "../../assets/icons/login-kakaotalk.svg";
-import { KAKAO_REST_API_KEY, BACKEND_API_URL } from "@env";
+
+const discovery = {
+  authorizationEndpoint: "https://kauth.kakao.com/oauth/authorize",
+  tokenEndpoint: "https://kauth.kakao.com/oauth/token",
+};
+
+const USE_PROXY = false;
 
 const LoginSection = ({ navigation, height }) => {
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: "moodstudio",
+    path: "redirect",
+    useProxy: USE_PROXY,
+  });
+
   useEffect(() => {
-    // 값 찍어보기 (키는 일부만 마스킹)
-    console.log("BACKEND_API_URL =", BACKEND_API_URL);
-    console.log("KAKAO_REST_API_KEY (masked) =", `${KAKAO_REST_API_KEY?.slice(0, 6)}*****`);
-  }, []);
+    console.log("Kakao Redirect URI >>>", redirectUri);
+    // 이 주소를 카카오 콘솔 Redirect URI에 그대로 추가 등록!
+  }, [redirectUri]);
+
+  const [request, response, promptAsync] = AuthSession.useAuthRequest(
+    {
+      clientId: KAKAO_REST_API_KEY,
+      responseType: AuthSession.ResponseType.Code,
+      scopes: ["account_email"],
+      redirectUri: `${BACKEND_API_URL}/`,
+    },
+    discovery
+  );
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { code } = response.params;
+      Alert.alert("인가코드 수신", code.slice(0, 10) + "...");
+      console.log("AUTH CODE >>>", code);
+    }
+  }, [response]);
 
   return (
     <View style={[styles.container, { height: height }]}>
@@ -18,7 +49,11 @@ const LoginSection = ({ navigation, height }) => {
         <Text style={Fonts.subtitle2}>다양한 취미를 캐비넷에 모아보세요</Text>
       </View>
 
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.replace("MainTabs")}>
+      <TouchableOpacity
+        disabled={!request}
+        onPress={() => promptAsync({ useProxy: USE_PROXY })}
+        style={styles.buttonStyle}
+      >
         <KakaotalkIcon width={24} height={24} />
         <Text style={[Fonts.subtitle2, { marginLeft: 12 }]}>카카오톡으로 로그인하기</Text>
       </TouchableOpacity>
