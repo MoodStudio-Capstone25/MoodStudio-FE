@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Fonts } from "../../styles/Fonts";
 import KakaotalkIcon from "../../assets/icons/login-kakaotalk.svg";
+import { KAKAO_REST_API_KEY, BACKEND_API_URL } from "@env";
 
 const LoginSection = ({ navigation, height }) => {
+  useEffect(() => {
+    // 값 찍어보기 (키는 일부만 마스킹)
+    console.log("BACKEND_API_URL =", BACKEND_API_URL);
+    console.log("KAKAO_REST_API_KEY (masked) =", `${KAKAO_REST_API_KEY?.slice(0, 6)}*****`);
+  }, []);
+
   return (
     <View style={[styles.container, { height: height }]}>
       <View style={styles.overlineTextContainer}>
