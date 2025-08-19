@@ -15,9 +15,9 @@ const discovery = {
 const USE_PROXY = false;
 
 const LoginSection = ({ navigation, height }) => {
-  // 카카오 임시 인가코드(하드코딩.. 추후 삭제 필요)
+  // 카카오 임시 인가코드(하드코딩.. 추후 삭제 필요) // 여기에 넣어주시면 됩니다!
   const [devKakaoAuthCode, setDevKakaoAuthCode] = useState(
-    "OW7FEEDUV8ccRb6TzGRIWp5zLr_UyN6yNs4UVEC3jVOLV-kIJz8fGwAAAAQKFwtrAAABmL47IkxAPV-WDrAHcw"
+    "tdhb8QuC7Pgspz_-S5rULUt-DKjuh1-4M6FknLN5KaMuSzj4nD8OvAAAAAQKFwEPAAABmMNaGHAtjdRiIM79qQ"
   );
 
   const [loading, setLoading] = useState(false);
@@ -25,6 +25,7 @@ const LoginSection = ({ navigation, height }) => {
   const KAKAO_REDIRECT_URI = `${BACKEND_API_URL}/`;
 
   const postKakaoAccessToken = async () => {
+    // 카카오 임시 인가코드
     if (!devKakaoAuthCode) {
       Alert.alert("필요 정보 누락", "인가코드를 입력하세요.");
       return;
@@ -49,21 +50,7 @@ const LoginSection = ({ navigation, height }) => {
 
       const kakaoAccessToken = kakaoTokenData?.access_token;
       if (!kakaoAccessToken) throw new Error("카카오 access_token을 받지 못했습니다.");
-      console.log("kakaoAccessToken >>> ", kakaoAccessToken); //
-
-      // 카카오 토큰 자체 검증 - 이메일 범위/유효성 체크
-      // try {
-      //   const { data: me } = await axios.get("https://kapi.kakao.com/v2/user/me", {
-      //     headers: { Authorization: `Bearer ${kakaoAccessToken}` },
-      //   });
-      //   console.log("KAKAO /v2/user/me:", {
-      //     id: me?.id,
-      //     email: me?.kakao_account?.email,
-      //     email_needs_agreement: me?.kakao_account?.email_needs_agreement,
-      //   });
-      // } catch (error) {
-      //   console.warn("카카오 토큰 검증 실패 가능:", error?.response?.status, e?.response?.data);
-      // }
+      // console.log("kakaoAccessToken >>> ", kakaoAccessToken); // 카카오 액세스 토큰
 
       // 백엔드 로그인(JWT 발급)
       const { data: apiData } = await axios.post(
@@ -72,7 +59,7 @@ const LoginSection = ({ navigation, height }) => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      const { tokens, user, message } = apiData || {};
+      const { tokens, user } = apiData || {};
       if (!tokens?.access || !tokens?.refresh) {
         throw new Error("백엔드로부터 올바른 JWT를 받지 못했습니다.");
       }
@@ -81,8 +68,8 @@ const LoginSection = ({ navigation, height }) => {
       await SecureStore.setItemAsync("access", tokens.access);
       await SecureStore.setItemAsync("refresh", tokens.refresh);
 
-      Alert.alert("로그인 완료");
-      console.log("user:", user);
+      console.log("user:", user); // {"cabinet_public": true, "email": "usernumber42@naver.com"}
+      navigation.replace("MainTabs");
     } catch (error) {
       const st = error?.response?.status;
       const d = error?.response?.data;
