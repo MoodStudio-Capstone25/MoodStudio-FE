@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "MoodStudio",
-    "slug": "MoodStudio",
+    "slug": "moodstudio",
+    "scheme": "moodstudio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.seunghyeonkang.MoodStudio",
+      "bundleIdentifier": "com.seunghyeonkang.moodstudio",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -26,13 +27,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.seunghyeonkang.MoodStudio"
+      "package": "com.seunghyeonkang.moodstudio"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font",
+      "expo-secure-store",
       [
         "expo-asset",
         {
@@ -45,7 +47,7 @@
     "owner": "seunghyeonkang",
     "extra": {
       "eas": {
-        "projectId": "05d00d51-228f-4ec1-8a4f-56e2542a85dd"
+        "projectId": "40ab010a-45c5-4b2f-a262-7e5237a22e91"
       }
     }
   }
