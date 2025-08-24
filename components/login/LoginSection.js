@@ -17,7 +17,7 @@ const USE_PROXY = false;
 const LoginSection = ({ navigation, height }) => {
   // 카카오 임시 인가코드(하드코딩.. 추후 삭제 필요) // 여기에 넣어주시면 됩니다!
   const [devKakaoAuthCode, setDevKakaoAuthCode] = useState(
-    "tdhb8QuC7Pgspz_-S5rULUt-DKjuh1-4M6FknLN5KaMuSzj4nD8OvAAAAAQKFwEPAAABmMNaGHAtjdRiIM79qQ"
+    "Ge9Qm4Lunr3ct4ixuMh6_xN6yrgHNG2haw3g64l-yi3SJUiJpg_jqwAAAAQKDQxeAAABmMxk0v3UNEQ5evY1pg"
   );
 
   const [loading, setLoading] = useState(false);
