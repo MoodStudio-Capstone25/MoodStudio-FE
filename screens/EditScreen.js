@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import ContentTemplate from '../components/create/template-option/ContentTemplate';
 import { detailDummy } from '../mock/detailDummy'; // 더미 데이터 경로 맞게 수정
 import CustomHeader from '../components/CustomHeader';
-import CultureTemplate from '../components/create/template-option/CultureTemplate';
 import BottomSheet from '../components/create/BottomSheet';
 import AlertModal from '../components/common/AlertModal';
-import BasicTemplate from '../components/create/template-option/BasicTemplate';
+import UnifiedTemplate from '../components/create/template-option/UnifiedTemplate';
 
 const templateOptions = [
     { template: "basic", label: "기본 템플릿", description: "사진, 제목, 내용" },
@@ -67,16 +65,14 @@ const EditScreen = ({ route }) => {
             </View>
 
             {/* 템플릿 */}
-            {selectedTemplate === "basic" && (
-                <BasicTemplate config={matchedItem.category} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
-            )}
-            {selectedTemplate === "content" && (
-                <ContentTemplate config={matchedItem.category} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
-            )}
-            {selectedTemplate === "culture" && (
-                <CultureTemplate config={matchedItem.category} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
-            )}
-
+            <UnifiedTemplate
+                templateKey={selectedTemplate.template} // "basic" | "content" | "culture"
+                config={matchedItem.category}
+                draft={draft}
+                setDraft={setDraft}
+                images={images}
+                setImages={setImages}
+            />
 
             {/* 템플릿 설정 바텀 시트 */}
             <BottomSheet
@@ -94,7 +90,6 @@ const EditScreen = ({ route }) => {
                     }
                 }}
             />
-
 
             {/* 경고창 모달 */}
             <AlertModal

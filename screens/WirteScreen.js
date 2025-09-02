@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Layout from "../layouts/Layout";
 import CustomHeader from "../components/CustomHeader";
-import BasicTemplate from "../components/create/template-option/BasicTemplate";
-import ContentTemplate from "../components/create/template-option/ContentTemplate";
-import CultureTemplate from "../components/create/template-option/CultureTemplate";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomSheet from "../components/create/BottomSheet";
 import AlertModal from "../components/common/AlertModal";
 import { Fonts } from "../styles/Fonts";
+import UnifiedTemplate from "../components/create/template-option/UnifiedTemplate";
 
 const templates = [
   { template: "basic", label: "기본 템플릿", description: "사진, 제목, 내용" },
@@ -135,14 +133,19 @@ const WriteScreen = () => {
 
 
   //템플릿 변경 로직
-  const onSelectTemplate = (item) => {
-    if (item.template === selectedTemplate.template) return;
-    const hasContent = Object.values(draft).some((v) => {
+  const hasAnyContent = () => {
+    const draftHas = Object.values(draft).some((v) => {
       if (typeof v === "string") return v.trim() !== "";
       if (typeof v === "number") return v !== 0;
       return false;
     });
-    if (hasContent) {
+    const imagesHas = Array.isArray(images) && images.length > 0;
+    return draftHas || imagesHas;
+  };
+  const onSelectTemplate = (item) => {
+    if (item.template === selectedTemplate.template) return;
+
+    if (hasAnyContent()) {
       setPendingTemplate(item);
       setModalVisible(true);
     } else {
@@ -167,6 +170,7 @@ const WriteScreen = () => {
         location: "",
         cast: "",
       });
+      setImages([]);
       setPendingTemplate(null);
       setModalVisible(false);
       closeSheet();
@@ -190,8 +194,6 @@ const WriteScreen = () => {
     }
   };
 
-  //const calculatedLeftHit = selectedTemplate.label.length * 18;
-
   return (
     <Layout>
       <View>
@@ -210,13 +212,15 @@ const WriteScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {selectedTemplate.template === "basic" && <BasicTemplate draft={draft} setDraft={setDraft} images={images} setImages={setImages} />}
-      {selectedTemplate.template === "content" && (
-        <ContentTemplate config={categoryConfig} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
-      )}
-      {selectedTemplate.template === "culture" && (
-        <CultureTemplate config={categoryConfig} draft={draft} setDraft={setDraft} images={images} setImages={setImages} />
-      )}
+      {/* 템플릿 */}
+      <UnifiedTemplate
+        templateKey={selectedTemplate.template} // "basic" | "content" | "culture"
+        config={categoryConfig}
+        draft={draft}
+        setDraft={setDraft}
+        images={images}
+        setImages={setImages}
+      />
 
       <BottomSheet
         isVisible={sheetVisible}
