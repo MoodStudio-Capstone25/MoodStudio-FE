@@ -6,11 +6,11 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Layout from "../layouts/Layout";
 import CategoryCard from "../components/create/CategoryCard";
 import CustomHeader from "../components/CustomHeader";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Fonts } from "../styles/Fonts";
 
 const CreateScreen = () => {
@@ -51,6 +51,14 @@ const CreateScreen = () => {
   ];
 
   const otherRows = [categories.slice(17, 18)];
+
+  useFocusEffect(
+    useCallback(() => {
+      // 이 화면이 다시 보일 때마다 초기화
+      setSelectedCategory(null);
+    }, [])
+  );
+
 
   return (
     <Layout>
