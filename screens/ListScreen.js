@@ -7,14 +7,12 @@ import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
-import { fetchRecords } from "../apis/records/records";
+import { useRecordsQuery } from "../hooks/useRecordsQuery";
 
 const ListScreen = () => {
-  // api
-  const [records, setRecords] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: records, isLoading, isError, error } = useRecordsQuery();
 
+  // 이미지 데이터 형식 수정 필요!!!!!!!!!!!
   // 수정날짜/만든날짜 기능 추가 필요
   const [sortBy, setSortBy] = useState("modifiedAt");
   const [sortDirection, setSortDirection] = useState("desc");
@@ -45,32 +43,18 @@ const ListScreen = () => {
   };
 
   // api
-  useEffect(() => {
-    const loadRecords = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const data = await fetchRecords();
-        // 응답 예시: [{ id, template, category, user, image_urls, title, api_thumbnail, rating, date, content_title, creator, cast, story, scenes, thoughts, location, companions, created_at, updated_at }, ...]
-
-        console.log("data >>>", data);
-        setRecords(data);
-      } catch (err) {
-        if (err.message === "NO_TOKEN") {
-          setError("로그인이 필요합니다.");
-        } else if (err.message === "REFRESH_FAILED") {
-          setError("로그인 정보가 만료되었습니다. 다시 로그인해 주세요.");
-        } else {
-          setError("목록을 불러오는 중 오류가 발생했습니다.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadRecords();
-  }, []);
+  let errorMessage = null;
+  if (isError) {
+    if (error.message === "NO_TOKEN") {
+      errorMessage = "로그인이 필요합니다.";
+    } else if (error.message === "REFRESH_FAILED") {
+      errorMessage = "로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
+    } else {
+      errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
+    }
+  }
+  // 실제 리스트 데이터가 없으면 listDummy 사용
+  const listData = records && Array.isArray(records) ? records : listDummy;
 
   return (
     <Layout>
@@ -87,7 +71,7 @@ const ListScreen = () => {
         setSortBy={setSortBy}
       />
       {/* 감상 글 리스트 */}
-      <ReviewList listDummy={listDummy} handleScroll={handleScroll} sortDirection={sortDirection} />
+      <ReviewList listDummy={listData} handleScroll={handleScroll} sortDirection={sortDirection} />
     </Layout>
   );
 };
