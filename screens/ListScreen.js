@@ -1,5 +1,5 @@
 import { Animated, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../layouts/Layout";
 
 import { ListHeader } from "../components/common/topbar/Header";
@@ -7,11 +7,16 @@ import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
+import { useRecordsQuery } from "../hooks/useRecordsQuery";
+import { useListStore } from "../stores/useListStore";
 
 const ListScreen = () => {
-  // 수정날짜/만든날짜 기능 추가 필요
-  const [sortBy, setSortBy] = useState("modifiedAt");
-  const [sortDirection, setSortDirection] = useState("desc");
+  const { data: records, isLoading, isError, error } = useRecordsQuery();
+  // 수정날짜/만든날짜 기능 추가 필요!!
+  // zustand로 정렬 상태 관리
+  const { sortBy, sortDirection, setSortBy, setSortDirection } = useListStore();
+
+  // 이미지 데이터 형식 수정 필요!!!!!!!!!!!
   // descending: 내림차순, ascending: 오름차순
   const sortBarHeight = useRef(new Animated.Value(30)).current;
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -38,6 +43,20 @@ const ListScreen = () => {
     setLastScrollY(currentY);
   };
 
+  // api
+  let errorMessage = null;
+  if (isError) {
+    if (error.message === "NO_TOKEN") {
+      errorMessage = "로그인이 필요합니다.";
+    } else if (error.message === "REFRESH_FAILED") {
+      errorMessage = "로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
+    } else {
+      errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
+    }
+  }
+  // 실제 리스트 데이터가 없으면 listDummy 사용
+  const listData = records && Array.isArray(records) ? records : listDummy;
+
   return (
     <Layout>
       {/* 상단바 */}
@@ -53,7 +72,7 @@ const ListScreen = () => {
         setSortBy={setSortBy}
       />
       {/* 감상 글 리스트 */}
-      <ReviewList listDummy={listDummy} handleScroll={handleScroll} sortDirection={sortDirection} />
+      <ReviewList listDummy={listData} handleScroll={handleScroll} sortDirection={sortDirection} />
     </Layout>
   );
 };

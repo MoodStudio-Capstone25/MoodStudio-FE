@@ -8,10 +8,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import RootStack from "./navigation/RootStack";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const Stack = createStackNavigator();
 
+const queryClient = new QueryClient();
+
 export default function App() {
+  // 폰트 연결
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,9 +39,11 @@ export default function App() {
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView} style={{ flex: 1 }}>
-      <NavigationContainer>
-        <RootStack />
-      </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer>
+          <RootStack />
+        </NavigationContainer>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }
