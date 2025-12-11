@@ -1,8 +1,3 @@
-// api
-import axios from "axios";
-import { BACKEND_API_URL } from "@env";
-import * as SecureStore from "expo-secure-store";
-
 import { Animated, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../layouts/Layout";
@@ -12,86 +7,9 @@ import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
+import { fetchRecords } from "../api/records";
 
-// api
-const fetchRecords = async () => {
-  try {
-    const access = await SecureStore.getItemAsync("access");
-    const refresh = await SecureStore.getItemAsync("refresh");
-
-    if (!access || !refresh) {
-      throw new Error("NO_TOKEN");
-    }
-
-    // 1차 요청: 기존 access 토큰으로
-    try {
-      const response = await axios.get(`${BACKEND_API_URL}/records/`, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      const data = error.response?.data;
-      const code = data?.code;
-      const messages = data?.messages;
-
-      const isExpiredToken =
-        code === "token_not_valid" &&
-        Array.isArray(messages) &&
-        messages.some((m) => m.message === "Token is expired");
-
-      if (!isExpiredToken) {
-        console.log("GET /records/ 에러:", data || error.message);
-        throw error;
-      }
-
-      // 2. 토큰 만료시 새 access 발급 요청
-      try {
-        const refreshResponse = await axios.post(
-          `${BACKEND_API_URL}/users/auth/token/refresh/`,
-          { refresh },
-          { headers: { "Content-Type": "application/json" } }
-        );
-
-        const newAccess = refreshResponse.data?.access;
-        const newRefresh = refreshResponse.data?.refresh;
-
-        if (!newAccess) {
-          throw new Error("새 access 토큰을 받지 못했습니다.");
-        }
-
-        await SecureStore.setItemAsync("access", newAccess);
-        if (newRefresh) {
-          await SecureStore.setItemAsync("refresh", newRefresh);
-        }
-
-        // 3. 2차 요청: 새 access 토큰으로
-        const retryResponse = await axios.get(`${BACKEND_API_URL}/records/`, {
-          headers: {
-            Authorization: `Bearer ${newAccess}`,
-          },
-        });
-
-        return retryResponse.data;
-      } catch (refreshError) {
-        console.log("토큰 재발급 실패 >>>", refreshError.response?.data || refreshError.message);
-        throw new Error("REFRESH_FAILED");
-      }
-    }
-    // 응답 예시: [{ id, template, category, user, image_urls, title, api_thumbnail, rating, date, content_title, creator, cast, story, scenes, thoughts, location, companions, created_at, updated_at }, ...]
-  } catch (error) {
-    if (error.message === "NO_TOKEN") {
-      throw new Error("NO_TOKEN");
-    }
-    if (error.message === "REFRESH_FAILED") {
-      throw new Error("REFRESH_FAILED");
-    }
-    console.log("fetchRecords 에러 >>>", error.response?.data || error.message);
-    throw error;
-  }
-};
+// 응답 예시: [{ id, template, category, user, image_urls, title, api_thumbnail, rating, date, content_title, creator, cast, story, scenes, thoughts, location, companions, created_at, updated_at }, ...]
 
 const ListScreen = () => {
   // api
