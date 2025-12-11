@@ -7,7 +7,7 @@ import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
-import { fetchRecords } from "../apis/records";
+import { fetchRecords } from "../apis/records/records";
 
 const ListScreen = () => {
   // api
