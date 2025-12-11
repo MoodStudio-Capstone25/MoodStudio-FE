@@ -8,14 +8,15 @@ import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
 import { useRecordsQuery } from "../hooks/useRecordsQuery";
+import { useListStore } from "../stores/useListStore";
 
 const ListScreen = () => {
   const { data: records, isLoading, isError, error } = useRecordsQuery();
+  // 수정날짜/만든날짜 기능 추가 필요!!
+  // zustand로 정렬 상태 관리
+  const { sortBy, sortDirection, setSortBy, setSortDirection } = useListStore();
 
   // 이미지 데이터 형식 수정 필요!!!!!!!!!!!
-  // 수정날짜/만든날짜 기능 추가 필요
-  const [sortBy, setSortBy] = useState("modifiedAt");
-  const [sortDirection, setSortDirection] = useState("desc");
   // descending: 내림차순, ascending: 오름차순
   const sortBarHeight = useRef(new Animated.Value(30)).current;
   const [lastScrollY, setLastScrollY] = useState(0);
