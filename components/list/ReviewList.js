@@ -8,23 +8,23 @@ const ReviewList = ({ listDummy, handleScroll = null, sortDirection, searchQuery
   // 이미지 데이터 형식 수정 예정
 
   useEffect(() => {
-    const sortedList = [...listDummy].sort((a, b) =>
+    const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
+
+    let baseList = [...listDummy].sort((a, b) =>
       sortDirection === "asc"
         ? new Date(a.modifiedAt) - new Date(b.modifiedAt)
         : new Date(b.modifiedAt) - new Date(a.modifiedAt)
     );
-    setReviewDataList(sortedList);
-  }, [sortDirection]);
 
-  useEffect(() => {
-    if (searchQuery) {
-      setReviewDataList(
-        listDummy.filter((item) =>
-          item.reviewContents.toLowerCase().includes(searchQuery?.trim().toLowerCase())
-        )
-      );
+    if (normalizedQuery.length > 0) {
+      baseList = baseList.filter((item) => {
+        const contents = (item.reviewContents ?? "").toLowerCase();
+        return contents.includes(normalizedQuery);
+      });
     }
-  }, [searchQuery]);
+
+    setReviewDataList(baseList);
+  }, [listDummy, sortDirection, searchQuery]);
 
   return (
     <ScrollView style={styles.container} onScroll={handleScroll} scrollEventThrottle={16}>
