@@ -7,9 +7,7 @@ import CategoryChipList from "../components/list/CategoryChipList";
 import ReviewList from "../components/list/ReviewList";
 import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
-import { fetchRecords } from "../api/records";
-
-// 응답 예시: [{ id, template, category, user, image_urls, title, api_thumbnail, rating, date, content_title, creator, cast, story, scenes, thoughts, location, companions, created_at, updated_at }, ...]
+import { fetchRecords } from "../apis/records";
 
 const ListScreen = () => {
   // api
@@ -54,6 +52,7 @@ const ListScreen = () => {
         setError(null);
 
         const data = await fetchRecords();
+        // 응답 예시: [{ id, template, category, user, image_urls, title, api_thumbnail, rating, date, content_title, creator, cast, story, scenes, thoughts, location, companions, created_at, updated_at }, ...]
 
         console.log("data >>>", data);
         setRecords(data);
