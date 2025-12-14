@@ -3,20 +3,24 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from "../../styles/Fonts";
 
-const ReviewCard = ({ reviewTitle, reviewContents, reviewImage = null }) => {
+const ReviewCard = ({ title, scenes, story, thoughts, reviewImage = null }) => {
   const navigation = useNavigation();
+
+  const mergedContents = [scenes, story, thoughts]
+    .filter((v) => typeof v === "string" && v.trim() !== "")
+    .join(" ");
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("DetailStack")}>
       <View style={styles.textWrapper}>
-        {reviewTitle && (
+        {title && (
           <Text style={[Fonts.subtitle2, styles.title]} numberOfLines={1}>
-            {reviewTitle}
+            {title}
           </Text>
         )}
-        {reviewContents && (
-          <Text style={[styles.contents, Fonts.body3]} numberOfLines={reviewTitle ? 2 : 3}>
-            {reviewContents}
+        {mergedContents !== "" && (
+          <Text style={[styles.contents, Fonts.body3]} numberOfLines={title ? 2 : 3}>
+            {mergedContents}
           </Text>
         )}
       </View>

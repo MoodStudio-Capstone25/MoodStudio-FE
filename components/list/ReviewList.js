@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Fonts } from "../../styles/Fonts";
 import ReviewCard from "./ReviewCard";
 
-const ReviewList = ({ listDummy, handleScroll = null, sortDirection, searchQuery = "" }) => {
+const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery = "" }) => {
   const [reviewDataList, setReviewDataList] = useState([]);
   // 이미지 데이터 형식 수정 예정
 
   useEffect(() => {
-    const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
+    const normalizedQuery = typeof searchQuery === "string" ? searchQuery.trim().toLowerCase() : "";
 
-    let baseList = [...listDummy].sort((a, b) =>
+    let baseList = [...listData].sort((a, b) =>
       sortDirection === "asc"
         ? new Date(a.modifiedAt) - new Date(b.modifiedAt)
         : new Date(b.modifiedAt) - new Date(a.modifiedAt)
@@ -18,13 +18,17 @@ const ReviewList = ({ listDummy, handleScroll = null, sortDirection, searchQuery
 
     if (normalizedQuery.length > 0) {
       baseList = baseList.filter((item) => {
-        const contents = (item.reviewContents ?? "").toLowerCase();
-        return contents.includes(normalizedQuery);
+        const haystack = [item.title, item.content_title, item.scenes, item.story, item.thoughts]
+          .filter((v) => typeof v === "string" && v.trim() !== "")
+          .join(" ")
+          .toLowerCase();
+
+        return haystack.includes(normalizedQuery);
       });
     }
 
     setReviewDataList(baseList);
-  }, [listDummy, sortDirection, searchQuery]);
+  }, [listData, sortDirection, searchQuery]);
 
   return (
     <ScrollView style={styles.container} onScroll={handleScroll} scrollEventThrottle={16}>
