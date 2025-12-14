@@ -18,8 +18,12 @@ const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery 
 
     if (normalizedQuery.length > 0) {
       baseList = baseList.filter((item) => {
-        const contents = (item.reviewContents ?? "").toLowerCase();
-        return contents.includes(normalizedQuery);
+        const haystack = [item.title, item.content_title, item.scenes, item.story, item.thoughts]
+          .filter((v) => typeof v === "string" && v.trim() !== "")
+          .join(" ")
+          .toLowerCase();
+
+        return haystack.includes(normalizedQuery);
       });
     }
 
