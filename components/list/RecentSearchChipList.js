@@ -22,17 +22,12 @@ const RecentSearchChip = ({ recentSearchText, onDelete, onPress }) => {
   );
 };
 
-const RecentSearchChipList = ({ setInputText, setSearchQuery }) => {
-  const [recentSearchTextList, setRecentSearchTextList] = useState([
-    "뭐 검색하려고 했지",
-    "내용입",
-    "우리의 삶을",
-    "예측할 수 없는",
-    "사실적",
-    "글이 너무 길면 말 줄임표 처리하기 글이 너무 길면 말 줄임표 처리하기",
-  ]);
-  // 변수값 초기 세팅 수정 예정(api 연결할 때)
-
+const RecentSearchChipList = ({
+  recentSearchTextList = [],
+  setInputText,
+  setSearchQuery,
+  onDeleteKeyword,
+}) => {
   return (
     <View style={styles.recentSearchContainer}>
       <Text style={[Fonts.body3, { color: "#888888" }]}>최근 검색어</Text>

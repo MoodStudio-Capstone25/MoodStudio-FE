@@ -32,6 +32,8 @@ const SearchBarInput = ({ onPress, inputText, setInputText }) => {
         placeholder="검색어를 입력하세요"
         value={inputText}
         onChangeText={setInputText}
+        returnKeyType="search"
+        onSubmitEditing={onPress}
       />
       <TouchableOpacity onPress={onPress}>
         <SearchIcon width={24} height={24} />
@@ -53,17 +55,13 @@ const ListHeader = () => {
 };
 
 // 검색 화면 - 상단바
-const SearchHeader = ({ inputText, setInputText, setSearchQuery }) => {
+const SearchHeader = ({ inputText, setInputText, setSearchQuery, onSearch }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.headerContainer}>
       <IconButton IconComponent={BackIcon} onPress={() => navigation.goBack()} />
-      <SearchBarInput
-        onPress={() => setSearchQuery(inputText)}
-        inputText={inputText}
-        setInputText={setInputText}
-      />
+      <SearchBarInput onPress={onSearch} inputText={inputText} setInputText={setInputText} />
     </View>
   );
 };
