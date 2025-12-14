@@ -30,6 +30,15 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // 에러 로그
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.detail ||
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message;
+    console.log("[API ERROR] >>>", status, message);
+
     const originalRequest = error.config;
     const data = error.response?.data;
     const code = data?.code;
