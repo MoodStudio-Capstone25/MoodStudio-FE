@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
 import { Bounds, useBounds } from "@react-three/drei/native";
@@ -13,9 +13,21 @@ function CabinetModel() {
 }
 
 const MainScreen = ({ navigation }) => {
+  const goToCabinetTest = () => {
+    navigation.navigate("CabinetTest");
+  };
   return (
     <Layout>
       <HeaderIcons navigation={navigation} />
+
+      {/* 테스트용 버튼 하나 추가 */}
+      <TouchableOpacity
+        onPress={goToCabinetTest}
+        style={{ padding: 12, backgroundColor: "black" }}
+      >
+        <Text style={{ color: "white" }}>Cabinet API 테스트 이동</Text>
+      </TouchableOpacity>
+
       <View style={styles.container}>
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}

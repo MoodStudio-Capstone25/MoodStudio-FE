@@ -7,6 +7,8 @@ import MainTabs from "./MainTabs";
 import DetailStack from "./DetailStack";
 import SettingsStack from "./SettingsStack";
 
+import CabinetTestScreen from "../screens/CabinetTestScreen";
+
 const Stack = createStackNavigator();
 
 export default function RootStack() {
@@ -17,6 +19,9 @@ export default function RootStack() {
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="DetailStack" component={DetailStack} />
       <Stack.Screen name="SettingsStack" component={SettingsStack} />
+
+      {/* 테스트용 화면 */}
+      <Stack.Screen name="CabinetTest" component={CabinetTestScreen} />
     </Stack.Navigator>
   );
 }
