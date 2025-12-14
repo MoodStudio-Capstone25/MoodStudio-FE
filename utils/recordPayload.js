@@ -7,13 +7,13 @@ const splitToArray = (v) => {
 };
 
 export const buildCreateRecordPayload = ({
-    // templateKey,
+    templateKey,
     category,          // 서버가 문자열 카테고리(예: "영화/드라마")를 받는 경우
     draft,
     thumbnailUrl,      // api_thumbnail에 넣을 값(없으면 null)
 }) => {
     return {
-        template: "content",
+        template: templateKey,
         category,
         content_title: draft.content_title?.trim() || "",
         title: draft.title?.trim() || "",
@@ -29,8 +29,8 @@ export const buildCreateRecordPayload = ({
         location: draft.location?.trim() || null,
         companions: draft.companions?.trim() || null,
 
-        story: (draft.scenes || "").trim(),    // 줄거리/개요
-        scenes: (draft.story || "").trim(),    // 기억에 남는 장면/문장
+        story: (draft.scenes || "").trim(),
+        scenes: (draft.story || "").trim(),
         thoughts: (draft.thoughts || "").trim(),
     };
 };

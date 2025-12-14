@@ -5,14 +5,13 @@ export const fetchRecords = async () => {
   return response.data;
 };
 
-
 // 글 생성
 export const createRecord = async (payload) => {
   const response = await apiClient.post("/records/create/", payload);
-  return response.data; // 여기서 id가 내려와야 함
+  return response.data;
 };
 
-// 2) 이미지 다중 업로드 (multipart/form-data)
+// 이미지 업로드
 export const uploadRecordImages = async ({ recordId, images }) => {
   const form = new FormData();
   form.append("record", String(recordId));
@@ -33,4 +32,10 @@ export const uploadRecordImages = async ({ recordId, images }) => {
   });
 
   return response.data;
+};
+
+// 상세페이지
+export const fetchRecordDetail = async (id) => {
+  const res = await apiClient.get(`/records/${id}/`);
+  return res.data; // 서버 응답 객체 그대로 반환
 };
