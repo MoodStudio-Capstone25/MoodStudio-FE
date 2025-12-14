@@ -8,7 +8,7 @@ const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery 
   // 이미지 데이터 형식 수정 예정
 
   useEffect(() => {
-    const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
+    const normalizedQuery = typeof searchQuery === "string" ? searchQuery.trim().toLowerCase() : "";
 
     let baseList = [...listData].sort((a, b) =>
       sortDirection === "asc"
@@ -18,13 +18,16 @@ const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery 
 
     if (normalizedQuery.length > 0) {
       baseList = baseList.filter((item) => {
-        const contents = (item.reviewContents ?? "").toLowerCase();
-        return contents.includes(normalizedQuery);
+        const haystack = [item.title, item.content_title, item.scenes, item.story, item.thoughts]
+          .filter((v) => typeof v === "string" && v.trim() !== "")
+          .join(" ")
+          .toLowerCase();
+
+        return haystack.includes(normalizedQuery);
       });
     }
 
     setReviewDataList(baseList);
-    console.log("listData >>>", listData);
   }, [listData, sortDirection, searchQuery]);
 
   return (
