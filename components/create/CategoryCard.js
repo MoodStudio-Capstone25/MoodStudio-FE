@@ -11,6 +11,7 @@ const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelected
                 const isSelected = selectedCategory === item.id;
                 return (
                     <CategoryButton
+                        key={item.id}
                         item={item}
                         isSelected={isSelected}
                         onPress={() => setSelectedCategory(item.id)}
@@ -23,8 +24,8 @@ const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelected
     return (
         <View style={{ marginTop: -10 }}>
             <View style={{ paddingTop: 36 }}>
-                <View style={[styles.categoryHightlight, { width: CategoryTitle.length * 13+16 }]} />
-                <Text style={[styles.categoryTitleStyle,Fonts.subtitle1]}>{CategoryTitle}</Text>
+                <View style={[styles.categoryHightlight, { width: CategoryTitle.length * 13 + 16 }]} />
+                <Text style={[styles.categoryTitleStyle, Fonts.subtitle1]}>{CategoryTitle}</Text>
             </View>
 
             <View style={{ paddingLeft: 7, paddingTop: 30 }}>
@@ -39,19 +40,19 @@ const CategoryCard = ({ CategoryTitle, categories, selectedCategory, setSelected
 
 //styles
 const styles = StyleSheet.create({
-        categoryTitleStyle: {
-            position: 'absolute',
-            top: 26,
-            left: 22
-        }
-        ,
-        categoryHightlight: {
-            height: 19,
-            top: 32,
-            left: 16,
-            backgroundColor: '#FFE5E2',
-            position: 'absolute'
-        },
-    })
+    categoryTitleStyle: {
+        position: 'absolute',
+        top: 26,
+        left: 22
+    }
+    ,
+    categoryHightlight: {
+        height: 19,
+        top: 32,
+        left: 16,
+        backgroundColor: '#FFE5E2',
+        position: 'absolute'
+    },
+})
 
 export default CategoryCard

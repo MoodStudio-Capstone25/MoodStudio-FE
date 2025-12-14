@@ -7,6 +7,11 @@ import BottomSheet from "../components/create/BottomSheet";
 import AlertModal from "../components/common/AlertModal";
 import { Fonts } from "../styles/Fonts";
 import UnifiedTemplate from "../components/create/template-option/UnifiedTemplate";
+import { useCreateRecordMutation } from "../hooks/useCreateRecordMutation";
+import { useUploadRecordImagesMutation } from "../hooks/useUploadRecordImagesMutation";
+import { buildCreateRecordPayload } from "../utils/recordPayload";
+import { categoryToServer } from "../utils/category";
+
 
 const templates = [
   { template: "basic", label: "기본 템플릿", description: "사진, 제목, 내용" },
@@ -131,6 +136,9 @@ const WriteScreen = () => {
   const closeSheet = () => setSheetVisible(false);
   const [images, setImages] = useState([]);
 
+  //mutation 훅 선언
+  const createRecordMutation = useCreateRecordMutation();
+  const uploadImagesMutation = useUploadRecordImagesMutation();
 
   //템플릿 변경 로직
   const hasAnyContent = () => {
@@ -194,6 +202,39 @@ const WriteScreen = () => {
     }
   };
 
+  const onSubmit = async () => {
+    try {
+      // 1) payload 생성
+      const payload = buildCreateRecordPayload({
+        templateKey: selectedTemplate.template,
+        category: categoryToServer(selectedCategoryId),
+        draft,
+        thumbnailUrl: null,
+      });
+
+      // 2) 글 생성
+      const created = await createRecordMutation.mutateAsync(payload);
+
+      if (!created?.id) {
+        throw new Error("RECORD_ID_MISSING");
+      }
+
+      // 3) 이미지 업로드 (있을 때만)
+      if (images && images.length > 0) {
+        await uploadImagesMutation.mutateAsync({
+          recordId: created.id,
+          images,
+        });
+      }
+
+      // 성공 → 다음 화면
+      navigation.navigate("Create3DShape", { record: created });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Layout>
       <View>
@@ -206,7 +247,7 @@ const WriteScreen = () => {
 
         <TouchableOpacity
           style={[styles.finishButton, Fonts.body3]}
-          onPress={() => navigation.navigate("Create3DShape")}
+          onPress={onSubmit}
         >
           <Text>작성완료</Text>
         </TouchableOpacity>

@@ -17,7 +17,7 @@ const TEMPLATE_LAYOUT = {
         "title",
         "rating",
         "creator",
-        "period",
+        "date",
         "story",
         "scenes",
         "thoughts",
@@ -30,7 +30,7 @@ const TEMPLATE_LAYOUT = {
         "creator",
         "cast",
         "location",
-        "period",
+        "date",
         "companions",
         "story",
         "scenes",
@@ -141,7 +141,7 @@ export default function UnifiedTemplate({
             <WriteField
                 sectionName={peroidLabel}
                 nextContent="은 어떻게 되나요?"
-                subContent="20XX.XX.XX ~ 20XX.XX.XX"
+                subContent="20XX-XX-XX ~ 20XX-XX-XX"
                 contentHeight={height * 0.06}
                 value={draft.date}
                 onChangeText={onChange("date")}
