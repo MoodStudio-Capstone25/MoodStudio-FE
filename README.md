@@ -10,7 +10,7 @@
 ## ✅ Bundler & Package Manager
 
 - **port 번호**: `8081`
-- **npm 명령어 예시**
+- **yarn 명령어 예시**
 
 ```
 npm install -g yarn # 전역 설치
