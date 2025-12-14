@@ -8,7 +8,7 @@ const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery 
   // 이미지 데이터 형식 수정 예정
 
   useEffect(() => {
-    const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
+    const normalizedQuery = typeof searchQuery === "string" ? searchQuery.trim().toLowerCase() : "";
 
     let baseList = [...listData].sort((a, b) =>
       sortDirection === "asc"
@@ -24,7 +24,6 @@ const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery 
     }
 
     setReviewDataList(baseList);
-    console.log("listData >>>", listData);
   }, [listData, sortDirection, searchQuery]);
 
   return (
