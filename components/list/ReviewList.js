@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Fonts } from "../../styles/Fonts";
 import ReviewCard from "./ReviewCard";
 
-const ReviewList = ({ listDummy, handleScroll = null, sortDirection, searchQuery = "" }) => {
+const ReviewList = ({ listData, handleScroll = null, sortDirection, searchQuery = "" }) => {
   const [reviewDataList, setReviewDataList] = useState([]);
   // 이미지 데이터 형식 수정 예정
 
   useEffect(() => {
     const normalizedQuery = (searchQuery ?? "").trim().toLowerCase();
 
-    let baseList = [...listDummy].sort((a, b) =>
+    let baseList = [...listData].sort((a, b) =>
       sortDirection === "asc"
         ? new Date(a.modifiedAt) - new Date(b.modifiedAt)
         : new Date(b.modifiedAt) - new Date(a.modifiedAt)
@@ -24,7 +24,8 @@ const ReviewList = ({ listDummy, handleScroll = null, sortDirection, searchQuery
     }
 
     setReviewDataList(baseList);
-  }, [listDummy, sortDirection, searchQuery]);
+    console.log("listData >>>", listData);
+  }, [listData, sortDirection, searchQuery]);
 
   return (
     <ScrollView style={styles.container} onScroll={handleScroll} scrollEventThrottle={16}>

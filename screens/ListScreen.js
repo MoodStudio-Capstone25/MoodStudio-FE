@@ -53,6 +53,7 @@ const ListScreen = () => {
     } else {
       errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
     }
+    console.log(errorMessage);
   }
   // 실제 리스트 데이터가 없으면 listDummy 사용
   const listData = records && Array.isArray(records) ? records : listDummy;
@@ -72,7 +73,7 @@ const ListScreen = () => {
         setSortBy={setSortBy}
       />
       {/* 감상 글 리스트 */}
-      <ReviewList listDummy={listData} handleScroll={handleScroll} sortDirection={sortDirection} />
+      <ReviewList listData={listData} handleScroll={handleScroll} sortDirection={sortDirection} />
     </Layout>
   );
 };
