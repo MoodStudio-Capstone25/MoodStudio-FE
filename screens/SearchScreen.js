@@ -7,11 +7,15 @@ import ReviewList from "../components/list/ReviewList";
 import { listDummy } from "../mock/listDummy";
 import { useRecordsQuery } from "../hooks/useRecordsQuery";
 import { useRecentSearchesQuery } from "../hooks/search/useRecentSearchesQuery";
-import { useAddRecentSearchMutation } from "../hooks/search/useRecentSearchesMutation";
+import {
+  useAddRecentSearchMutation,
+  useDeleteRecentSearchMutation,
+} from "../hooks/search/useRecentSearchesMutation";
 
 const SearchScreen = () => {
   const { data: recentSearches = [] } = useRecentSearchesQuery();
   const { mutate: addRecent } = useAddRecentSearchMutation();
+  const { mutate: deleteRecent } = useDeleteRecentSearchMutation();
 
   const { data: records, isLoading, isError, error } = useRecordsQuery();
   const [inputText, setInputText] = useState("");
@@ -47,6 +51,7 @@ const SearchScreen = () => {
               setSearchQuery(q);
               addRecent(q);
             }} // 칩 눌러도 최신화
+            onDeleteKeyword={(k) => deleteRecent(k)}
           />
         )}
       </View>

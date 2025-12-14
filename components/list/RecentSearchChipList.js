@@ -39,9 +39,7 @@ const RecentSearchChipList = ({
             <RecentSearchChip
               key={index}
               recentSearchText={text}
-              onDelete={() => {
-                setRecentSearchTextList((prev) => prev.filter((_, i) => i !== index));
-              }}
+              onDelete={() => onDeleteKeyword?.(text)}
               onPress={() => {
                 setSearchQuery(text);
                 setInputText(text);
