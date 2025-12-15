@@ -6,7 +6,12 @@ import ColorControlPanel from "./ColorControlPanel";
 import ElementChangePanel from "./ElementChangePanel";
 import ElementDeletePanel from "./ElementDeletePanel";
 
-const EditControlPanel = ({ activeTab }) => {
+const EditControlPanel = ({
+  activeTab,
+  cabinetId,
+  cabinetColor,
+  onColorChange,
+}) => {
   const renderPanel = () => {
     switch (activeTab) {
       case "size":
@@ -14,7 +19,13 @@ const EditControlPanel = ({ activeTab }) => {
       case "angle":
         return <AngleControlPanel />;
       case "color":
-        return <ColorControlPanel />;
+        return (
+          <ColorControlPanel
+            cabinetId={cabinetId}
+            cabinetColor={cabinetColor}
+            onColorChange={onColorChange}
+          />
+        );
       case "change":
         return <ElementChangePanel />;
       case "delete":
