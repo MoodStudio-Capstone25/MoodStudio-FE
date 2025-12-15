@@ -7,7 +7,19 @@ import ProfileIcon from "../../assets/images/mainpage/profile.svg";
 import CreateIcon from "../../assets/images/mainpage/create.svg";
 import Edit3DScreen from "../../screens/Edit3DScreen";
 
-const HeaderIcons = ({ navigation }) => {
+const HeaderIcons = ({ navigation, cabinetId = null, cabinetColor = null }) => {
+  const handleEditPress = () => {
+    if (!cabinetId) {
+      console.log("캐비닛이 존재하지 않음");
+      return;
+    }
+
+    navigation.navigate("Edit3D", {
+      cabinetId,
+      cabinetColor,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <IconButton
@@ -23,10 +35,7 @@ const HeaderIcons = ({ navigation }) => {
         IconComponent={ProfileIcon}
         onPress={() => console.log("Profile")}
       />
-      <IconButton
-        IconComponent={CreateIcon}
-        onPress={() => navigation.navigate("Edit3D")}
-      />
+      <IconButton IconComponent={CreateIcon} onPress={handleEditPress} />
     </View>
   );
 };

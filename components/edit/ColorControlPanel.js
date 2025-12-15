@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import EditPanelActions from "./EditPanelActions";
+import { useUpdateCabinetMutation } from "../../hooks/useCabinetMutations";
 
 const objectColors = [
   "#FFE2E2",
@@ -26,16 +27,36 @@ const cabinetColors = [
   "#E2FFFA",
   "#E2E3FF",
   "#FDE2FF",
-  "#ecb7f0ff",
+  "#ecb7f0",
 ];
 
-const ColorControlPanel = () => {
+const ColorControlPanel = ({ cabinetId, cabinetColor, onColorChange }) => {
   const [selectedObjectColor, setSelectedObjectColor] = useState(
     objectColors[2]
   );
-  const [selectedCabinetColor, setCabinetCabinetColor] = useState(
-    cabinetColors[1]
+  const [selectedCabinetColor, setSelectedCabinetColor] = useState(
+    cabinetColor || cabinetColors[1]
   );
+
+  const { mutate: updateCabinet } = useUpdateCabinetMutation();
+
+  const handleSelectCabinetColor = (color) => {
+    setSelectedCabinetColor(color);
+
+    if (!cabinetId) return;
+
+    updateCabinet(
+      {
+        pk: cabinetId,
+        body: { color },
+      },
+      {
+        onSuccess: (cabinet) => {
+          onColorChange?.(cabinet.color || color);
+        },
+      }
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -78,7 +99,7 @@ const ColorControlPanel = () => {
                 { backgroundColor: color },
                 selectedCabinetColor === color && styles.selectedColor,
               ]}
-              onPress={() => setCabinetCabinetColor(color)}
+              onPress={() => handleSelectCabinetColor(color)}
               activeOpacity={0.7}
             />
           ))}
@@ -89,12 +110,8 @@ const ColorControlPanel = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  colorSection: {
-    marginBottom: 25,
-  },
+  container: { flex: 1 },
+  colorSection: { marginBottom: 25 },
   sectionTitle: {
     fontSize: 13,
     color: "#000000",

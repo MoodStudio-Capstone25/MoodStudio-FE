@@ -1,32 +1,87 @@
-import React, { Suspense } from "react";
-import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
-import { Bounds, useBounds } from "@react-three/drei/native";
+import { Bounds } from "@react-three/drei/native";
 import Layout from "../layouts/Layout";
-import IconButton from "../components/main/IconButton";
 import HeaderIcons from "../components/main/HeaderIcons";
+import { useCreateCabinetMutation } from "../hooks/useCabinetMutations";
 
-function CabinetModel() {
-  const { scene } = useGLTF(require("../assets/objects/cabinet2.glb"));
+function CabinetModel({ color }) {
+  const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
+  scene.traverse((obj) => {
+    if (obj.isMesh && obj.material && obj.material.color) {
+      obj.material.color.set(color);
+    }
+  });
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const MainScreen = ({ navigation }) => {
-  const goToCabinetTest = () => {
-    navigation.navigate("CabinetTest");
-  };
+const CABINET_ID_KEY = "cabinet_id";
+const CABINET_COLOR_KEY = "cabinet_color";
+
+const MainScreen = ({ navigation, route }) => {
+  const [cabinetId, setCabinetId] = useState(null);
+  const [cabinetColor, setCabinetColor] = useState("#C8B5E7");
+
+  const { mutate: createCabinet } = useCreateCabinetMutation();
+
+  useEffect(() => {
+    const initCabinet = async () => {
+      const storedId = await SecureStore.getItemAsync(CABINET_ID_KEY);
+      const storedColor = await SecureStore.getItemAsync(CABINET_COLOR_KEY);
+
+      if (storedId) {
+        setCabinetId(Number(storedId));
+        if (storedColor) setCabinetColor(storedColor);
+        return;
+      }
+
+      // 로컬에 없으면 한 번만 생성
+      createCabinet(
+        { color: "gray", position_y: 100 },
+        {
+          onSuccess: async (cabinet) => {
+            setCabinetId(cabinet.id);
+            setCabinetColor(cabinet.color || "#C8B5E7");
+
+            await SecureStore.setItemAsync(CABINET_ID_KEY, String(cabinet.id));
+            await SecureStore.setItemAsync(
+              CABINET_COLOR_KEY,
+              cabinet.color || "#C8B5E7"
+            );
+          },
+        }
+      );
+    };
+
+    initCabinet();
+  }, [createCabinet]);
+
+  useEffect(() => {
+    const syncUpdatedColor = async () => {
+      const updatedColor = route?.params?.updatedColor;
+      if (updatedColor) {
+        setCabinetColor(updatedColor);
+        await SecureStore.setItemAsync(CABINET_COLOR_KEY, updatedColor);
+      }
+    };
+    syncUpdatedColor();
+  }, [route?.params?.updatedColor]);
+
   return (
     <Layout>
-      <HeaderIcons navigation={navigation} />
+      <HeaderIcons
+        navigation={navigation}
+        cabinetId={cabinetId}
+        cabinetColor={cabinetColor}
+      />
 
-      {/* 테스트용 버튼 하나 추가 */}
-      <TouchableOpacity
-        onPress={goToCabinetTest}
-        style={{ padding: 12, backgroundColor: "black" }}
-      >
-        <Text style={{ color: "white" }}>Cabinet API 테스트 이동</Text>
-      </TouchableOpacity>
+      <View style={{ padding: 16 }}>
+        <Text>Cabinet ID: {cabinetId ?? "-"}</Text>
+        <Text>색상: {cabinetColor}</Text>
+      </View>
 
       <View style={styles.container}>
         <Canvas
@@ -36,10 +91,10 @@ const MainScreen = ({ navigation }) => {
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
           <Bounds fit clip observe margin={1.0}>
-            <CabinetModel />
+            <CabinetModel color={cabinetColor} />
           </Bounds>
           <OrbitControls
-            enableZoom={true}
+            enableZoom
             enablePan={false}
             target={[0, 0.75, 0]}
             minDistance={5}
@@ -52,9 +107,7 @@ const MainScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 });
 
 export default MainScreen;
