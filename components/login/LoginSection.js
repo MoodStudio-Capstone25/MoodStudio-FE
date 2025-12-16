@@ -5,8 +5,10 @@ import * as SecureStore from "expo-secure-store";
 import { KAKAO_REST_API_KEY, BACKEND_API_URL } from "@env";
 import { Fonts } from "../../styles/Fonts";
 import KakaotalkIcon from "../../assets/icons/login-kakaotalk.svg";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LoginSection = ({ navigation, height }) => {
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
 
   const KAKAO_REDIRECT_URI = `${BACKEND_API_URL}/users/`;
@@ -74,6 +76,11 @@ const LoginSection = ({ navigation, height }) => {
       // 03-2. JWT를 안전하게 저장
       await SecureStore.setItemAsync("access", tokens.access);
       await SecureStore.setItemAsync("refresh", tokens.refresh);
+
+      // user를 React Query 캐시에 저장 (설정 화면에서 꺼내 쓰기 위함)
+      if (user) {
+        queryClient.setQueryData(["me"], user);
+      }
 
       navigation.replace("MainTabs");
 
