@@ -3,8 +3,16 @@ import { View, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const SaveStarRating = ({ value = 0, size = 20 }) => {
-  const fullStars = Math.floor(value);
-  const halfStar = value % 1 >= 0.5 ? 1 : 0;
+
+  //0일 경우에는 렌더링X
+  if (value === 0 || value === undefined) {
+    return null;
+  }
+
+  const numericValue = Number(value);
+
+  const fullStars = Math.floor(numericValue);
+  const halfStar = numericValue % 1 >= 0.5 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStar;
 
   return (
