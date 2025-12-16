@@ -16,14 +16,17 @@ const ListScreen = () => {
   const { data: records, isLoading, isError, error } = useRecordsQuery();
 
   const { selectedCategoryIds } = useCategoryFilterStore();
-  // 수정날짜/만든날짜 기능 추가 필요!!
   const { sortBy, sortDirection, setSortBy, setSortDirection } = useListStore();
 
-  // 이미지 데이터 형식 수정 필요!!!!!!!!!!!
   // descending: 내림차순, ascending: 오름차순
   const sortBarHeight = useRef(new Animated.Value(30)).current;
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const toTimestamp = (v) => {
+    if (!v) return 0;
+    const t = new Date(v).getTime(); // "2025-12-14" 같은 문자열 대응
+    return Number.isFinite(t) ? t : 0;
+  };
 
+  const [lastScrollY, setLastScrollY] = useState(0);
   const handleScroll = (event) => {
     const currentY = event.nativeEvent.contentOffset.y;
 
@@ -78,6 +81,22 @@ const ListScreen = () => {
     return rawList.filter((r) => selectedSet.has(categoryLabelToId(r?.category)));
   }, [rawList, selectedCategoryIds]);
 
+  // 정렬 적용
+  const sortedList = useMemo(() => {
+    const dir = sortDirection === "asc" ? 1 : -1;
+
+    return [...filteredList].sort((a, b) => {
+      const ta = toTimestamp(a?.[sortBy]);
+      const tb = toTimestamp(b?.[sortBy]);
+
+      // 최신순(desc)이면 tb - ta, 오래된순(asc)이면 ta - tb
+      if (ta !== tb) return (ta - tb) * dir;
+
+      // 날짜가 같으면 id로 안정 정렬(선택)
+      return ((a?.id ?? 0) - (b?.id ?? 0)) * dir;
+    });
+  }, [filteredList, sortBy, sortDirection]);
+
   // api
   if (isError) {
     let errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
@@ -104,11 +123,7 @@ const ListScreen = () => {
         setSortBy={setSortBy}
       />
       {/* 감상 글 리스트 */}
-      <ReviewList
-        listData={filteredList}
-        handleScroll={handleScroll}
-        sortDirection={sortDirection}
-      />
+      <ReviewList listData={sortedList} handleScroll={handleScroll} sortDirection={sortDirection} />
     </Layout>
   );
 };

@@ -11,9 +11,9 @@ const SortSelector = ({ sortBarHeight, sortDirection, setSortDirection, sortBy, 
     <Animated.View style={[styles.container, { height: sortBarHeight }]}>
       <TouchableOpacity
         style={styles.sortTextWrapper}
-        onPress={() => setSortBy(sortBy === "modifiedAt" ? "createdAt" : "modifiedAt")}
+        onPress={() => setSortBy(sortBy === "updated_at" ? "created_at" : "updated_at")}
       >
-        {sortBy === "modifiedAt" ? (
+        {sortBy === "updated_at" ? (
           <Text style={Fonts.body3}>수정 날짜 순</Text>
         ) : (
           <Text style={Fonts.body3}>만든 날짜 순</Text>
