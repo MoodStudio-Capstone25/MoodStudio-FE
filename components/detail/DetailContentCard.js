@@ -6,21 +6,20 @@ import ImageContent from './ImageContent';
 import SaveStarRating from './SaveStarRating';
 import { detailDummy } from '../../mock/detailDummy';
 
-const DetailContentCard = () => {
-  const detail = detailDummy[0];
-  const data = detail?.data;
+const DetailContentCard = ({ detail }) => {
+  const data = detail;
 
   return (
     <ScrollView style={styles.container}>
-      {data?.image_urls && (
+      {!!data?.image_urls && (
         <ImageContent imgUrls={data.image_urls} />
       )}
 
       {/* category,  */}
       <View style={styles.tagContainer}>
-        {detail?.category && (
+        {data?.category && (
           <View style={[styles.tag, styles.tagPurple]}>
-            <Text style={Fonts.body3}>{detail.category}</Text>
+            <Text style={Fonts.body3}>{data.category}</Text>
           </View>
         )}
         {data?.creator?.map((name, i) => (
@@ -51,8 +50,8 @@ const DetailContentCard = () => {
       )}
 
       {/* 별점 rating */}
-      {data?.rating && (
-        <SaveStarRating value={data.rating} />
+      {data?.rating != null && (
+        <SaveStarRating value={Number(data.rating)} />
       )}
 
       {/* 내용 */}

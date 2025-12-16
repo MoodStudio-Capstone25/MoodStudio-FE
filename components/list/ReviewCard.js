@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from "../../styles/Fonts";
 
-const ReviewCard = ({ title, scenes, story, thoughts, reviewImage = null }) => {
+const ReviewCard = ({ id, title, scenes, story, thoughts, reviewImage = null }) => {
   const navigation = useNavigation();
 
   const mergedContents = [scenes, story, thoughts]
@@ -11,7 +11,15 @@ const ReviewCard = ({ title, scenes, story, thoughts, reviewImage = null }) => {
     .join(" ");
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("DetailStack")}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        navigation.navigate("DetailStack", {
+          screen: "Detail",
+          params: { id },
+        })
+      }
+    >
       <View style={styles.textWrapper}>
         {title && (
           <Text style={[Fonts.subtitle2, styles.title]} numberOfLines={1}>
