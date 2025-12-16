@@ -48,7 +48,11 @@ const ListHeader = () => {
 
   return (
     <View style={styles.headerContainer}>
-      <IconButton IconComponent={SettingsIcon} iconStyles={{ backgroundColor: "#E7C9FF" }} />
+      <IconButton
+        IconComponent={SettingsIcon}
+        iconStyles={{ backgroundColor: "#E7C9FF" }}
+        onPress={() => navigation.navigate("SettingsStack")}
+      />
       <SearchBarButton onPress={() => navigation.navigate("Search")} />
     </View>
   );

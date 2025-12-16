@@ -2,12 +2,14 @@ import { apiClient } from "../apiClient";
 
 export const fetchRecords = async () => {
   const response = await apiClient.get("/records/");
+  // console.log("fetchRecords api >>>", response);
   return response.data;
 };
 
 // 글 생성
 export const createRecord = async (payload) => {
   const response = await apiClient.post("/records/create/", payload);
+  console.log("createRecord api >>>", response);
   return response.data;
 };
 
@@ -42,9 +44,6 @@ export const fetchRecordDetail = async (id) => {
 
 // 글 수정
 export const patchRecord = async ({ id, payload }) => {
-  const response = await apiClient.patch(
-    `/records/${id}/edit/`,
-    payload
-  );
+  const response = await apiClient.patch(`/records/${id}/edit/`, payload);
   return response.data;
 };
