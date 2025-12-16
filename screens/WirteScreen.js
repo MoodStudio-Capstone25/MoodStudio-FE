@@ -9,8 +9,7 @@ import UnifiedTemplate from "../components/create/template-option/UnifiedTemplat
 import { useCreateRecordMutation } from "../hooks/useCreateRecordMutation";
 import { useUploadRecordImagesMutation } from "../hooks/useUploadRecordImagesMutation";
 import { buildCreateRecordPayload } from "../utils/recordPayload";
-import { categoryToServer } from "../utils/category";
-
+import { categoryToServer } from "../utils/categoryToServer";
 
 const templates = [
   { template: "basic", label: "기본 템플릿", description: "사진, 제목, 내용" },
@@ -213,7 +212,6 @@ const WriteScreen = () => {
 
       // 성공 → 다음 화면
       navigation.navigate("Create3DShape", { record: created });
-
     } catch (error) {
       console.error(error);
     }
