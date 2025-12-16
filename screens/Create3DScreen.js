@@ -7,9 +7,9 @@ import { Bounds } from "@react-three/drei/native";
 import Layout from "../layouts/Layout";
 import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
-import EditControlTabs, {
-  defaultTabs,
-} from "../components/edit/EditControlTabs";
+import EditControlTabs from "../components/edit/EditControlTabs";
+import { defaultTabs } from "../components/edit/EditControlTabs";
+import { useRoute } from "@react-navigation/native";
 
 function CabinetModel({ color }) {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -21,17 +21,10 @@ function CabinetModel({ color }) {
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const Create3DScreen = ({ navigation, route }) => {
-  // 이전 단계(예: Create3DShapeScreen)에서 전달받을 값
-  const { cabinetId, cabinetColor } = route?.params || {};
-
-  const filteredTabs = defaultTabs.filter((tab) => tab.id !== "delete");
-  const [activeTab, setActiveTab] = useState(filteredTabs[2]?.id || "color"); // 기본 탭을 색으로 하고 싶다면 조정
-
-  // 이 화면에서 사용하는 현재 캐비넷 색
-  const [currentCabinetColor, setCurrentCabinetColor] = useState(
-    cabinetColor || "#C8B5E7"
-  );
+const Create3DScreen = ({ navigation }) => {
+  const route = useRoute();
+  const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
+  console.log("itemShape >>>", itemShape);
 
   const handleCancel = () => {
     navigation.goBack();
@@ -52,7 +45,6 @@ const Create3DScreen = ({ navigation, route }) => {
     <Layout>
       <View style={styles.container}>
         <EditHeader onCancel={handleCancel} onDone={handleDone} />
-
         <Canvas
           camera={{ position: [0, 0, 5], fov: 60 }}
           style={{ backgroundColor: "white" }}

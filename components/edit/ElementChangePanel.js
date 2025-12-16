@@ -1,36 +1,7 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from "react-native";
 import EditPanelActions from "./EditPanelActions";
-
-const elements = [
-  {
-    id: "book",
-    label: "책",
-    icon: require("../../assets/images/edit/book.png"),
-  },
-  {
-    id: "audio",
-    label: "오디오",
-    icon: require("../../assets/images/edit/audio.png"),
-  },
-  {
-    id: "music",
-    label: "음악",
-    icon: require("../../assets/images/edit/music.png"),
-  },
-  {
-    id: "game",
-    label: "게임",
-    icon: require("../../assets/images/edit/game.png"),
-  },
-];
+import { threeDItems } from "../../constants/threeDItems";
 
 const ElementChangePanel = () => {
   return (
@@ -41,20 +12,12 @@ const ElementChangePanel = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.elementsRow}
       >
-        {elements.map((element) => (
-          <TouchableOpacity
-            key={element.id}
-            style={styles.elementItem}
-            onPress={() => {}}
-          >
+        {threeDItems.map((element) => (
+          <TouchableOpacity key={element.key} style={styles.elementItem} onPress={() => {}}>
             <View style={styles.iconContainer}>
-              <Image
-                source={element.icon}
-                style={styles.iconImage}
-                resizeMode="contain"
-              />
+              <Image source={element.image} style={styles.iconImage} resizeMode="contain" />
             </View>
-            <Text style={styles.elementLabel}>{element.label}</Text>
+            <Text style={styles.elementLabel}>{element.labelKo}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

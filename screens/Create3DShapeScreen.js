@@ -32,10 +32,13 @@ const Create3DShapeScreen = () => {
         buttonText="다음"
         buttonLayoutProps={{ marginTop: 32 }}
         onPress={() => {
-          navigation.navigate("Create3D", {
-            cabinetId,
-            cabinetColor,
-            selectedShape,
+          console.log("Navigate to Create3D triggered");
+          navigation.navigate("MainTabs", {
+            screen: "MainStack",
+            params: {
+              screen: "Create3D",
+              params: { itemShape: selectedShape },
+            },
           });
         }}
       />
