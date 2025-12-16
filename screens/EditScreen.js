@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import CustomHeader from '../components/CustomHeader';
 import BottomSheet from '../components/create/BottomSheet';
 import AlertModal from '../components/common/AlertModal';
@@ -7,6 +7,7 @@ import UnifiedTemplate from '../components/create/template-option/UnifiedTemplat
 import { useRecordDetailQuery } from '../hooks/useRecordDetailQuery';
 import { usePatchRecordMutation } from '../hooks/detail/usePatchRecordMutation';
 import { useUploadRecordImagesMutation } from '../hooks/useUploadRecordImagesMutation';
+import Layout from '../layouts/Layout';
 
 const templateOptions = [
     { template: "basic", label: "기본 템플릿", description: "사진, 제목, 내용" },
@@ -116,14 +117,13 @@ const EditScreen = ({ route, navigation }) => {
         const c = current.filter(Boolean);
 
         const added = c.filter((x) => !o.includes(x));
-        const removed = o.filter((x) => !c.includes(x));
+        // const removed = o.filter((x) => !c.includes(x));
 
-        return { added, removed };
+        return { added };
     };
 
     const isLocalUri = (uri) =>
-        typeof uri === "string" &&
-        (uri.startsWith("file://") || uri.startsWith("content://"));
+        typeof uri === "string" && (uri.startsWith("file://") || uri.startsWith("content://"));
 
     const handleSubmit = async () => {
         if (!data) return;
@@ -198,77 +198,64 @@ const EditScreen = ({ route, navigation }) => {
     };
 
     return (
-        <View>
-            <View style={{ paddingTop: 12 }}>
+        <Layout>
+            <View>
                 <CustomHeader
                     title={templateOptions.find(t => t.template === selectedTemplate)?.label}
-                    // onBackPress={handleBackPress}
                     showDropDown={true}
                     onPressDropDown={() => setIsSheetVisible(true)}
+                    showAction={true}
+                    onPressAction={handleSubmit}
                 />
-                <TouchableOpacity style={styles.finishButton} onPress={handleSubmit}>
-                    <Text>완료</Text>
-                </TouchableOpacity>
+
+                {/* 템플릿 */}
+                <UnifiedTemplate
+                    templateKey={selectedTemplate} // "basic" | "content" | "culture"
+                    config={data.category}
+                    draft={draft}
+                    setDraft={setDraft}
+                    images={images}
+                    setImages={setImages}
+                />
+
+                {/* 템플릿 설정 바텀 시트 */}
+                <BottomSheet
+                    isVisible={isSheetVisible}
+                    onClose={() => setIsSheetVisible(false)}
+                    data={templateOptions}
+                    selectedKey={selectedTemplate}
+                    onSelect={(item) => {
+                        setIsSheetVisible(false);
+
+                        // 변경하려는 템플릿이 현재와 다르면 경고창 띄움
+                        if (item.template !== selectedTemplate) {
+                            setPendingTemplate(item.template);      // 변경하려는 템플릿 저장
+                            setModalVisible(true);                  // 경고창 띄우기
+                        }
+                    }}
+                />
+
+                {/* 경고창 모달 */}
+                <AlertModal
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    message={"템플릿을 변경하면 \n작성 중인 일부 내용이 삭제될 수 있습니다."}
+                    message2={"정말 변경하시겠습니까?"}
+                    confirmMsg="변경하기"
+                    onConfirm={() => {
+                        setSelectedTemplate(pendingTemplate);   // 템플릿 진짜로 바꾸기
+                        setPendingTemplate(null);               // 초기화
+                        setModalVisible(false);                 // 모달 닫기
+                    }}
+                    onCancel={() => {
+                        setModalVisible(false);                 // 모달 닫기
+                        setPendingTemplate(null);               // 초기화
+                    }}
+                />
+
             </View>
-
-            {/* 템플릿 */}
-            <UnifiedTemplate
-                templateKey={selectedTemplate} // "basic" | "content" | "culture"
-                config={data.category}
-                draft={draft}
-                setDraft={setDraft}
-                images={images}
-                setImages={setImages}
-            />
-
-            {/* 템플릿 설정 바텀 시트 */}
-            <BottomSheet
-                isVisible={isSheetVisible}
-                onClose={() => setIsSheetVisible(false)}
-                data={templateOptions}
-                selectedKey={selectedTemplate}
-                onSelect={(item) => {
-                    setIsSheetVisible(false);
-
-                    // 변경하려는 템플릿이 현재와 다르면 경고창 띄움
-                    if (item.template !== selectedTemplate) {
-                        setPendingTemplate(item.template);      // 변경하려는 템플릿 저장
-                        setModalVisible(true);                  // 경고창 띄우기
-                    }
-                }}
-            />
-
-            {/* 경고창 모달 */}
-            <AlertModal
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-                message={"템플릿을 변경하면 \n작성 중인 일부 내용이 삭제될 수 있습니다."}
-                message2={"정말 변경하시겠습니까?"}
-                confirmMsg="변경하기"
-                onConfirm={() => {
-                    setSelectedTemplate(pendingTemplate);   // 템플릿 진짜로 바꾸기
-                    setPendingTemplate(null);               // 초기화
-                    setModalVisible(false);                 // 모달 닫기
-                }}
-                onCancel={() => {
-                    setModalVisible(false);                 // 모달 닫기
-                    setPendingTemplate(null);               // 초기화
-                }}
-            />
-
-        </View>
+        </Layout>
     );
 };
-
-const styles = StyleSheet.create({
-    finishButton: {
-        position: "absolute",
-        top: 25,
-        right: 16,
-        padding: 6,
-        backgroundColor: "transparent",
-        zIndex: 10,
-    },
-});
 
 export default EditScreen;

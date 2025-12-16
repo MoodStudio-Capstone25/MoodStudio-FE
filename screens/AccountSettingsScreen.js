@@ -4,14 +4,18 @@ import CustomHeader from '../components/CustomHeader';
 import Layout from '../layouts/Layout';
 import SettingInfoItem from '../components/setting/SettingInfoItem';
 import SettingToggleItem from '../components/setting/SettingToggleItem';
+import { useQueryClient } from '@tanstack/react-query';
 
 const AccountSettingsScreen = () => {
     const [hideInfo, setHideInfo] = useState(false);
 
+    const queryClient = useQueryClient();
+    const user = queryClient.getQueryData(["me"]);
+
     return (
         <Layout>
             <CustomHeader title={"계정 설정"} />
-            <SettingInfoItem label="계정 정보" value="kakao123@naver.com" />
+            <SettingInfoItem label="계정 정보" value={user?.email ?? ""} />
             <SettingToggleItem
                 value={hideInfo}
                 onValueChange={setHideInfo}

@@ -5,16 +5,23 @@ import { useNavigation } from "@react-navigation/native";
 import { Fonts } from '../styles/Fonts';
 import BackIcon from '../assets/icons/back.svg';
 
-const CustomHeader = ({ title, onBackPress, showDropDown = false, onPressDropDown }) => {
+const CustomHeader = ({
+    title,
+    onBackPress,
+    showDropDown = false,
+    onPressDropDown,
+    // 우측 액션 버튼
+    showAction = false,
+    actionLabel = "완료",
+    onPressAction,
+}) => {
     const navigation = useNavigation();
 
     const handleBack = () => {
-        if (onBackPress) {
-            onBackPress();
-        } else {
-            navigation.goBack();
-        }
+        if (onBackPress) onBackPress();
+        else navigation.goBack();
     };
+
 
     return (
         <View style={styles.headerStyle}>
@@ -25,11 +32,19 @@ const CustomHeader = ({ title, onBackPress, showDropDown = false, onPressDropDow
             <View style={styles.titleContainer}>
                 <Text style={[styles.headerTitleStyle, Fonts.h2]}>{title}</Text>
                 {showDropDown && (
-                    <TouchableOpacity onPress={onPressDropDown}  hitSlop={{ top: 10, bottom: 10, left: 120, right: 10 }} style={styles.iconWrapper}>
+                    <TouchableOpacity onPress={onPressDropDown} hitSlop={{ top: 10, bottom: 10, left: 120, right: 10 }} style={styles.iconWrapper}>
                         <Ionic name="chevron-down-outline" size={24} color="#333" />
                     </TouchableOpacity>
                 )}
             </View>
+
+            {showAction && (
+                <TouchableOpacity onPress={onPressAction} style={styles.actionButton}>
+                    <Text style={[Fonts.body3]}>
+                        {actionLabel}
+                    </Text>
+                </TouchableOpacity>
+            )}
         </View>
     );
 }
@@ -59,8 +74,14 @@ const styles = StyleSheet.create({
     headerTitleStyle: {
         textAlign: 'center',
     },
-    iconWrapper: {
-        //marginLe,  // 제목과 아이콘 사이 간격 조절
+    iconWrapper: {},
+
+    // 우측 버튼
+    actionButton: {
+        position: "absolute",
+        right: 16,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
     },
 })
 

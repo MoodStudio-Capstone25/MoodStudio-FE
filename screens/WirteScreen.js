@@ -5,7 +5,6 @@ import CustomHeader from "../components/CustomHeader";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import BottomSheet from "../components/create/BottomSheet";
 import AlertModal from "../components/common/AlertModal";
-import { Fonts } from "../styles/Fonts";
 import UnifiedTemplate from "../components/create/template-option/UnifiedTemplate";
 import { useCreateRecordMutation } from "../hooks/useCreateRecordMutation";
 import { useUploadRecordImagesMutation } from "../hooks/useUploadRecordImagesMutation";
@@ -28,29 +27,36 @@ const templates = [
   },
 ];
 
+const INITIAL_DRAFT = {
+  content_title: "",
+  title: "",
+  creator: "",
+  date: "",
+  rating: 0,
+  story: "",
+  scenes: "",
+  thoughts: "",
+  companions: "",
+  location: "",
+  cast: "",
+};
+
 const WriteScreen = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { selectedCategoryId } = route.params;
 
   const [sheetVisible, setSheetVisible] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState(() =>
-    templates.find((t) => t.template === "basic")
-  );
+  const [selectedTemplate, setSelectedTemplate] = useState(templates[0]);
   const [modalVisible, setModalVisible] = useState(false);
   const [pendingTemplate, setPendingTemplate] = useState(null);
-  const [draft, setDraft] = useState({
-    content_title: "",
-    title: "",
-    creator: "",
-    date: "",
-    rating: 0,
-    story: "",
-    scenes: "",
-    thoughts: "",
-    companions: "",
-    location: "",
-    cast: "",
-  });
+
+  const [draft, setDraft] = useState(INITIAL_DRAFT);
+  const [images, setImages] = useState([]);
+
+  //mutation 훅 선언
+  const createRecordMutation = useCreateRecordMutation();
+  const uploadImagesMutation = useUploadRecordImagesMutation();
 
   const getCategoriesID = () => {
     switch (selectedCategoryId) {
@@ -134,11 +140,6 @@ const WriteScreen = () => {
 
   const openSheet = () => setSheetVisible(true);
   const closeSheet = () => setSheetVisible(false);
-  const [images, setImages] = useState([]);
-
-  //mutation 훅 선언
-  const createRecordMutation = useCreateRecordMutation();
-  const uploadImagesMutation = useUploadRecordImagesMutation();
 
   //템플릿 변경 로직
   const hasAnyContent = () => {
@@ -150,6 +151,7 @@ const WriteScreen = () => {
     const imagesHas = Array.isArray(images) && images.length > 0;
     return draftHas || imagesHas;
   };
+
   const onSelectTemplate = (item) => {
     if (item.template === selectedTemplate.template) return;
 
@@ -165,19 +167,7 @@ const WriteScreen = () => {
   const handleConfirmChange = () => {
     if (pendingTemplate) {
       setSelectedTemplate(pendingTemplate);
-      setDraft({
-        content_title: "",
-        title: "",
-        creator: "",
-        date: "",
-        rating: 0,
-        story: "",
-        scenes: "",
-        thoughts: "",
-        companions: "",
-        location: "",
-        cast: "",
-      });
+      setDraft(INITIAL_DRAFT);
       setImages([]);
       setPendingTemplate(null);
       setModalVisible(false);
@@ -186,16 +176,10 @@ const WriteScreen = () => {
   };
 
   // 뒤로가기 로직
-  const navigation = useNavigation();
   const [backModalVisible, setBackModalVisible] = useState(false);
 
   const handleBackPress = () => {
-    const hasContent = Object.values(draft).some((v) => {
-      if (typeof v === "string") return v.trim() !== "";
-      if (typeof v === "number") return v !== 0;
-      return false;
-    });
-    if (hasContent) {
+    if (hasAnyContent()) {
       setBackModalVisible(true);
     } else {
       navigation.goBack();
@@ -237,21 +221,15 @@ const WriteScreen = () => {
 
   return (
     <Layout>
-      <View>
-        <CustomHeader
-          title={selectedTemplate.label}
-          onBackPress={handleBackPress}
-          showDropDown={true}
-          onPressDropDown={openSheet}
-        />
-
-        <TouchableOpacity
-          style={[styles.finishButton, Fonts.body3]}
-          onPress={onSubmit}
-        >
-          <Text>작성완료</Text>
-        </TouchableOpacity>
-      </View>
+      <CustomHeader
+        title={selectedTemplate.label}
+        onBackPress={handleBackPress}
+        showDropDown={true}
+        onPressDropDown={openSheet}
+        showAction={true}
+        actionLabel="작성완료"
+        onPressAction={onSubmit}
+      />
 
       {/* 템플릿 */}
       <UnifiedTemplate
@@ -267,11 +245,7 @@ const WriteScreen = () => {
         isVisible={sheetVisible}
         onClose={closeSheet}
         onSelect={onSelectTemplate}
-        data={templates.map((t) => ({
-          template: t.template,
-          label: t.label,
-          description: t.description,
-        }))}
+        data={templates}
         selectedKey={selectedTemplate.template}
       />
 
@@ -304,16 +278,5 @@ const WriteScreen = () => {
     </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  finishButton: {
-    position: "absolute",
-    top: 12,
-    right: 16,
-    padding: 6,
-    backgroundColor: "transparent",
-    zIndex: 10,
-  },
-});
 
 export default WriteScreen;
