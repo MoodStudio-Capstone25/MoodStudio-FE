@@ -39,3 +39,12 @@ export const fetchRecordDetail = async (id) => {
   const res = await apiClient.get(`/records/${id}/`);
   return res.data; // 서버 응답 객체 그대로 반환
 };
+
+// 글 수정
+export const patchRecord = async ({ id, payload }) => {
+  const response = await apiClient.patch(
+    `/records/${id}/edit/`,
+    payload
+  );
+  return response.data;
+};
