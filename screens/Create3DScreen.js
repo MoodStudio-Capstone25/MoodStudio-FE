@@ -18,7 +18,7 @@ function CabinetModel() {
 const Create3DScreen = ({ navigation }) => {
   const route = useRoute();
   const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
-  console.log("itemShape >>>", itemShape);
+  const recordId = route?.params?.recordId.id; // api용 게시글 id
 
   const handleCancel = () => {
     navigation.goBack();

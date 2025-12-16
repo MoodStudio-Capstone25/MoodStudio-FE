@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Layout from "../layouts/Layout";
 import CustomHeader from "../components/CustomHeader";
 import CustomButton from "../components/common/CustomButton";
@@ -8,6 +8,8 @@ import ThreeDShapeList from "../components/create/3d-shape/ThreeDShapeList";
 import SectionTitle from "../components/create/common/SectionTitle";
 
 const Create3DShapeScreen = () => {
+  const route = useRoute();
+  const recordId = route?.params?.recordId;
   const [selectedShape, setSelectedShape] = useState(null);
   const navigation = useNavigation();
 
@@ -27,7 +29,7 @@ const Create3DShapeScreen = () => {
           console.log("Navigate to Create3D triggered");
           navigation.navigate("MainTabs", {
             screen: "MainStack",
-            params: { screen: "Create3D", params: { itemShape: selectedShape } },
+            params: { screen: "Create3D", params: { itemShape: selectedShape, recordId } },
           });
         }}
       />
