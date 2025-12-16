@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Layout from "../layouts/Layout";
 import CustomHeader from "../components/CustomHeader";
 import CustomButton from "../components/common/CustomButton";
@@ -10,6 +10,8 @@ import SectionTitle from "../components/create/common/SectionTitle";
 const Create3DShapeScreen = () => {
   const [selectedShape, setSelectedShape] = useState(null);
   const navigation = useNavigation();
+  const route = useRoute();
+  const { cabinetId, cabinetColor } = route.params || {};
 
   return (
     <Layout>
@@ -30,10 +32,10 @@ const Create3DShapeScreen = () => {
         buttonText="다음"
         buttonLayoutProps={{ marginTop: 32 }}
         onPress={() => {
-          console.log("Navigate to Create3D triggered");
-          navigation.navigate("MainTabs", {
-            screen: "MainStack",
-            params: { screen: "Create3D" },
+          navigation.navigate("Create3D", {
+            cabinetId,
+            cabinetColor,
+            selectedShape,
           });
         }}
       />

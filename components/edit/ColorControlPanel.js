@@ -43,7 +43,10 @@ const ColorControlPanel = ({ cabinetId, cabinetColor, onColorChange }) => {
   const handleSelectCabinetColor = (color) => {
     setSelectedCabinetColor(color);
 
-    if (!cabinetId) return;
+    if (!cabinetId) {
+      onColorChange?.(color);
+      return;
+    }
 
     updateCabinet(
       {
