@@ -3,12 +3,20 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from "../../styles/Fonts";
 
-const ReviewCard = ({ id, content_title, scenes, story, thoughts, reviewImage = null }) => {
+const ReviewCard = ({ id, content_title, scenes, story, thoughts, image_urls = [] }) => {
   const navigation = useNavigation();
+  const first = Array.isArray(image_urls) ? image_urls[0] : null;
 
   const mergedContents = [scenes, story, thoughts]
     .filter((v) => typeof v === "string" && v.trim() !== "")
     .join(" ");
+
+  const imageUrl =
+    typeof first === "string"
+      ? first.trim()
+      : typeof first?.image_url === "string"
+      ? first.image_url.trim()
+      : null;
 
   return (
     <TouchableOpacity
@@ -38,9 +46,9 @@ const ReviewCard = ({ id, content_title, scenes, story, thoughts, reviewImage = 
         ) : null}
       </View>
 
-      {typeof reviewImage === "string" && reviewImage.trim() !== "" && (
+      {imageUrl && (
         <View style={[styles.imageWrapper, styles.image]}>
-          <Image style={styles.image} source={{ uri: reviewImage }} />
+          <Image style={styles.image} source={{ uri: imageUrl }} />
         </View>
       )}
     </TouchableOpacity>

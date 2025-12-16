@@ -2,7 +2,7 @@ import { apiClient } from "../apiClient";
 
 export const fetchRecords = async () => {
   const response = await apiClient.get("/records/");
-  console.log("fetchRecords api >>>", response);
+  // console.log("fetchRecords api >>>", response);
   return response.data;
 };
 
