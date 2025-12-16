@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Fonts } from "../../styles/Fonts";
 
-const ReviewCard = ({ id, title, scenes, story, thoughts, reviewImage = null }) => {
+const ReviewCard = ({ id, content_title, scenes, story, thoughts, reviewImage = null }) => {
   const navigation = useNavigation();
 
   const mergedContents = [scenes, story, thoughts]
@@ -21,16 +21,21 @@ const ReviewCard = ({ id, title, scenes, story, thoughts, reviewImage = null }) 
       }
     >
       <View style={styles.textWrapper}>
-        {title && (
+        {content_title ? (
           <Text style={[Fonts.subtitle2, styles.title]} numberOfLines={1}>
-            {title}
+            {content_title}
           </Text>
-        )}
-        {mergedContents !== "" && (
-          <Text style={[styles.contents, Fonts.body3]} numberOfLines={title ? 2 : 3}>
+        ) : null}
+
+        {mergedContents ? (
+          <Text style={[styles.contents, Fonts.body3]} numberOfLines={content_title ? 2 : 3}>
             {mergedContents}
           </Text>
-        )}
+        ) : !content_title ? (
+          <Text style={[styles.contents, Fonts.body3]} numberOfLines={3}>
+            작성하신 내용이 없습니다.
+          </Text>
+        ) : null}
       </View>
 
       {typeof reviewImage === "string" && reviewImage.trim() !== "" && (

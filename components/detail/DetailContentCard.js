@@ -1,19 +1,17 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { Component } from 'react'
-import { Fonts } from '../../styles/Fonts';
-import ContentCard from './ContentCard';
-import ImageContent from './ImageContent';
-import SaveStarRating from './SaveStarRating';
-import { detailDummy } from '../../mock/detailDummy';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { Component } from "react";
+import { Fonts } from "../../styles/Fonts";
+import ContentCard from "./ContentCard";
+import ImageContent from "./ImageContent";
+import SaveStarRating from "./SaveStarRating";
+import { detailDummy } from "../../mock/detailDummy";
 
 const DetailContentCard = ({ detail }) => {
   const data = detail;
 
   return (
     <ScrollView style={styles.container}>
-      {!!data?.image_urls && (
-        <ImageContent imgUrls={data.image_urls} />
-      )}
+      {!!data?.image_urls && <ImageContent imgUrls={data.image_urls} />}
 
       {/* category,  */}
       <View style={styles.tagContainer}>
@@ -34,59 +32,42 @@ const DetailContentCard = ({ detail }) => {
         ))}
       </View>
 
-      {/* 제목 title */}
-      {data?.title && (
-        <Text style={[styles.title, Fonts.h2]}>
-          {data.title}
-        </Text>
-      )}
       {/* 제목 content_title */}
-      {data?.content_title && (
-        <Text style={[styles.subtitle, Fonts.body2]}>{data.content_title}</Text>
-      )}
+      {data?.content_title && <Text style={[styles.title, Fonts.h2]}>{data.content_title}</Text>}
+      {/* 제목 title */}
+      {data?.title && <Text style={[styles.subtitle, Fonts.body2]}>{data.title}</Text>}
       {/* 날짜 date */}
-      {data?.date && (
-        <Text style={[styles.date, Fonts.body2]}>{data.date}</Text>
-      )}
+      {data?.date && <Text style={[styles.date, Fonts.body2]}>{data.date}</Text>}
 
       {/* 별점 rating */}
-      {data?.rating != null && (
-        <SaveStarRating value={Number(data.rating)} />
-      )}
+      {data?.rating != null && <SaveStarRating value={Number(data.rating)} />}
 
       {/* 내용 */}
-      {data?.story && (
-        <ContentCard contents={data.story} />
-      )}
-      {data?.scenes && (
-        <ContentCard contents={data.scenes} />
-      )}
-      {data?.thoughts && (
-        <ContentCard contents={data.thoughts} />
-      )}
+      {data?.story && <ContentCard contents={data.story} />}
+      {data?.scenes && <ContentCard contents={data.scenes} />}
+      {data?.thoughts && <ContentCard contents={data.thoughts} />}
 
       {/* 하단 카테고리 */}
       <View style={styles.tagContainer}>
         {data?.location && (
-          <View style={[styles.tag, { backgroundColor: '#AA6ED9' }]}>
+          <View style={[styles.tag, { backgroundColor: "#AA6ED9" }]}>
             <Text style={[Fonts.body3, styles.contentText]}>{data.location}</Text>
           </View>
         )}
-        {data?.companions &&
-          (
-            <View style={[styles.tag, { backgroundColor: '#D97B73' }]}>
-              <Text style={[Fonts.body3, styles.contentText]}>{data.companions}</Text>
-            </View>
-          )}
+        {data?.companions && (
+          <View style={[styles.tag, { backgroundColor: "#D97B73" }]}>
+            <Text style={[Fonts.body3, styles.contentText]}>{data.companions}</Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
 
   tagContainer: {
@@ -95,7 +76,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   tag: {
     backgroundColor: "#FFFFFF",
@@ -119,9 +100,8 @@ const styles = StyleSheet.create({
   stars: { fontSize: 16, marginBottom: 20 },
 
   contentText: {
-    color: '#FFFFFF'
-  }
-
+    color: "#FFFFFF",
+  },
 });
 
-export default DetailContentCard
+export default DetailContentCard;
