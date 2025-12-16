@@ -1,5 +1,5 @@
 import { Animated, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Layout from "../layouts/Layout";
 
 import { ListHeader } from "../components/common/topbar/Header";
@@ -9,11 +9,14 @@ import SortSelector from "../components/list/SortSelector";
 import { listDummy } from "../mock/listDummy";
 import { useRecordsQuery } from "../hooks/useRecordsQuery";
 import { useListStore } from "../stores/useListStore";
+import { useCategoryFilterStore } from "../stores/useCategoryFilterStore";
+import { categories, categoryLabelToId } from "../utils/categories";
 
 const ListScreen = () => {
   const { data: records, isLoading, isError, error } = useRecordsQuery();
+
+  const { selectedCategoryIds } = useCategoryFilterStore();
   // 수정날짜/만든날짜 기능 추가 필요!!
-  // zustand로 정렬 상태 관리
   const { sortBy, sortDirection, setSortBy, setSortDirection } = useListStore();
 
   // 이미지 데이터 형식 수정 필요!!!!!!!!!!!
@@ -43,27 +46,55 @@ const ListScreen = () => {
     setLastScrollY(currentY);
   };
 
+  // 실제 리스트 데이터가 없으면 listDummy 사용
+  const rawList = records && Array.isArray(records) ? records : listDummy;
+
+  // 카테고리별 개수 계산
+  const categoryCounts = useMemo(() => {
+    const countsById = {};
+    rawList.forEach((r) => {
+      const id = categoryLabelToId(r?.category);
+      countsById[id] = (countsById[id] ?? 0) + 1;
+    });
+
+    const total = rawList.length;
+
+    // count가 1 이상, 큰 순서대로 정렬
+    const onlyExisting = categories
+      .map((c) => ({ id: c.id, label: c.label, count: countsById[c.id] ?? 0 }))
+      .filter((c) => c.count >= 1)
+      .sort((a, b) => b.count - a.count);
+
+    // 전체
+    return [{ id: "all", label: "전체", count: total }, ...onlyExisting];
+  }, [rawList]);
+
+  // 카테고리 필터링
+  const filteredList = useMemo(() => {
+    if (!selectedCategoryIds || selectedCategoryIds.length === 0) return rawList;
+    if (selectedCategoryIds.includes("all")) return rawList;
+
+    const selectedSet = new Set(selectedCategoryIds);
+    return rawList.filter((r) => selectedSet.has(categoryLabelToId(r?.category)));
+  }, [rawList, selectedCategoryIds]);
+
   // api
-  let errorMessage = null;
   if (isError) {
+    let errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
     if (error.message === "NO_TOKEN") {
       errorMessage = "로그인이 필요합니다.";
     } else if (error.message === "REFRESH_FAILED") {
       errorMessage = "로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
-    } else {
-      errorMessage = "목록을 불러오는 중 오류가 발생했습니다.";
     }
     console.log(errorMessage);
   }
-  // 실제 리스트 데이터가 없으면 listDummy 사용
-  const listData = records && Array.isArray(records) ? records : listDummy;
 
   return (
     <Layout>
       {/* 상단바 */}
       <ListHeader />
       {/* 카테고리 칩 */}
-      <CategoryChipList />
+      <CategoryChipList categoryList={categoryCounts} />
       {/* 정렬 */}
       <SortSelector
         sortBarHeight={sortBarHeight}
@@ -73,7 +104,11 @@ const ListScreen = () => {
         setSortBy={setSortBy}
       />
       {/* 감상 글 리스트 */}
-      <ReviewList listData={listData} handleScroll={handleScroll} sortDirection={sortDirection} />
+      <ReviewList
+        listData={filteredList}
+        handleScroll={handleScroll}
+        sortDirection={sortDirection}
+      />
     </Layout>
   );
 };
