@@ -211,7 +211,7 @@ const WriteScreen = () => {
       }
 
       // 성공 → 다음 화면
-      navigation.navigate("Create3DShape", { record: created });
+      navigation.navigate("Create3DShape", { recordId: created });
     } catch (error) {
       console.error(error);
     }
