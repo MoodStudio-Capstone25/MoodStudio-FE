@@ -3,17 +3,7 @@ import React from "react";
 import SectionTitle from "../common/SectionTitle";
 import { ScrollView } from "react-native-gesture-handler";
 import { Fonts } from "../../../styles/Fonts";
-
-const threeDImages = [
-  // 추가 예정
-  { id: 0, name: "게임", image: require("../../../assets/images/3d-items/game1.png") },
-  { id: 1, name: "책", image: require("../../../assets/images/3d-items/book1.png") },
-  { id: 2, name: "헤드폰", image: require("../../../assets/images/3d-items/music1.png") },
-  { id: 3, name: "게임", image: require("../../../assets/images/3d-items/game1.png") },
-  { id: 4, name: "책", image: require("../../../assets/images/3d-items/book1.png") },
-  { id: 5, name: "헤드폰", image: require("../../../assets/images/3d-items/music1.png") },
-  { id: 6, name: "게임", image: require("../../../assets/images/3d-items/game1.png") },
-];
+import { threeDItems } from "../../../constants/threeDItems";
 
 const ThreeDItem = ({ itemName, itemImage, isChecked = false, onPress }) => {
   return (
@@ -37,13 +27,13 @@ const ThreeDShapeList = ({ selectedShape, setSelectedShape }) => {
       contentContainerStyle={{ overflow: "visible" }}
       overScrollMode="never"
     >
-      {threeDImages.map((item) => (
+      {threeDItems.map((item) => (
         <ThreeDItem
-          key={item.id}
-          itemName={item.name}
+          key={item.key}
+          itemName={item.labelKo}
           itemImage={item.image}
-          isChecked={item.id === selectedShape}
-          onPress={() => setSelectedShape(item.id)}
+          isChecked={item.key === selectedShape}
+          onPress={() => setSelectedShape(item.key)}
         />
       ))}
     </ScrollView>

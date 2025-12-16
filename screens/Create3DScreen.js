@@ -8,6 +8,7 @@ import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
+import { useRoute } from "@react-navigation/native";
 
 function CabinetModel() {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -15,6 +16,10 @@ function CabinetModel() {
 }
 
 const Create3DScreen = ({ navigation }) => {
+  const route = useRoute();
+  const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
+  console.log("itemShape >>>", itemShape);
+
   const handleCancel = () => {
     navigation.goBack();
   };
@@ -28,10 +33,7 @@ const Create3DScreen = ({ navigation }) => {
     <Layout>
       <View style={styles.container}>
         <EditHeader onCancel={handleCancel} onDone={handleDone} />
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 60 }}
-          style={{ backgroundColor: "white" }}
-        >
+        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={{ backgroundColor: "white" }}>
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
           <Bounds fit clip observe margin={1.0}>

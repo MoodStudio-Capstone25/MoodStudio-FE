@@ -16,14 +16,8 @@ const Create3DShapeScreen = () => {
       <CustomHeader title="3D 요소 모양 설정" />
 
       <View style={styles.threeDLayout}>
-        <SectionTitle
-          titleText="캐비넷에 배치할 3D 요소를 선택하세요"
-          highlightColor="#F2E1FF"
-        />
-        <ThreeDShapeList
-          selectedShape={selectedShape}
-          setSelectedShape={setSelectedShape}
-        />
+        <SectionTitle titleText="캐비넷에 배치할 3D 요소를 선택하세요" highlightColor="#F2E1FF" />
+        <ThreeDShapeList selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
       </View>
 
       <CustomButton
@@ -33,7 +27,7 @@ const Create3DShapeScreen = () => {
           console.log("Navigate to Create3D triggered");
           navigation.navigate("MainTabs", {
             screen: "MainStack",
-            params: { screen: "Create3D" },
+            params: { screen: "Create3D", params: { itemShape: selectedShape } },
           });
         }}
       />
