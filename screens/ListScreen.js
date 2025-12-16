@@ -57,7 +57,6 @@ const ListScreen = () => {
   }
   // 실제 리스트 데이터가 없으면 listDummy 사용
   const listData = records && Array.isArray(records) ? records : listDummy;
-  console.log("records data >>>", records);
 
   return (
     <Layout>
