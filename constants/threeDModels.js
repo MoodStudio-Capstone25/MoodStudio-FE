@@ -3,7 +3,7 @@ export const SHAPE_MODELS = {
   ball2: require("../assets/objects/ball2.glb"),
   ball3: require("../assets/objects/ball3.glb"),
 
-  balloon: require("../assets/objects/balloon.glb"),
+  // balloon: require("../assets/objects/balloon.glb"),
 
   book1: require("../assets/objects/book1.glb"),
   book2: require("../assets/objects/book2.glb"),
@@ -15,7 +15,7 @@ export const SHAPE_MODELS = {
   game1: require("../assets/objects/game1.glb"),
   game2: require("../assets/objects/game2.glb"),
 
-  hotdog: require("../assets/objects/hotdog.glb"),
+  // hotdog: require("../assets/objects/hotdog.glb"),
   icecream: require("../assets/objects/icecream.glb"),
 
   movie1: require("../assets/objects/movie1.glb"),
