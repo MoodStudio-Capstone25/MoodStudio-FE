@@ -39,7 +39,12 @@ function CabinetContents({ items = [] }) {
       {items
         .filter((it) => it?.shape && SHAPE_MODELS[it.shape]) // 유효한 것만
         .map((it) => (
-          <ItemModel key={it.id} shape={it.shape} position={it.position ?? [0, 0, 0]} scale={1} />
+          <ItemModel
+            key={it.id}
+            shape={it.shape}
+            position={it.position ?? [0, 0, 0]}
+            scale={1}
+          />
         ))}
     </group>
   );
@@ -54,7 +59,9 @@ const Create3DScreen = () => {
   const recordId = route?.params?.recordId.id; // api용 게시글 id
   const { mutate: createElement } = useCreateElementMutation();
 
-  const [currentCabinetColor, setCurrentCabinetColor] = useState(cabinetColor || "#ffffff");
+  const [currentCabinetColor, setCurrentCabinetColor] = useState(
+    cabinetColor || "#ffffff"
+  );
   const [activeTab, setActiveTab] = useState(defaultTabs[0].id);
   const [filteredTabs] = useState(defaultTabs);
 
@@ -67,20 +74,36 @@ const Create3DScreen = () => {
   });
 
   // 슬라이더 값(0~100). 50이 “중앙(=오프셋 0)”이 되게 설계
-  const [posUI, setPosUI] = useState({ updown: 50, leftright: 50, frontback: 50 });
+  const [posUI, setPosUI] = useState({
+    updown: 50,
+    leftright: 50,
+    frontback: 50,
+  });
 
   // 슬라이더 변화 -> 실제 월드 좌표 반영
   useEffect(() => {
-    const x = Math.round(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
-    const y = Math.round(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
-    const z = Math.round(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
+    const x = Math.round(
+      sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max)
+    );
+    const y = Math.round(
+      sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max)
+    );
+    const z = Math.round(
+      sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max)
+    );
     setPosition({ x, y, z });
   }, [posUI]);
 
   // items 생성 시 slot 대신 “직접 position”을 쓰도록 바꿈
   const items =
     itemShape && SHAPE_MODELS[itemShape]
-      ? [{ id: "preview", shape: itemShape, position: [position.x, position.y, position.z] }]
+      ? [
+          {
+            id: "preview",
+            shape: itemShape,
+            position: [position.x, position.y, position.z],
+          },
+        ]
       : [];
 
   const handleCancel = () => {
@@ -91,7 +114,10 @@ const Create3DScreen = () => {
     if (!recordId || !itemShape) {
       navigation.navigate("MainTabs", {
         screen: "MainStack",
-        params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+        params: {
+          screen: "Main",
+          params: { updatedColor: currentCabinetColor },
+        },
       });
       return;
     }
@@ -101,28 +127,39 @@ const Create3DScreen = () => {
       record: recordId,
       shape: itemShape,
       color: "basic",
-      angle_x: 10,
-      angle_y: 20,
-      angle_z: 30,
+      angle_x: 0,
+      angle_y: 0,
+      angle_z: 0,
       position_x: position.x,
       position_y: position.y,
       position_z: position.z,
       size: 1,
     };
 
+    console.log("createElement body >>>", body);
+
     createElement(body, {
       onSuccess: () => {
         navigation.navigate("MainTabs", {
           screen: "MainStack",
-          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+          params: {
+            screen: "Main",
+            params: { updatedColor: currentCabinetColor },
+          },
         });
       },
       onError: (err) => {
-        console.log("create element error >>>", err?.response?.data || err?.message);
+        console.log(
+          "create element error >>>",
+          err?.response?.data || err?.message
+        );
         // 실패해도 화면 이동은 하게 할지/막을지는 정책에 따라 선택
         navigation.navigate("MainTabs", {
           screen: "MainStack",
-          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+          params: {
+            screen: "Main",
+            params: { updatedColor: currentCabinetColor },
+          },
         });
       },
     });
@@ -151,7 +188,11 @@ const Create3DScreen = () => {
           />
         </Canvas>
 
-        <EditControlTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={filteredTabs} />
+        <EditControlTabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          tabs={filteredTabs}
+        />
 
         <EditControlPanel
           activeTab={activeTab}
