@@ -37,7 +37,7 @@ const Create3DShapeScreen = () => {
             screen: "MainStack",
             params: {
               screen: "Create3D",
-              params: { itemShape: selectedShape },
+              params: { itemShape: selectedShape, cabinetId, cabinetColor },
             },
           });
         }}

@@ -4,12 +4,18 @@ import { View, StyleSheet } from "react-native";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
 import { Bounds } from "@react-three/drei/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Layout from "../layouts/Layout";
 import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
-import { useRoute } from "@react-navigation/native";
+
+// 지원하는 3D 모델 사전 정의
+const SHAPE_MODELS = {
+  sports2: require("../assets/objects/sports2.glb"),
+  // 실제 파일명에 맞게 추가
+};
 
 function CabinetModel({ color }) {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -21,21 +27,39 @@ function CabinetModel({ color }) {
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const Create3DScreen = ({ navigation }) => {
+function ModelLoader({ shape }) {
+  if (!shape || !SHAPE_MODELS[shape]) {
+    console.warn(`Model ${shape} not found`);
+    return null;
+  }
+
+  const { scene } = useGLTF(SHAPE_MODELS[shape]);
+  return <primitive object={scene} scale={0.5} position={[0, 1, 0]} />;
+}
+
+const Create3DScreen = () => {
+  const navigation = useNavigation();
   const route = useRoute();
-  const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
+
+  const itemShape = route?.params?.itemShape;
+  const { cabinetId, cabinetColor } = route.params || {};
   console.log("itemShape >>>", itemShape);
+
+  const [currentCabinetColor, setCurrentCabinetColor] = useState(
+    cabinetColor || "#ffffff"
+  );
+  const [activeTab, setActiveTab] = useState(0);
+  const [filteredTabs] = useState(defaultTabs);
 
   const handleCancel = () => {
     navigation.goBack();
   };
 
   const handleDone = () => {
-    // 요소 배치까지 끝낸 뒤 메인으로 돌아가면서 최신 캐비넷 색 전달
     navigation.navigate("MainTabs", {
       screen: "MainStack",
       params: {
-        screen: "Main", // MainScreen 이름에 맞게
+        screen: "Main",
         params: { updatedColor: currentCabinetColor },
       },
     });
@@ -45,15 +69,16 @@ const Create3DScreen = ({ navigation }) => {
     <Layout>
       <View style={styles.container}>
         <EditHeader onCancel={handleCancel} onDone={handleDone} />
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 60 }}
-          style={{ backgroundColor: "white" }}
-        >
+
+        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={styles.canvas}>
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
+
           <Bounds fit clip observe margin={1.0}>
             <CabinetModel color={currentCabinetColor} />
+            {itemShape && <ModelLoader shape={itemShape} />}
           </Bounds>
+
           <OrbitControls
             enableZoom
             enablePan={false}
@@ -81,7 +106,14 @@ const Create3DScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  canvas: {
+    flex: 1,
+    backgroundColor: "white",
+  },
 });
 
 export default Create3DScreen;
