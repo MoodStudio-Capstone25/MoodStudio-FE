@@ -5,15 +5,20 @@ import AngleControlPanel from "./AngleControlPanel";
 import ColorControlPanel from "./ColorControlPanel";
 import ElementChangePanel from "./ElementChangePanel";
 import ElementDeletePanel from "./ElementDeletePanel";
+import PositionControlPanel from "./PositionControlPanel";
 
 const EditControlPanel = ({
   activeTab,
   cabinetId,
   cabinetColor,
   onColorChange,
+  posUI,
+  onChangePosUI,
 }) => {
   const renderPanel = () => {
     switch (activeTab) {
+      case "position":
+        return <PositionControlPanel value={posUI} onChange={onChangePosUI} />;
       case "size":
         return <SizeControlPanel />;
       case "angle":
