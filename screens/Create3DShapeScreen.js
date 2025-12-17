@@ -8,6 +8,8 @@ import ThreeDShapeList from "../components/create/3d-shape/ThreeDShapeList";
 import SectionTitle from "../components/create/common/SectionTitle";
 
 const Create3DShapeScreen = () => {
+  const route = useRoute();
+  const recordId = route?.params?.recordId;
   const [selectedShape, setSelectedShape] = useState(null);
   const navigation = useNavigation();
   const route = useRoute();
@@ -39,6 +41,7 @@ const Create3DShapeScreen = () => {
               screen: "Create3D",
               params: { itemShape: selectedShape, cabinetId, cabinetColor },
             },
+            params: { screen: "Create3D", params: { itemShape: selectedShape, recordId } },
           });
         }}
       />

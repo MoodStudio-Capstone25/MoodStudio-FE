@@ -44,6 +44,8 @@ const Create3DScreen = () => {
   const itemShape = route?.params?.itemShape;
   const { cabinetId, cabinetColor } = route.params || {};
   console.log("itemShape >>>", itemShape);
+  const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
+  const recordId = route?.params?.recordId.id; // api용 게시글 id
 
   const [currentCabinetColor, setCurrentCabinetColor] = useState(
     cabinetColor || "#ffffff"
