@@ -16,8 +16,6 @@ const LoginSection = ({ navigation, height }) => {
   // 03. 카카오 인가코드로 JWT 토큰 받기
   const handleKakaoRedirect = async (url) => {
     try {
-      // console.log("handleKakaoRedirect url >>>", url);
-
       if (loading) return;
       setLoading(true);
 
@@ -77,16 +75,15 @@ const LoginSection = ({ navigation, height }) => {
       await SecureStore.setItemAsync("access", tokens.access);
       await SecureStore.setItemAsync("refresh", tokens.refresh);
 
-      // user를 React Query 캐시에 저장 (설정 화면에서 꺼내 쓰기 위함)
+      // user를 폰에 저장 (영구 저장)
       if (user) {
+        await SecureStore.setItemAsync("me", JSON.stringify(user));
+
         queryClient.setQueryData(["me"], user);
       }
+      // console.log("user:", user); // 사용자 정보(설정 페이지에 사용)
 
       navigation.replace("MainTabs");
-
-      // console.log("tokens:", tokens);
-      console.log("user:", user); // 사용자 정보(설정 페이지에 사용)
-      //////////
     } catch (error) {
       const st = error?.response?.status;
       const d = error?.response?.data;

@@ -1,5 +1,5 @@
 export const categories = [
-  { id: "book", label: "책" },
+  { id: "book", label: "도서" },
   { id: "movie", label: "영화/드라마" },
   { id: "webtoon", label: "웹툰/웹소설/만화" },
   { id: "music", label: "음악" },

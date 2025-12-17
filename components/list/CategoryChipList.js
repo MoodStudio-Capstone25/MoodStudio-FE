@@ -35,7 +35,7 @@ const CategoryChipList = ({ categoryList = [] }) => {
       style={styles.listContainer}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ overflow: "visible" }}
+      contentContainerStyle={{ overflow: "visible", flexGrow: 0, alignItems: "center" }}
       overScrollMode="never"
     >
       {categoryList.map((item) => {
@@ -62,6 +62,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: 24,
     height: 42,
+
+    // ScrollView가 세로로 늘어나지 않게
+    flexGrow: 0,
+    flexShrink: 0,
 
     overflow: "visible", // 안드로이드
   },
