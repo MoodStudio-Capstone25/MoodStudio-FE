@@ -1,58 +1,107 @@
-import React, { useState, Suspense } from "react";
-import { View, StyleSheet, Text } from "react-native";
+// screens/Create3DScreen.js
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
-import { Bounds, useBounds } from "@react-three/drei/native";
+import { Bounds } from "@react-three/drei/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Layout from "../layouts/Layout";
 import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
-import { useRoute } from "@react-navigation/native";
 
-function CabinetModel() {
+// 지원하는 3D 모델 사전 정의
+const SHAPE_MODELS = {
+  sports2: require("../assets/objects/sports2.glb"),
+  // 실제 파일명에 맞게 추가
+};
+
+function CabinetModel({ color }) {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
+  scene.traverse((obj) => {
+    if (obj.isMesh && obj.material && obj.material.color) {
+      obj.material.color.set(color);
+    }
+  });
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-const Create3DScreen = ({ navigation }) => {
+function ModelLoader({ shape }) {
+  if (!shape || !SHAPE_MODELS[shape]) {
+    console.warn(`Model ${shape} not found`);
+    return null;
+  }
+
+  const { scene } = useGLTF(SHAPE_MODELS[shape]);
+  return <primitive object={scene} scale={0.5} position={[0, 1, 0]} />;
+}
+
+const Create3DScreen = () => {
+  const navigation = useNavigation();
   const route = useRoute();
+
+  const itemShape = route?.params?.itemShape;
+  const { cabinetId, cabinetColor } = route.params || {};
+  console.log("itemShape >>>", itemShape);
   const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
   const recordId = route?.params?.recordId.id; // api용 게시글 id
+
+  const [currentCabinetColor, setCurrentCabinetColor] = useState(
+    cabinetColor || "#ffffff"
+  );
+  const [activeTab, setActiveTab] = useState(0);
+  const [filteredTabs] = useState(defaultTabs);
 
   const handleCancel = () => {
     navigation.goBack();
   };
+
   const handleDone = () => {
-    console.log("Save(Create3D)");
+    navigation.navigate("MainTabs", {
+      screen: "MainStack",
+      params: {
+        screen: "Main",
+        params: { updatedColor: currentCabinetColor },
+      },
+    });
   };
-  const filteredTabs = defaultTabs.filter((tab) => tab.id !== "delete");
-  const [activeTab, setActiveTab] = useState(filteredTabs[0].id);
 
   return (
     <Layout>
       <View style={styles.container}>
         <EditHeader onCancel={handleCancel} onDone={handleDone} />
-        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={{ backgroundColor: "white" }}>
+
+        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={styles.canvas}>
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
+
           <Bounds fit clip observe margin={1.0}>
-            <CabinetModel />
+            <CabinetModel color={currentCabinetColor} />
+            {itemShape && <ModelLoader shape={itemShape} />}
           </Bounds>
+
           <OrbitControls
-            enableZoom={true}
+            enableZoom
             enablePan={false}
             target={[0, 0.75, 0]}
             minDistance={5}
             maxDistance={15}
           />
         </Canvas>
+
         <EditControlTabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          tabs={filteredTabs} // 필터링된 탭 전달
+          tabs={filteredTabs}
         />
-        <EditControlPanel activeTab={activeTab} />
+
+        <EditControlPanel
+          activeTab={activeTab}
+          cabinetId={cabinetId}
+          cabinetColor={currentCabinetColor}
+          onColorChange={setCurrentCabinetColor}
+        />
       </View>
     </Layout>
   );
@@ -61,6 +110,11 @@ const Create3DScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  canvas: {
+    flex: 1,
+    backgroundColor: "white",
   },
 });
 
