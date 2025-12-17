@@ -19,7 +19,8 @@ const SLOT_POS = {
   TOP_RIGHT: [0.7, 1.3, 0.0],
 
   MID_LEFT: [-0.7, 0.8, 0.0],
-  MID_CENTER: [0.0, 0.8, 0.0],
+  MID_CENTER: [-9, -4, -5],
+  // MID_CENTER: [-9, -2, -5], //(문 기준) 가로, 높이-2(-4~1.2) ,세로
   MID_RIGHT: [0.7, 0.8, 0.0],
 
   BOT_LEFT: [-0.7, 0.3, 0.0],
@@ -46,8 +47,8 @@ function CabinetContents({ items = [] }) {
           <ItemModel
             key={it.id}
             shape={it.shape}
-            position={SLOT_POS[it.slot] ?? [0, 1, 0]}
-            scale={0.35}
+            position={SLOT_POS[it.slot] ?? [0, -1, 0]}
+            scale={1}
           />
         ))}
     </group>
