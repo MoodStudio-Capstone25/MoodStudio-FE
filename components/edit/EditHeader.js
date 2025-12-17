@@ -9,7 +9,7 @@ const EditHeader = ({ onCancel, onDone, onAdd }) => {
           <Text style={styles.textButton}>취소</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={onDone}>
-          <Text style={styles.textButton}>수정 완료</Text>
+          <Text style={styles.textButton}>완료</Text>
         </TouchableOpacity>
       </View>
       {onAdd && (

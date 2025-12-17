@@ -1,5 +1,5 @@
 // screens/Create3DScreen.js
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Canvas } from "@react-three/fiber/native";
 import { OrbitControls, useGLTF } from "@react-three/drei/native";
@@ -12,20 +12,16 @@ import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
 import { SHAPE_MODELS } from "../constants/threeDModels";
 import ItemModel from "../components/three/ItemModel";
+import { useCreateElementMutation } from "../hooks/useElementQueries";
 
-const SLOT_POS = {
-  TOP_LEFT: [-0.7, 1.3, 0.0],
-  TOP_CENTER: [0.0, 1.3, 0.0],
-  TOP_RIGHT: [0.7, 1.3, 0.0],
-
-  MID_LEFT: [-0.7, 0.8, 0.0],
-  MID_CENTER: [0.0, 0.8, 0.0],
-  MID_RIGHT: [0.7, 0.8, 0.0],
-
-  BOT_LEFT: [-0.7, 0.3, 0.0],
-  BOT_CENTER: [0.0, 0.3, 0.0],
-  BOT_RIGHT: [0.7, 0.3, 0.0],
+const WORLD_RANGE = {
+  x: { min: -15, max: 15 },
+  y: { min: -15, max: 15 },
+  z: { min: -8, max: 8 },
 };
+
+// 0~100 슬라이더 값을 월드좌표로 변환
+const sliderToWorld = (v01, min, max) => min + (v01 / 100) * (max - min);
 
 function CabinetModel({ color }) {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -43,12 +39,7 @@ function CabinetContents({ items = [] }) {
       {items
         .filter((it) => it?.shape && SHAPE_MODELS[it.shape]) // 유효한 것만
         .map((it) => (
-          <ItemModel
-            key={it.id}
-            shape={it.shape}
-            position={SLOT_POS[it.slot] ?? [0, 1, 0]}
-            scale={0.35}
-          />
+          <ItemModel key={it.id} shape={it.shape} position={it.position ?? [0, 0, 0]} scale={1} />
         ))}
     </group>
   );
@@ -61,14 +52,35 @@ const Create3DScreen = () => {
   const itemShape = route?.params?.itemShape; // 캐비넷 key값
   const { cabinetId, cabinetColor } = route.params || {};
   const recordId = route?.params?.recordId.id; // api용 게시글 id
+  const { mutate: createElement } = useCreateElementMutation();
 
   const [currentCabinetColor, setCurrentCabinetColor] = useState(cabinetColor || "#ffffff");
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(defaultTabs[0].id);
   const [filteredTabs] = useState(defaultTabs);
 
+  // MID_CENTER: [-9, -2, -5],
+  // //(문 기준) 가로, 높이-2(-4~1.2) ,세로
+  const [position, setPosition] = useState({
+    x: -9,
+    y: 0,
+    z: -3,
+  });
+
+  // 슬라이더 값(0~100). 50이 “중앙(=오프셋 0)”이 되게 설계
+  const [posUI, setPosUI] = useState({ updown: 50, leftright: 50, frontback: 50 });
+
+  // 슬라이더 변화 -> 실제 월드 좌표 반영
+  useEffect(() => {
+    const x = Math.round(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
+    const y = Math.round(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
+    const z = Math.round(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
+    setPosition({ x, y, z });
+  }, [posUI]);
+
+  // items 생성 시 slot 대신 “직접 position”을 쓰도록 바꿈
   const items =
     itemShape && SHAPE_MODELS[itemShape]
-      ? [{ id: "temp-1", shape: itemShape, slot: "MID_CENTER" }]
+      ? [{ id: "preview", shape: itemShape, position: [position.x, position.y, position.z] }]
       : [];
 
   const handleCancel = () => {
@@ -76,11 +88,42 @@ const Create3DScreen = () => {
   };
 
   const handleDone = () => {
-    navigation.navigate("MainTabs", {
-      screen: "MainStack",
-      params: {
-        screen: "Main",
-        params: { updatedColor: currentCabinetColor },
+    if (!recordId || !itemShape) {
+      navigation.navigate("MainTabs", {
+        screen: "MainStack",
+        params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+      });
+      return;
+    }
+
+    // 나머지는 임시 하드코딩
+    const body = {
+      record: recordId,
+      shape: itemShape,
+      color: "basic",
+      angle_x: 10,
+      angle_y: 20,
+      angle_z: 30,
+      position_x: position.x,
+      position_y: position.y,
+      position_z: position.z,
+      size: 1,
+    };
+
+    createElement(body, {
+      onSuccess: () => {
+        navigation.navigate("MainTabs", {
+          screen: "MainStack",
+          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+        });
+      },
+      onError: (err) => {
+        console.log("create element error >>>", err?.response?.data || err?.message);
+        // 실패해도 화면 이동은 하게 할지/막을지는 정책에 따라 선택
+        navigation.navigate("MainTabs", {
+          screen: "MainStack",
+          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+        });
       },
     });
   };
@@ -115,6 +158,8 @@ const Create3DScreen = () => {
           cabinetId={cabinetId}
           cabinetColor={currentCabinetColor}
           onColorChange={setCurrentCabinetColor}
+          posUI={posUI}
+          onChangePosUI={setPosUI}
         />
       </View>
     </Layout>

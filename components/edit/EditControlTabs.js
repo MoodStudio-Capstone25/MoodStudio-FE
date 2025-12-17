@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 
 export const defaultTabs = [
+  { id: "position", label: "위치 조절" },
   { id: "size", label: "크기 조절" },
   { id: "angle", label: "각도 조절" },
   { id: "color", label: "색" },
@@ -23,17 +18,18 @@ const EditControlTabs = ({ activeTab, onTabChange, tabs = defaultTabs }) => {
       style={styles.tabContainer}
       contentContainerStyle={styles.tabContent}
     >
-      {tabs.map((tab) => (
-        <TouchableOpacity
-          key={tab.id}
-          style={[styles.tab, activeTab === tab.id && styles.activeTab]}
-          onPress={() => onTabChange(tab.id)}
-        >
-          <Text style={[styles.tabText, activeTab === tab.id]}>
-            {tab.label}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      {tabs.map((tab) => {
+        const isActive = activeTab === tab.id;
+        return (
+          <TouchableOpacity
+            key={tab.id}
+            style={[styles.tab, isActive && styles.activeTab]}
+            onPress={() => onTabChange(tab.id)}
+          >
+            <Text style={[styles.tabText, isActive && styles.activeTabText]}>{tab.label}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 };
