@@ -18,17 +18,16 @@ import { apiClient } from "../apiClient";
 // }
 
 // 요소 목록 조회
-export const fetchRecordElements = async (recordId) => {
-  const res = await apiClient.get("/records/elements/", {
-    params: { record_id: recordId },
-  });
+export const fetchRecordElements = async () => {
+  const res = await apiClient.get("/records/elements/");
+  // console.log("fetchRecordElements api >>>", res);
   return res.data;
 };
 
 // 요소 생성
 export const createElement = async (body) => {
   const res = await apiClient.post("/records/elements/", body);
-  // console.log("createRecord api >>>", res);
+  // console.log("createElement api >>>", res);
   return res.data;
 };
 
