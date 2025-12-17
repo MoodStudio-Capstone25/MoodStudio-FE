@@ -23,7 +23,7 @@ export const threeDItems = [
 
   { key: "movie1", labelKo: "영화1", image: require("../assets/images/3d-items/movie1.png") },
   { key: "movie2", labelKo: "영화2", image: require("../assets/images/3d-items/movie2.png") },
-  { key: "movie3", labelKo: "영화3", image: require("../assets/images/3d-items/movie3.png") },
+  // { key: "movie3", labelKo: "영화3", image: require("../assets/images/3d-items/movie3.png") },
 
   { key: "music1", labelKo: "음악1", image: require("../assets/images/3d-items/music1.png") },
   { key: "music2", labelKo: "음악2", image: require("../assets/images/3d-items/music2.png") },
