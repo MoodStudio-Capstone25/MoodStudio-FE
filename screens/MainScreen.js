@@ -25,7 +25,7 @@ const ELEMENT_OFFSET = {
 
 // ✅ 모든 요소에 공통으로 곱할 스케일
 // 1 = 그대로, 0.5 = 절반, 2 = 두 배
-const ELEMENT_SCALE = 1.5;
+const ELEMENT_SCALE = 1;
 
 // 캐비넷
 function CabinetModel({ color }) {
@@ -89,10 +89,7 @@ const MainScreen = ({ navigation, route }) => {
             setCabinetColor(cabinet.color || "#C8B5E7");
 
             await SecureStore.setItemAsync(CABINET_ID_KEY, String(cabinet.id));
-            await SecureStore.setItemAsync(
-              CABINET_COLOR_KEY,
-              cabinet.color || "#C8B5E7"
-            );
+            await SecureStore.setItemAsync(CABINET_COLOR_KEY, cabinet.color || "#C8B5E7");
           },
         }
       );
@@ -145,25 +142,18 @@ const MainScreen = ({ navigation, route }) => {
 
   return (
     <Layout>
-      <HeaderIcons
-        navigation={navigation}
-        cabinetId={cabinetId}
-        cabinetColor={cabinetColor}
-      />
+      <HeaderIcons navigation={navigation} cabinetId={cabinetId} cabinetColor={cabinetColor} />
 
       <View style={{ padding: 16 }}>
-        <Text>Cabinet ID: {cabinetId ?? "-"}</Text>
-        <Text>색상: {cabinetColor}</Text>
+        {/* <Text>Cabinet ID: {cabinetId ?? "-"}</Text> */}
+        {/* <Text>색상: {cabinetColor}</Text> */}
         {isLoading && <Text>불러오는 중...</Text>}
         {isError && <Text>요소 로드 실패: {error?.message ?? "unknown"}</Text>}
-        <Text>요소 개수: {items.length}</Text>
+        {/* <Text>요소 개수: {items.length}</Text> */}
       </View>
 
       <View style={styles.container}>
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 60 }}
-          style={{ backgroundColor: "white" }}
-        >
+        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={{ backgroundColor: "white" }}>
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
           <Bounds fit clip observe margin={1.0}>
