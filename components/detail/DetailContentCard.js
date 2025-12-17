@@ -43,8 +43,8 @@ const DetailContentCard = ({ detail }) => {
       {data?.rating != null && <SaveStarRating value={Number(data.rating)} />}
 
       {/* 내용 */}
-      {data?.story && <ContentCard contents={data.story} />}
       {data?.scenes && <ContentCard contents={data.scenes} />}
+      {data?.story && <ContentCard contents={data.story} />}
       {data?.thoughts && <ContentCard contents={data.thoughts} />}
 
       {/* 하단 카테고리 */}
