@@ -43,13 +43,9 @@ const Create3DScreen = () => {
 
   const itemShape = route?.params?.itemShape;
   const { cabinetId, cabinetColor } = route.params || {};
-  console.log("itemShape >>>", itemShape);
-  const itemShape = route?.params?.itemShape; // 3D 요소 이름 (예: sports2 등등)
   const recordId = route?.params?.recordId.id; // api용 게시글 id
 
-  const [currentCabinetColor, setCurrentCabinetColor] = useState(
-    cabinetColor || "#ffffff"
-  );
+  const [currentCabinetColor, setCurrentCabinetColor] = useState(cabinetColor || "#ffffff");
   const [activeTab, setActiveTab] = useState(0);
   const [filteredTabs] = useState(defaultTabs);
 
@@ -90,11 +86,7 @@ const Create3DScreen = () => {
           />
         </Canvas>
 
-        <EditControlTabs
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          tabs={filteredTabs}
-        />
+        <EditControlTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={filteredTabs} />
 
         <EditControlPanel
           activeTab={activeTab}

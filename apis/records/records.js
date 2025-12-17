@@ -9,7 +9,7 @@ export const fetchRecords = async () => {
 // 글 생성
 export const createRecord = async (payload) => {
   const response = await apiClient.post("/records/create/", payload);
-  console.log("createRecord api >>>", response);
+  // console.log("createRecord api >>>", response);
   return response.data;
 };
 
