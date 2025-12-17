@@ -7,6 +7,7 @@ import { Bounds } from "@react-three/drei/native";
 import Layout from "../layouts/Layout";
 import HeaderIcons from "../components/main/HeaderIcons";
 import { useCreateCabinetMutation } from "../hooks/useCabinetMutations";
+import { useRecordElementsQuery } from "../hooks/useElementQueries";
 
 function CabinetModel({ color }) {
   const { scene } = useGLTF(require("../assets/objects/cabinet.glb"));
@@ -22,6 +23,8 @@ const CABINET_ID_KEY = "cabinet_id";
 const CABINET_COLOR_KEY = "cabinet_color";
 
 const MainScreen = ({ navigation, route }) => {
+  const { data: elements, isLoading, isError, error } = useRecordElementsQuery();
+
   const [cabinetId, setCabinetId] = useState(null);
   const [cabinetColor, setCabinetColor] = useState("#C8B5E7");
 
@@ -47,10 +50,7 @@ const MainScreen = ({ navigation, route }) => {
             setCabinetColor(cabinet.color || "#C8B5E7");
 
             await SecureStore.setItemAsync(CABINET_ID_KEY, String(cabinet.id));
-            await SecureStore.setItemAsync(
-              CABINET_COLOR_KEY,
-              cabinet.color || "#C8B5E7"
-            );
+            await SecureStore.setItemAsync(CABINET_COLOR_KEY, cabinet.color || "#C8B5E7");
           },
         }
       );
@@ -72,11 +72,7 @@ const MainScreen = ({ navigation, route }) => {
 
   return (
     <Layout>
-      <HeaderIcons
-        navigation={navigation}
-        cabinetId={cabinetId}
-        cabinetColor={cabinetColor}
-      />
+      <HeaderIcons navigation={navigation} cabinetId={cabinetId} cabinetColor={cabinetColor} />
 
       <View style={{ padding: 16 }}>
         <Text>Cabinet ID: {cabinetId ?? "-"}</Text>
@@ -84,10 +80,7 @@ const MainScreen = ({ navigation, route }) => {
       </View>
 
       <View style={styles.container}>
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 60 }}
-          style={{ backgroundColor: "white" }}
-        >
+        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} style={{ backgroundColor: "white" }}>
           <ambientLight intensity={1.0} />
           <directionalLight position={[5, 5, 5]} intensity={2.5} />
           <Bounds fit clip observe margin={1.0}>

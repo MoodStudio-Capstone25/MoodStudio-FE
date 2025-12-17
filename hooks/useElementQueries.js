@@ -6,11 +6,11 @@ import {
   deleteElement,
 } from "../apis/elements/elementsApis";
 
-export const useRecordElementsQuery = (recordId, options = {}) => {
+// 3d 요소 - 목록 조회
+export const useRecordElementsQuery = (options = {}) => {
   return useQuery({
-    queryKey: ["recordElements", recordId],
-    queryFn: () => fetchRecordElements(recordId),
-    enabled: !!recordId, // recordId가 있을 때만
+    queryKey: ["recordElements"],
+    queryFn: () => fetchRecordElements(),
     ...options,
   });
 };
