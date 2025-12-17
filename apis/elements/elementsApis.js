@@ -20,7 +20,7 @@ import { apiClient } from "../apiClient";
 // 요소 목록 조회
 export const fetchRecordElements = async () => {
   const res = await apiClient.get("/records/elements/");
-  console.log("fetchRecordElements api >>>", res);
+  // console.log("fetchRecordElements api >>>", res);
   return res.data;
 };
 
