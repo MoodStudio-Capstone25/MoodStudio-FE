@@ -66,6 +66,11 @@ const Create3DScreen = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [filteredTabs] = useState(defaultTabs);
 
+  const items =
+    itemShape && SHAPE_MODELS[itemShape]
+      ? [{ id: "temp-1", shape: itemShape, slot: "MID_CENTER" }]
+      : [];
+
   const handleCancel = () => {
     navigation.goBack();
   };
@@ -91,11 +96,7 @@ const Create3DScreen = () => {
 
           <Bounds fit clip observe margin={1.0}>
             <CabinetModel color={currentCabinetColor} />
-
-            <CabinetContents shape={itemShape} position={[0, 1, 0]} scale={0.5} />
-            {itemShape && SHAPE_MODELS[itemShape] ? (
-              <ItemModel shape={itemShape} position={[0, 1, 0]} scale={0.5} />
-            ) : null}
+            <CabinetContents items={items} />
           </Bounds>
 
           <OrbitControls
