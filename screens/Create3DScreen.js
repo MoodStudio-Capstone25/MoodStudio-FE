@@ -10,11 +10,21 @@ import EditHeader from "../components/edit/EditHeader";
 import EditControlPanel from "../components/edit/EditControlPanel";
 import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
+import { SHAPE_MODELS } from "../constants/threeDModels";
+import ItemModel from "../components/three/ItemModel";
 
-// 지원하는 3D 모델 사전 정의
-const SHAPE_MODELS = {
-  sports2: require("../assets/objects/sports2.glb"),
-  // 실제 파일명에 맞게 추가
+const SLOT_POS = {
+  TOP_LEFT: [-0.7, 1.3, 0.0],
+  TOP_CENTER: [0.0, 1.3, 0.0],
+  TOP_RIGHT: [0.7, 1.3, 0.0],
+
+  MID_LEFT: [-0.7, 0.8, 0.0],
+  MID_CENTER: [0.0, 0.8, 0.0],
+  MID_RIGHT: [0.7, 0.8, 0.0],
+
+  BOT_LEFT: [-0.7, 0.3, 0.0],
+  BOT_CENTER: [0.0, 0.3, 0.0],
+  BOT_RIGHT: [0.7, 0.3, 0.0],
 };
 
 function CabinetModel({ color }) {
@@ -27,21 +37,28 @@ function CabinetModel({ color }) {
   return <primitive object={scene} scale={1.5} position={[0, 0, 0]} />;
 }
 
-function ModelLoader({ shape }) {
-  if (!shape || !SHAPE_MODELS[shape]) {
-    console.warn(`Model ${shape} not found`);
-    return null;
-  }
-
-  const { scene } = useGLTF(SHAPE_MODELS[shape]);
-  return <primitive object={scene} scale={0.5} position={[0, 1, 0]} />;
+function CabinetContents({ items = [] }) {
+  return (
+    <group>
+      {items
+        .filter((it) => it?.shape && SHAPE_MODELS[it.shape]) // 유효한 것만
+        .map((it) => (
+          <ItemModel
+            key={it.id}
+            shape={it.shape}
+            position={SLOT_POS[it.slot] ?? [0, 1, 0]}
+            scale={0.35}
+          />
+        ))}
+    </group>
+  );
 }
 
 const Create3DScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const itemShape = route?.params?.itemShape;
+  const itemShape = route?.params?.itemShape; // 캐비넷 key값
   const { cabinetId, cabinetColor } = route.params || {};
   const recordId = route?.params?.recordId.id; // api용 게시글 id
 
@@ -74,7 +91,11 @@ const Create3DScreen = () => {
 
           <Bounds fit clip observe margin={1.0}>
             <CabinetModel color={currentCabinetColor} />
-            {itemShape && <ModelLoader shape={itemShape} />}
+
+            <CabinetContents shape={itemShape} position={[0, 1, 0]} scale={0.5} />
+            {itemShape && SHAPE_MODELS[itemShape] ? (
+              <ItemModel shape={itemShape} position={[0, 1, 0]} scale={0.5} />
+            ) : null}
           </Bounds>
 
           <OrbitControls
