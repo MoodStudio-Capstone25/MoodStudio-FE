@@ -28,6 +28,7 @@ export const fetchRecordElements = async (recordId) => {
 // 요소 생성
 export const createElement = async (body) => {
   const res = await apiClient.post("/records/elements/", body);
+  // console.log("createRecord api >>>", res);
   return res.data;
 };
 

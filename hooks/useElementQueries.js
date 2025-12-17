@@ -15,6 +15,7 @@ export const useRecordElementsQuery = (recordId, options = {}) => {
   });
 };
 
+// 생성
 export const useCreateElementMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({

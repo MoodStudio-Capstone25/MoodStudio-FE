@@ -12,6 +12,7 @@ import EditControlTabs from "../components/edit/EditControlTabs";
 import { defaultTabs } from "../components/edit/EditControlTabs";
 import { SHAPE_MODELS } from "../constants/threeDModels";
 import ItemModel from "../components/three/ItemModel";
+import { useCreateElementMutation } from "../hooks/useElementQueries";
 
 const SLOT_POS = {
   TOP_LEFT: [-0.7, 1.3, 0.0],
@@ -19,8 +20,9 @@ const SLOT_POS = {
   TOP_RIGHT: [0.7, 1.3, 0.0],
 
   MID_LEFT: [-0.7, 0.8, 0.0],
-  MID_CENTER: [-9, -4, -5],
-  // MID_CENTER: [-9, -2, -5], //(문 기준) 가로, 높이-2(-4~1.2) ,세로
+  MID_CENTER: [-4, -4, -5],
+  // //(문 기준) 가로, 높이-2(-4~1.2) ,세로
+  // MID_CENTER: [-9, -2, -5],
   MID_RIGHT: [0.7, 0.8, 0.0],
 
   BOT_LEFT: [-0.7, 0.3, 0.0],
@@ -62,6 +64,7 @@ const Create3DScreen = () => {
   const itemShape = route?.params?.itemShape; // 캐비넷 key값
   const { cabinetId, cabinetColor } = route.params || {};
   const recordId = route?.params?.recordId.id; // api용 게시글 id
+  const { mutate: createElement } = useCreateElementMutation();
 
   const [currentCabinetColor, setCurrentCabinetColor] = useState(cabinetColor || "#ffffff");
   const [activeTab, setActiveTab] = useState(0);
@@ -77,11 +80,47 @@ const Create3DScreen = () => {
   };
 
   const handleDone = () => {
-    navigation.navigate("MainTabs", {
-      screen: "MainStack",
-      params: {
-        screen: "Main",
-        params: { updatedColor: currentCabinetColor },
+    // 1) 보낼 대상이 없으면 그냥 이동
+    if (!recordId || !itemShape) {
+      navigation.navigate("MainTabs", {
+        screen: "MainStack",
+        params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+      });
+      return;
+    }
+
+    // 2) 현재는 MID_CENTER 고정이므로 해당 좌표 사용
+    const [x, y, z] = SLOT_POS["MID_CENTER"] ?? [0, 0, 0];
+
+    // 3) 요청 바디: record, shape, position만 “실사용”
+    //    나머지는 임시 하드코딩
+    const body = {
+      record: recordId,
+      shape: itemShape,
+      color: "red",
+      angle_x: 10,
+      angle_y: 20,
+      angle_z: 30,
+      position_x: x,
+      position_y: y,
+      position_z: z,
+      size: 5,
+    };
+
+    createElement(body, {
+      onSuccess: () => {
+        navigation.navigate("MainTabs", {
+          screen: "MainStack",
+          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+        });
+      },
+      onError: (err) => {
+        console.log("create element error >>>", err?.response?.data || err?.message);
+        // 실패해도 화면 이동은 하게 할지/막을지는 정책에 따라 선택
+        navigation.navigate("MainTabs", {
+          screen: "MainStack",
+          params: { screen: "Main", params: { updatedColor: currentCabinetColor } },
+        });
       },
     });
   };
