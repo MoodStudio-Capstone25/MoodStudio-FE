@@ -11,11 +11,11 @@ const LoginScreen = ({ navigation }) => {
     <Layout fullBackgroundCSS={styles.fullBackgroundCSS}>
       <ScreenCarousel height={height * 0.6} />
       {/* 컴포넌트 기능 추가 예정 */}
-      <View style={styles.indicatorDotWrapper}>
+      {/* <View style={styles.indicatorDotWrapper}>
         <View style={styles.indicatorDotSelected} />
         <View style={styles.indicatorDot} />
         <View style={styles.indicatorDot} />
-      </View>
+      </View> */}
       <LoginSection navigation={navigation} height={height * 0.4} />
     </Layout>
   );
