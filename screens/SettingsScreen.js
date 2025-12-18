@@ -32,18 +32,18 @@ const SettingsScreen = () => {
         <SettingItem title="계정 설정" onPress={() => navigation.navigate("AccountSettings")} />
       </SettingSection>
 
-      <SettingSection>
+      {/* <SettingSection>
         <SettingItem title="튜토리얼 다시 보기" borderUse={true} onPress={() => {}} />
         <SettingItem title="공지사항" borderUse={true} onPress={() => {}} />
         <SettingItem title="약관" onPress={() => {}} />
-      </SettingSection>
+      </SettingSection> */}
 
-      <SettingSection>
+      {/* <SettingSection>
         <SettingItem title="로그아웃" onPress={handleLogout} hasArrow={false} />
-      </SettingSection>
+      </SettingSection> */}
       <SettingSection borderColor="red">
         <SettingItem
-          title="탈퇴"
+          title="로그아웃"
           variant="danger"
           onPress={handleLogout}
           hasArrow={false}

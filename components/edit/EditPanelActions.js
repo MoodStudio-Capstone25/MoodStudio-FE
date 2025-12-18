@@ -3,18 +3,49 @@ import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import UndoLeftIcon from "../../assets/images/edit/undo-left.svg";
 import UndoRightIcon from "../../assets/images/edit/undo-right.svg";
 import ReturnIcon from "../../assets/images/edit/return.svg";
+import Toast from "react-native-toast-message";
 
-const EditPanelActions = ({ onUndo, onRedo, onReset }) => {
+const EditPanelActions = () => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.iconButton} onPress={onUndo}>
+      <TouchableOpacity
+        style={styles.iconButton}
+        onPress={() =>
+          Toast.show({
+            type: "error",
+            text1: "현재 준비 중인 기능입니다.",
+            position: "bottom",
+            visibilityTime: 500,
+          })
+        }
+      >
         <UndoLeftIcon width={20} height={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={onRedo}>
+      <TouchableOpacity
+        style={styles.iconButton}
+        onPress={() =>
+          Toast.show({
+            type: "error",
+            text1: "현재 준비 중인 기능입니다.",
+            position: "bottom",
+            visibilityTime: 500,
+          })
+        }
+      >
         <UndoRightIcon width={20} height={20} />
       </TouchableOpacity>
       <View style={styles.spacer} />
-      <TouchableOpacity style={styles.resetButton} onPress={onReset}>
+      <TouchableOpacity
+        style={styles.resetButton}
+        onPress={() =>
+          Toast.show({
+            type: "error",
+            text1: "현재 준비 중인 기능입니다.",
+            position: "bottom",
+            visibilityTime: 500,
+          })
+        }
+      >
         <ReturnIcon width={18} height={18} />
         <Text style={styles.resetText}>원상복귀</Text>
       </TouchableOpacity>

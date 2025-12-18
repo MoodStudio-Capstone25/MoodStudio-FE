@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   sliderContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 0,
   },
   plusMinusButton: {
     width: 30,
