@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import RootStack from "./navigation/RootStack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,7 @@ export default function App() {
         <NavigationContainer>
           <RootStack />
         </NavigationContainer>
+        <Toast />
       </QueryClientProvider>
     </SafeAreaProvider>
   );

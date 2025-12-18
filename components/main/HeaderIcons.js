@@ -5,7 +5,7 @@ import SettingsIcon from "../../assets/images/mainpage/settings.svg";
 import ShareIcon from "../../assets/images/mainpage/share.svg";
 import ProfileIcon from "../../assets/images/mainpage/profile.svg";
 import CreateIcon from "../../assets/images/mainpage/create.svg";
-import Edit3DScreen from "../../screens/Edit3DScreen";
+import Toast from "react-native-toast-message";
 
 const HeaderIcons = ({ navigation, cabinetId = null, cabinetColor = null }) => {
   const handleEditPress = () => {
@@ -29,13 +29,39 @@ const HeaderIcons = ({ navigation, cabinetId = null, cabinetColor = null }) => {
       <View style={styles.spacer} />
       <IconButton
         IconComponent={ShareIcon}
-        onPress={() => console.log("Share")}
+        onPress={() =>
+          Toast.show({
+            type: "error", // success | error | info
+            text1: "현재 준비 중인 기능입니다.",
+            // text2: "변경 사항이 반영되었습니다.",
+            position: "bottom",
+            visibilityTime: 2000, // ms
+          })
+        }
       />
       <IconButton
         IconComponent={ProfileIcon}
-        onPress={() => console.log("Profile")}
+        onPress={() =>
+          Toast.show({
+            type: "error",
+            text1: "현재 준비 중인 기능입니다.",
+            position: "bottom",
+            visibilityTime: 2000,
+          })
+        }
       />
-      <IconButton IconComponent={CreateIcon} onPress={handleEditPress} />
+      <IconButton
+        IconComponent={CreateIcon}
+        onPress={() =>
+          Toast.show({
+            type: "error",
+            text1: "현재 준비 중인 기능입니다.",
+            position: "bottom",
+            visibilityTime: 2000,
+          })
+        }
+      />
+      {/* <IconButton IconComponent={CreateIcon} onPress={handleEditPress} /> */}
     </View>
   );
 };

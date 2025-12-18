@@ -16,7 +16,7 @@ const AccountSettingsScreen = () => {
     <Layout>
       <CustomHeader title={"계정 설정"} />
       <SettingInfoItem label="계정 정보" value={user?.email ?? "계정 정보가 없습니다."} />
-      <SettingToggleItem value={hideInfo} onValueChange={setHideInfo} />
+      {/* <SettingToggleItem value={hideInfo} onValueChange={setHideInfo} /> */}
     </Layout>
   );
 };
