@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
 import EditPanelActions from "./EditPanelActions";
 import Slider from "@react-native-community/slider";
 
@@ -136,13 +129,6 @@ const SizeControlPanel = () => {
               <Text style={styles.plusMinusText}>-</Text>
             </TouchableOpacity>
           </View>
-        </View>
-
-        <View style={styles.previewBox}>
-          <Image
-            source={require("../../assets/images/edit/music.png")}
-            style={styles.headsetImage}
-          />
         </View>
       </View>
     </View>

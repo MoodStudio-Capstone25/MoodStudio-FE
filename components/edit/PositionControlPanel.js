@@ -155,13 +155,6 @@ const PositionControlPanel = ({ value, onChange }) => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.previewBox}>
-          <Image
-            source={require("../../assets/images/edit/music.png")}
-            style={styles.headsetImage}
-          />
-        </View>
       </View>
     </View>
   );
