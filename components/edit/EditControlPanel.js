@@ -36,7 +36,7 @@ const EditControlPanel = ({
       case "delete":
         return <ElementDeletePanel />;
       default:
-        return <SizeControlPanel />;
+        return <PositionControlPanel />;
     }
   };
 

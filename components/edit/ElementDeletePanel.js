@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import EditPanelActions from "./EditPanelActions";
 import ConfirmModal from "../common/ConfirmModal";
 
@@ -57,6 +51,7 @@ const ElementDeletePanel = ({ onDelete }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
   },
   textBox: {
     marginTop: scale(18),
