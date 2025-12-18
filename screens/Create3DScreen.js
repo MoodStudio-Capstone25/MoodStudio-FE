@@ -74,12 +74,20 @@ const Create3DScreen = () => {
   });
 
   // 슬라이더 변화 -> 실제 월드 좌표 반영
-  const round1 = (v) => Math.round(v * 1000) / 1000;
-  useEffect(() => {
-    const x = round1(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
-    const y = round1(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
-    const z = round1(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
+  // 소수 단위
+  // const round1 = (v) => Math.round(v * 1000) / 1000;
+  // useEffect(() => {
+  //   const x = round1(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
+  //   const y = round1(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
+  //   const z = round1(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
 
+  //   setPosition({ x, y, z });
+  // }, [posUI]);
+  // 정수 단위
+  useEffect(() => {
+    const x = Math.round(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
+    const y = Math.round(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
+    const z = Math.round(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
     setPosition({ x, y, z });
   }, [posUI]);
 
