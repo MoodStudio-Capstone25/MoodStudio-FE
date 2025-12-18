@@ -39,12 +39,7 @@ function CabinetContents({ items = [] }) {
       {items
         .filter((it) => it?.shape && SHAPE_MODELS[it.shape]) // 유효한 것만
         .map((it) => (
-          <ItemModel
-            key={it.id}
-            shape={it.shape}
-            position={it.position ?? [0, 0, 0]}
-            scale={1}
-          />
+          <ItemModel key={it.id} shape={it.shape} position={it.position ?? [0, 0, 0]} scale={1} />
         ))}
     </group>
   );
@@ -59,9 +54,7 @@ const Create3DScreen = () => {
   const recordId = route?.params?.recordId.id; // api용 게시글 id
   const { mutate: createElement } = useCreateElementMutation();
 
-  const [currentCabinetColor, setCurrentCabinetColor] = useState(
-    cabinetColor || "#ffffff"
-  );
+  const [currentCabinetColor, setCurrentCabinetColor] = useState(cabinetColor || "#ffffff");
   const [activeTab, setActiveTab] = useState(defaultTabs[0].id);
   const [filteredTabs] = useState(defaultTabs);
 
@@ -81,16 +74,12 @@ const Create3DScreen = () => {
   });
 
   // 슬라이더 변화 -> 실제 월드 좌표 반영
+  const round1 = (v) => Math.round(v * 1000) / 1000;
   useEffect(() => {
-    const x = Math.round(
-      sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max)
-    );
-    const y = Math.round(
-      sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max)
-    );
-    const z = Math.round(
-      sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max)
-    );
+    const x = round1(sliderToWorld(posUI.leftright, WORLD_RANGE.x.min, WORLD_RANGE.x.max));
+    const y = round1(sliderToWorld(posUI.updown, WORLD_RANGE.y.min, WORLD_RANGE.y.max));
+    const z = round1(sliderToWorld(posUI.frontback, WORLD_RANGE.z.min, WORLD_RANGE.z.max));
+
     setPosition({ x, y, z });
   }, [posUI]);
 
@@ -149,10 +138,7 @@ const Create3DScreen = () => {
         });
       },
       onError: (err) => {
-        console.log(
-          "create element error >>>",
-          err?.response?.data || err?.message
-        );
+        console.log("create element error >>>", err?.response?.data || err?.message);
         // 실패해도 화면 이동은 하게 할지/막을지는 정책에 따라 선택
         navigation.navigate("MainTabs", {
           screen: "MainStack",
@@ -188,11 +174,7 @@ const Create3DScreen = () => {
           />
         </Canvas>
 
-        <EditControlTabs
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          tabs={filteredTabs}
-        />
+        <EditControlTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={filteredTabs} />
 
         <EditControlPanel
           activeTab={activeTab}
